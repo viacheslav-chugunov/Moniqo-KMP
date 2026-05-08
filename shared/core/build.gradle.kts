@@ -11,21 +11,18 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "Shared"
+            baseName = "Core"
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        commonMain.dependencies {
-            // put your Multiplatform dependencies here
-        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -33,7 +30,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.github.viacheslav.chugunov.moniqo.shared"
+    namespace = "io.github.viacheslav.chugunov.moniqo.core"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
