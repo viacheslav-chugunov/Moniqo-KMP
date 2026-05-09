@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -17,15 +18,23 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "Core"
+            baseName = "Storage"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":shared:core"))
+            implementation(libs.sqldelight.runtime)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.koin.core)
+        }
+        androidMain.dependencies {
+            implementation(libs.sqldelight.android.driver)
+        }
+        iosMain.dependencies {
+            implementation(libs.sqldelight.native.driver)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -33,8 +42,16 @@ kotlin {
     }
 }
 
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("io.github.viacheslav.chugunov.moniqo.storage.db")
+        }
+    }
+}
+
 android {
-    namespace = "io.github.viacheslav.chugunov.moniqo.core"
+    namespace = "io.github.viacheslav.chugunov.moniqo.storage"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

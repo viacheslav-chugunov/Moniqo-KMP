@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS CurrencyRatesEntity (
+    updated_at TEXT NOT NULL,
+    base_currency TEXT NOT NULL
+);
+
+getCurrencyRates:
+SELECT * FROM CurrencyRatesEntity LIMIT 1;
+
+insertCurrencyRates:
+INSERT OR REPLACE INTO CurrencyRatesEntity(updated_at, base_currency) VALUES (:updated_at, :base_currency);
+
+clearCurrencyRates:
+DELETE FROM CurrencyRatesEntity;

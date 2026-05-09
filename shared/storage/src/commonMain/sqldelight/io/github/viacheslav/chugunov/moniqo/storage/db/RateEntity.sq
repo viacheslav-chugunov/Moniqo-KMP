@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS RateEntity (
+    currency TEXT NOT NULL PRIMARY KEY,
+    rate REAL NOT NULL
+);
+
+getRates:
+SELECT * FROM RateEntity;
+
+insertRate:
+INSERT OR REPLACE INTO RateEntity(currency, rate) VALUES (:currency, :rate);
+
+clearRates:
+DELETE FROM RateEntity;

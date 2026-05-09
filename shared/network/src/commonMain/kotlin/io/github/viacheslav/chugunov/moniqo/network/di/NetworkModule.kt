@@ -27,15 +27,15 @@ val networkModule = module {
         }
     }
 
-    single<CurrencyRemoteDataSource> {
+    factory<CurrencyRemoteDataSource> {
         CurrencyRemoteDataSourceImpl(get())
     }
 
-    single<CurrencyRatesMapper> {
+    factory<CurrencyRatesMapper> {
         CurrencyRatesMapperImpl()
     }
 
     single<CurrencyNetworkRepository> {
-        CurrencyNetworkRepositoryImpl(get(), get())
+        CurrencyNetworkRepositoryImpl(get(), get(), get())
     }
 }
