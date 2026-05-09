@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 
 internal data class CurrencyRatesRecord(
     val entity: CurrencyRatesEntity,
-    val rates: List<RateEntity>
+    val rates: List<RateEntity>,
 )
 
 internal interface CurrencyLocalDataSource {
@@ -19,7 +19,7 @@ internal interface CurrencyLocalDataSource {
 
 internal class CurrencyLocalDataSourceImpl(
     database: AppDatabase,
-    private val dispatchers: CoroutineDispatchers
+    private val dispatchers: CoroutineDispatchers,
 ) : CurrencyLocalDataSource {
     private val currencyRatesEntityQueries = database.currencyRatesEntityQueries
     private val rateEntityQueries = database.rateEntityQueries
@@ -30,7 +30,7 @@ internal class CurrencyLocalDataSourceImpl(
             rateEntityQueries.clearRates()
             currencyRatesEntityQueries.insertCurrencyRates(
                 updated_at = rates.updatedAt,
-                base_currency = rates.baseCurrency
+                base_currency = rates.baseCurrency,
             )
             rates.rates.forEach { rate ->
                 rateEntityQueries.insertRate(currency = rate.currency, rate = rate.rate)

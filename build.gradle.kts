@@ -8,4 +8,14 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform) apply false
     alias(libs.plugins.kotlinSerialization) apply false
     alias(libs.plugins.sqldelight) apply false
+    alias(libs.plugins.ktlint) apply false
+}
+
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        filter {
+            exclude { it.file.path.contains("/build/generated/") }
+        }
+    }
 }

@@ -12,6 +12,6 @@ internal class CurrencyRatesMapperImpl : CurrencyRatesMapper {
     override fun toDomain(baseCurrency: String, dto: CurrencyRatesDto): CurrencyRates = CurrencyRates(
         updatedAt = dto.date,
         baseCurrency = baseCurrency,
-        rates = dto.eur.map { Rate(it.key, it.value) }
+        rates = dto.eur.map { Rate(it.key, it.value) },
     )
 }

@@ -7,7 +7,6 @@ import io.github.viacheslav.chugunov.moniqo.network.mapper.CurrencyRatesMapper
 import io.github.viacheslav.chugunov.moniqo.network.mapper.CurrencyRatesMapperImpl
 import io.github.viacheslav.chugunov.moniqo.network.repository.CurrencyNetworkRepositoryImpl
 import io.ktor.client.HttpClient
-import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging

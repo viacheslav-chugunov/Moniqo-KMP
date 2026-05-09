@@ -10,7 +10,7 @@ internal interface CurrencyRemoteDataSource {
 }
 
 internal class CurrencyRemoteDataSourceImpl(
-    private val client: HttpClient
+    private val client: HttpClient,
 ) : CurrencyRemoteDataSource {
     override suspend fun getEurRates(): CurrencyRatesDto =
         client.get("${BASE_URL}npm/@fawazahmed0/currency-api@latest/v1/currencies/eur.min.json").body()

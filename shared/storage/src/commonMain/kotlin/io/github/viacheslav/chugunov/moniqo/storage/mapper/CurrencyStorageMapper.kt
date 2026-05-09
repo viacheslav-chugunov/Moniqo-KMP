@@ -14,6 +14,6 @@ internal class CurrencyStorageMapperImpl : CurrencyStorageMapper {
         CurrencyRates(
             updatedAt = entity.updated_at,
             baseCurrency = entity.base_currency,
-            rates = rates.map { Rate(currency = it.currency, rate = it.rate) }
+            rates = rates.map { Rate(currency = it.currency, rate = it.rate) },
         )
 }

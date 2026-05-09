@@ -66,6 +66,6 @@ internal class CurrencyFallbackDataSourceImpl : CurrencyFallbackDataSource {
             Rate("inj", 0.30318237),
             Rate("sui", 1.21417499),
             Rate("ton", 0.4394583),
-        )
+        ),
     )
 }

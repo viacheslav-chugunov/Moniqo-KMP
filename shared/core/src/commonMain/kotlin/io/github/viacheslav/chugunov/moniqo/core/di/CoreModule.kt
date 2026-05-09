@@ -10,7 +10,7 @@ val coreModule = module {
         CoroutineDispatchers(
             io = Dispatchers.IO,
             default = Dispatchers.Default,
-            main = Dispatchers.Main
+            main = Dispatchers.Main,
         )
     }
 

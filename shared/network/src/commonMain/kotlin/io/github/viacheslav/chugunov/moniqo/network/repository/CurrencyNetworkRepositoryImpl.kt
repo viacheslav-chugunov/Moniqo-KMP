@@ -10,7 +10,7 @@ import kotlinx.coroutines.withContext
 internal class CurrencyNetworkRepositoryImpl(
     private val dataSource: CurrencyRemoteDataSource,
     private val mapper: CurrencyRatesMapper,
-    private val dispatchers: CoroutineDispatchers
+    private val dispatchers: CoroutineDispatchers,
 ) : CurrencyNetworkRepository {
     override suspend fun getRates(): CurrencyRates = withContext(dispatchers.io) {
         mapper.toDomain(baseCurrency = "eur", dto = dataSource.getEurRates())

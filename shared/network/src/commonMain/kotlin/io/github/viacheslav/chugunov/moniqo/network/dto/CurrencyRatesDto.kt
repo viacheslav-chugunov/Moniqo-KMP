@@ -8,5 +8,5 @@ internal data class CurrencyRatesDto(
     @SerialName("data")
     val date: String,
     @SerialName("eur")
-    val eur: Map<String, Double>
+    val eur: Map<String, Double>,
 )

@@ -6,7 +6,7 @@ import io.github.viacheslav.chugunov.moniqo.core.repository.CurrencyStorageRepos
 
 class GetCurrencyRatesUseCase(
     private val storageRepository: CurrencyStorageRepository,
-    private val networkRepository: CurrencyNetworkRepository
+    private val networkRepository: CurrencyNetworkRepository,
 ) {
     suspend operator fun invoke(): CurrencyRates =
         runCatching {

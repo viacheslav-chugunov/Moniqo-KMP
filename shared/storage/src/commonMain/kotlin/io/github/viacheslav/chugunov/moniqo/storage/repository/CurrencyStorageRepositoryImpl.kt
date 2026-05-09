@@ -9,7 +9,7 @@ import io.github.viacheslav.chugunov.moniqo.storage.mapper.CurrencyStorageMapper
 internal class CurrencyStorageRepositoryImpl(
     private val localDataSource: CurrencyLocalDataSource,
     private val fallbackDataSource: CurrencyFallbackDataSource,
-    private val mapper: CurrencyStorageMapper
+    private val mapper: CurrencyStorageMapper,
 ) : CurrencyStorageRepository {
     override suspend fun save(rates: CurrencyRates) = localDataSource.save(rates)
 
