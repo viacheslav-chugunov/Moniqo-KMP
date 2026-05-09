@@ -27,7 +27,7 @@ val networkModule =
         }
 
         factory<CurrencyRemoteDataSource> {
-            CurrencyRemoteDataSourceImpl(get())
+            CurrencyRemoteDataSourceImpl(get(), get())
         }
 
         factory<CurrencyRatesMapper> {
@@ -35,6 +35,6 @@ val networkModule =
         }
 
         single<CurrencyNetworkRepository> {
-            CurrencyNetworkRepositoryImpl(get(), get(), get())
+            CurrencyNetworkRepositoryImpl(get(), get())
         }
     }
