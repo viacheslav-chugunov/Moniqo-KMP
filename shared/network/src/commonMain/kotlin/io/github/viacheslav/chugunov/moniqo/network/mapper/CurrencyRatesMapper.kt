@@ -4,7 +4,7 @@ import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.network.dto.CurrencyRatesDto
 
-internal interface CurrencyRatesMapper {
+interface CurrencyRatesMapper {
     fun toDomain(
         baseCurrency: String,
         dto: CurrencyRatesDto,

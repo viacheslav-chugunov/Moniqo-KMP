@@ -5,7 +5,7 @@ import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.storage.db.CurrencyRatesEntity
 import io.github.viacheslav.chugunov.moniqo.storage.db.RateEntity
 
-internal interface CurrencyStorageMapper {
+interface CurrencyStorageMapper {
     fun toDomain(
         entity: CurrencyRatesEntity,
         rates: List<RateEntity>,

@@ -4,7 +4,7 @@ import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.core.model.RatePair
 import io.github.viacheslav.chugunov.moniqo.storage.db.RatePairEntity
 
-internal interface RatePairStorageMapper {
+interface RatePairStorageMapper {
     fun toDomain(entity: RatePairEntity): RatePair
 }
 

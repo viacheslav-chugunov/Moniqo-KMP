@@ -9,7 +9,7 @@ import io.github.viacheslav.chugunov.moniqo.storage.db.RatePairEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
-internal interface RatePairLocalDataSource {
+interface RatePairLocalDataSource {
     suspend fun save(ratePair: RatePair)
 
     fun getAsFlow(): Flow<RatePairEntity?>

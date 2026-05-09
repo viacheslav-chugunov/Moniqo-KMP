@@ -16,6 +16,8 @@ configure<KotlinMultiplatformExtension> {
         }
     }
 
+    jvm()
+
     listOf(
         iosArm64(),
         iosSimulatorArm64(),
@@ -29,6 +31,7 @@ configure<KotlinMultiplatformExtension> {
     sourceSets {
         commonTest.dependencies {
             implementation(libs.findLibrary("kotlin-test").get())
+            implementation(libs.findLibrary("kotlinx-coroutines-test").get())
         }
     }
 }

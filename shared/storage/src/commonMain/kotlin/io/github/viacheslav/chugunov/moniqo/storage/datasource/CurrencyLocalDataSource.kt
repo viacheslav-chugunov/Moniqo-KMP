@@ -6,7 +6,7 @@ import io.github.viacheslav.chugunov.moniqo.storage.db.AppDatabase
 import io.github.viacheslav.chugunov.moniqo.storage.model.CurrencyRatesRecord
 import kotlinx.coroutines.withContext
 
-internal interface CurrencyLocalDataSource {
+interface CurrencyLocalDataSource {
     suspend fun save(rates: CurrencyRates)
 
     suspend fun get(): CurrencyRatesRecord?

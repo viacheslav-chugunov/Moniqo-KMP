@@ -6,7 +6,7 @@ import io.github.viacheslav.chugunov.moniqo.storage.datasource.CurrencyFallbackD
 import io.github.viacheslav.chugunov.moniqo.storage.datasource.CurrencyLocalDataSource
 import io.github.viacheslav.chugunov.moniqo.storage.mapper.CurrencyStorageMapper
 
-internal class CurrencyStorageRepositoryImpl(
+class CurrencyStorageRepositoryImpl(
     private val localDataSource: CurrencyLocalDataSource,
     private val fallbackDataSource: CurrencyFallbackDataSource,
     private val mapper: CurrencyStorageMapper,

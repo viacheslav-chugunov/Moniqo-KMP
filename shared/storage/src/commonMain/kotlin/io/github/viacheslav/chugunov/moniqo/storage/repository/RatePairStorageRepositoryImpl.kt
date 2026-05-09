@@ -8,7 +8,7 @@ import io.github.viacheslav.chugunov.moniqo.storage.mapper.RatePairStorageMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-internal class RatePairStorageRepositoryImpl(
+class RatePairStorageRepositoryImpl(
     private val localDataSource: RatePairLocalDataSource,
     private val fallbackDataSource: RatePairFallbackDataSource,
     private val mapper: RatePairStorageMapper,

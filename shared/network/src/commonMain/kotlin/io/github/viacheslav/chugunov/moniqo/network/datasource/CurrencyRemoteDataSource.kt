@@ -7,7 +7,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import kotlinx.coroutines.withContext
 
-internal interface CurrencyRemoteDataSource {
+interface CurrencyRemoteDataSource {
     suspend fun getEurRates(): CurrencyRatesDto
 }
 

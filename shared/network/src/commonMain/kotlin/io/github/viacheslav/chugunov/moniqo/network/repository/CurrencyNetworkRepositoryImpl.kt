@@ -5,7 +5,7 @@ import io.github.viacheslav.chugunov.moniqo.core.repository.CurrencyNetworkRepos
 import io.github.viacheslav.chugunov.moniqo.network.datasource.CurrencyRemoteDataSource
 import io.github.viacheslav.chugunov.moniqo.network.mapper.CurrencyRatesMapper
 
-internal class CurrencyNetworkRepositoryImpl(
+class CurrencyNetworkRepositoryImpl(
     private val dataSource: CurrencyRemoteDataSource,
     private val mapper: CurrencyRatesMapper,
 ) : CurrencyNetworkRepository {

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class CurrencyRatesDto(
+data class CurrencyRatesDto(
     @SerialName("data")
     val date: String,
     @SerialName("eur")
