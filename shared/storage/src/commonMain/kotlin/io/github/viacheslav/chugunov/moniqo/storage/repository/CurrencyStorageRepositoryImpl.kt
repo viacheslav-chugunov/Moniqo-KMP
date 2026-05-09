@@ -11,9 +11,9 @@ internal class CurrencyStorageRepositoryImpl(
     private val fallbackDataSource: CurrencyFallbackDataSource,
     private val mapper: CurrencyStorageMapper,
 ) : CurrencyStorageRepository {
-    override suspend fun save(rates: CurrencyRates) = localDataSource.save(rates)
+    override suspend fun saveRates(rates: CurrencyRates) = localDataSource.save(rates)
 
-    override suspend fun getCache(): CurrencyRates {
+    override suspend fun getRates(): CurrencyRates {
         val record = localDataSource.get() ?: return fallbackDataSource.get()
         return mapper.toDomain(record.entity, record.rates)
     }

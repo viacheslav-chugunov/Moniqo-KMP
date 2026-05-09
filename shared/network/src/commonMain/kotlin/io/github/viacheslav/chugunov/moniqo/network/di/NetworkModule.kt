@@ -11,30 +11,30 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
-val networkModule = module {
-    single<HttpClient> {
-        HttpClient {
-            install(ContentNegotiation) {
-                json(Json { ignoreUnknownKeys = true })
-            }
-            install(Logging) {
-                level = LogLevel.INFO
+val networkModule =
+    module {
+        single<HttpClient> {
+            HttpClient {
+                install(ContentNegotiation) {
+                    json(get())
+                }
+                install(Logging) {
+                    level = LogLevel.INFO
+                }
             }
         }
-    }
 
-    factory<CurrencyRemoteDataSource> {
-        CurrencyRemoteDataSourceImpl(get())
-    }
+        factory<CurrencyRemoteDataSource> {
+            CurrencyRemoteDataSourceImpl(get())
+        }
 
-    factory<CurrencyRatesMapper> {
-        CurrencyRatesMapperImpl()
-    }
+        factory<CurrencyRatesMapper> {
+            CurrencyRatesMapperImpl()
+        }
 
-    single<CurrencyNetworkRepository> {
-        CurrencyNetworkRepositoryImpl(get(), get(), get())
+        single<CurrencyNetworkRepository> {
+            CurrencyNetworkRepositoryImpl(get(), get(), get())
+        }
     }
-}

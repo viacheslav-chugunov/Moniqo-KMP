@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -27,7 +28,9 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":shared:core"))
             implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines.extensions)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.serialization.json)
             implementation(libs.koin.core)
         }
         androidMain.dependencies {

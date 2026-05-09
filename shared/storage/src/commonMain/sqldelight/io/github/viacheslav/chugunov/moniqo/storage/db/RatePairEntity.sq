@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS RatePairEntity (
+    from_currency TEXT NOT NULL,
+    from_rate REAL NOT NULL,
+    to_currency TEXT NOT NULL,
+    to_rate REAL NOT NULL,
+    base_currency TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+);
+
+getRatePair:
+SELECT * FROM RatePairEntity LIMIT 1;
+
+insertRatePair:
+INSERT OR REPLACE INTO RatePairEntity(from_currency, from_rate, to_currency, to_rate, base_currency, updated_at)
+VALUES (:from_currency, :from_rate, :to_currency, :to_rate, :base_currency, :updated_at);
+
+clearRatePair:
+DELETE FROM RatePairEntity;

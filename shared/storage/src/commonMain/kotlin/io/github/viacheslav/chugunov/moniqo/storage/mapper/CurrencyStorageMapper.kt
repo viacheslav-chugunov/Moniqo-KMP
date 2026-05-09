@@ -6,11 +6,17 @@ import io.github.viacheslav.chugunov.moniqo.storage.db.CurrencyRatesEntity
 import io.github.viacheslav.chugunov.moniqo.storage.db.RateEntity
 
 internal interface CurrencyStorageMapper {
-    fun toDomain(entity: CurrencyRatesEntity, rates: List<RateEntity>): CurrencyRates
+    fun toDomain(
+        entity: CurrencyRatesEntity,
+        rates: List<RateEntity>,
+    ): CurrencyRates
 }
 
 internal class CurrencyStorageMapperImpl : CurrencyStorageMapper {
-    override fun toDomain(entity: CurrencyRatesEntity, rates: List<RateEntity>): CurrencyRates =
+    override fun toDomain(
+        entity: CurrencyRatesEntity,
+        rates: List<RateEntity>,
+    ): CurrencyRates =
         CurrencyRates(
             updatedAt = entity.updated_at,
             baseCurrency = entity.base_currency,

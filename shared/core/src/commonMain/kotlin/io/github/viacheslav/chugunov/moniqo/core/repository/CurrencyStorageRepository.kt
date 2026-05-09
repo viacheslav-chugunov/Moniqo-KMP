@@ -3,6 +3,7 @@ package io.github.viacheslav.chugunov.moniqo.core.repository
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 
 interface CurrencyStorageRepository {
-    suspend fun save(rates: CurrencyRates)
-    suspend fun getCache(): CurrencyRates
+    suspend fun saveRates(rates: CurrencyRates)
+
+    suspend fun getRates(): CurrencyRates
 }

@@ -1,28 +1,29 @@
 package io.github.viacheslav.chugunov.moniqo.storage.datasource
 
 import io.github.viacheslav.chugunov.moniqo.core.di.CoroutineDispatchers
-import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
+import io.github.viacheslav.chugunov.moniqo.core.model.RatePair
 import io.github.viacheslav.chugunov.moniqo.storage.model.FallbackRatesEntry
 import io.github.viacheslav.chugunov.moniqo.storage.util.FALLBACK_RATES_JSON
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-internal interface CurrencyFallbackDataSource {
-    suspend fun get(): CurrencyRates
+internal interface RatePairFallbackDataSource {
+    suspend fun get(): RatePair
 }
 
-internal class CurrencyFallbackDataSourceImpl(
+internal class RatePairFallbackDataSourceImpl(
     private val json: Json,
     private val dispatchers: CoroutineDispatchers,
-) : CurrencyFallbackDataSource {
-    override suspend fun get(): CurrencyRates =
+) : RatePairFallbackDataSource {
+    override suspend fun get(): RatePair =
         withContext(dispatchers.default) {
-            val entry = json.decodeFromString<FallbackRatesEntry>(FALLBACK_RATES_JSON)
-            CurrencyRates(
-                updatedAt = entry.date,
+            val dto = json.decodeFromString<FallbackRatesEntry>(FALLBACK_RATES_JSON)
+            RatePair(
+                fromRate = Rate(currency = "usd", rate = dto.eur.getValue("usd")),
+                toRate = Rate(currency = "eur", rate = dto.eur.getValue("eur")),
                 baseCurrency = "eur",
-                rates = entry.eur.map { (currency, rate) -> Rate(currency, rate) },
+                updatedAt = dto.date,
             )
         }
 }
