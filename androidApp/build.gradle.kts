@@ -16,22 +16,20 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.ui)
+            implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
+            implementation(project(":android-ui:core"))
+            implementation(project(":android-ui:home"))
             implementation(project(":shared:core"))
             implementation(project(":shared:network"))
             implementation(project(":shared:storage"))
-
-            implementation(libs.compose.runtime)
-            implementation(libs.compose.foundation)
-            implementation(libs.compose.material3)
-            implementation(libs.compose.ui)
-            implementation(libs.compose.components.resources)
-            implementation(libs.compose.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

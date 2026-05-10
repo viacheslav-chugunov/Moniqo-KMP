@@ -1,0 +1,66 @@
+<resources>
+    <!-- Navigation -->
+    <string name="cd_back">Back</string>
+
+    <!-- Home -->
+    <string name="home_title">Moniqo</string>
+    <string name="home_from_hint">Official: 1 %1$s = %2$s %3$s</string>
+    <string name="home_to_hint">At official rate ≈ %1$s %2$s</string>
+    <string name="home_rates">Rates</string>
+    <string name="cd_settings">Settings</string>
+    <string name="home_empty_hint">Enter amount to see conversion</string>
+    <string name="amount_placeholder">0.00</string>
+    <string name="cd_swap_currencies">Swap currencies</string>
+
+    <!-- Exchange Analysis -->
+    <string name="exchange_analysis_title">Exchange Analysis</string>
+    <string name="exchange_analysis_official_rate">Official Rate</string>
+    <string name="exchange_analysis_your_rate">Your Rate</string>
+    <string name="exchange_analysis_difference">Difference</string>
+    <string name="exchange_analysis_loss">Loss</string>
+    <string name="exchange_analysis_profit">Profit</string>
+
+    <!-- Currency Names -->
+    <string name="currency_name_eur">Euro</string>
+    <string name="currency_name_usd">US Dollar</string>
+    <string name="currency_name_gbp">British Pound</string>
+    <string name="currency_name_jpy">Japanese Yen</string>
+    <string name="currency_name_chf">Swiss Franc</string>
+    <string name="currency_name_aud">Australian Dollar</string>
+    <string name="currency_name_cad">Canadian Dollar</string>
+    <string name="currency_name_cny">Chinese Yuan</string>
+    <string name="currency_name_sek">Swedish Krona</string>
+    <string name="currency_name_nok">Norwegian Krone</string>
+    <string name="currency_name_dkk">Danish Krone</string>
+    <string name="currency_name_nzd">New Zealand Dollar</string>
+    <string name="currency_name_sgd">Singapore Dollar</string>
+    <string name="currency_name_hkd">Hong Kong Dollar</string>
+    <string name="currency_name_krw">South Korean Won</string>
+    <string name="currency_name_mxn">Mexican Peso</string>
+    <string name="currency_name_inr">Indian Rupee</string>
+    <string name="currency_name_brl">Brazilian Real</string>
+    <string name="currency_name_pln">Polish Zloty</string>
+    <string name="currency_name_try">Turkish Lira</string>
+    <string name="currency_name_zar">South African Rand</string>
+    <string name="currency_name_thb">Thai Baht</string>
+    <string name="currency_name_myr">Malaysian Ringgit</string>
+    <string name="currency_name_idr">Indonesian Rupiah</string>
+    <string name="currency_name_huf">Hungarian Forint</string>
+    <string name="currency_name_czk">Czech Koruna</string>
+    <string name="currency_name_ils">Israeli Shekel</string>
+    <string name="currency_name_php">Philippine Peso</string>
+    <string name="currency_name_aed">UAE Dirham</string>
+
+    <!-- Deal Quality -->
+    <string name="deal_quality_good">Good Deal</string>
+    <string name="deal_quality_medium">Medium Deal</string>
+    <string name="deal_quality_bad">Bad Deal</string>
+
+    <!-- Rates Screen -->
+    <string name="rates_title">Rates</string>
+    <string name="rates_coming_soon">Rates coming soon</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_coming_soon">Settings coming soon</string>
+</resources>

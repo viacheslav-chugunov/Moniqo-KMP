@@ -10,7 +10,6 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CurrencyNetworkRepositoryImplTest {
-
     @Test
     fun `getRates returns domain object from mapper`() =
         runTest {
