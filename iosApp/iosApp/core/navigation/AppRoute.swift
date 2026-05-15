@@ -1,0 +1,7 @@
+import Foundation
+
+enum AppRoute: Hashable {
+    case home
+    case rates
+    case settings
+}

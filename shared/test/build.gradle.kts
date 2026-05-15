@@ -11,8 +11,6 @@ kotlin {
             implementation(libs.kotlinx.coroutines.test)
             implementation(libs.kotlinx.coroutines.core)
             implementation(project(":shared:core"))
-            implementation(project(":shared:network"))
-            implementation(project(":shared:storage"))
         }
     }
 }
