@@ -6,6 +6,7 @@ import io.github.viacheslav.chugunov.moniqo.test.mock.model.currencyRatesFallbac
 
 class CurrencyStorageRepositoryMock(
     private val rates: CurrencyRates = currencyRatesFallbackMock,
+    private val isEmpty: Boolean = false,
 ) : CurrencyStorageRepository {
     var savedRates: CurrencyRates? = null
 
@@ -14,4 +15,6 @@ class CurrencyStorageRepositoryMock(
     }
 
     override suspend fun getRates() = rates
+
+    override suspend fun isEmpty() = isEmpty
 }

@@ -26,10 +26,10 @@ internal class CurrencyLocalDataSourceImpl(
                 rateEntityQueries.clearRates()
                 currencyRatesEntityQueries.insertCurrencyRates(
                     updated_at = rates.updatedAt,
-                    base_currency = rates.baseCurrency,
+                    base_currency = rates.baseCurrency.name,
                 )
                 rates.rates.forEach { rate ->
-                    rateEntityQueries.insertRate(currency = rate.currency, rate = rate.rate)
+                    rateEntityQueries.insertRate(currency = rate.currency.name, rate = rate.rate)
                 }
             }
         }

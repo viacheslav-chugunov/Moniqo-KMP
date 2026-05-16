@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.CurrencyInfo
 
 @Composable
 internal fun AmountSectionComponent(
@@ -60,8 +60,8 @@ internal fun AmountSectionComponent(
 private fun AmountSectionComponentPreview() {
     MoniqoTheme {
         AmountSectionComponent(
-            fromCurrency = CurrencyInfo("EUR", "Euro", "🇪🇺"),
-            toCurrency = CurrencyInfo("USD", "US Dollar", "🇺🇸"),
+            fromCurrency = CurrencyInfo("EUR", "Euro", "🇪🇺", isCrypto = false),
+            toCurrency = CurrencyInfo("USD", "US Dollar", "🇺🇸", isCrypto = false),
             fromAmount = "1000",
             toAmount = "1200",
             fromHint = "Official: 1 EUR = 1.1700 USD",

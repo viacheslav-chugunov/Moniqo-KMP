@@ -5,7 +5,8 @@ import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.core.model.RatePair
 import io.github.viacheslav.chugunov.moniqo.ui.core.StringProvider
 import io.github.viacheslav.chugunov.moniqo.ui.core.extensions.asPrice
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.CurrencyInfo
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyMeta
 import io.github.viacheslav.chugunov.moniqo.ui.home.model.DealQuality
 import io.github.viacheslav.chugunov.moniqo.ui.home.model.ExchangeAnalysis
 import java.util.Locale
@@ -92,79 +93,12 @@ internal class HomeMapperImpl(
     override fun toOfficialRate(pair: RatePair): Double = pair.toRate.rate / pair.fromRate.rate
 
     override fun toCurrencyInfo(rate: Rate): CurrencyInfo {
-        val code = rate.currency.uppercase()
+        val code = rate.currency.name.uppercase()
         return CurrencyInfo(
             code = code,
-            name = CURRENCY_NAME_RES[code]?.let { stringProvider.get(it) } ?: code,
-            flag = CURRENCY_FLAGS[code] ?: "🏳️",
+            name = CurrencyMeta.nameRes[code]?.let { stringProvider.get(it) } ?: code,
+            flag = CurrencyMeta.flags[code] ?: "🏳️",
+            isCrypto = rate.currency.isCrypto,
         )
-    }
-
-    private companion object {
-        val CURRENCY_NAME_RES =
-            mapOf(
-                "EUR" to R.string.currency_name_eur,
-                "USD" to R.string.currency_name_usd,
-                "GBP" to R.string.currency_name_gbp,
-                "JPY" to R.string.currency_name_jpy,
-                "CHF" to R.string.currency_name_chf,
-                "AUD" to R.string.currency_name_aud,
-                "CAD" to R.string.currency_name_cad,
-                "CNY" to R.string.currency_name_cny,
-                "SEK" to R.string.currency_name_sek,
-                "NOK" to R.string.currency_name_nok,
-                "DKK" to R.string.currency_name_dkk,
-                "NZD" to R.string.currency_name_nzd,
-                "SGD" to R.string.currency_name_sgd,
-                "HKD" to R.string.currency_name_hkd,
-                "KRW" to R.string.currency_name_krw,
-                "MXN" to R.string.currency_name_mxn,
-                "INR" to R.string.currency_name_inr,
-                "BRL" to R.string.currency_name_brl,
-                "PLN" to R.string.currency_name_pln,
-                "TRY" to R.string.currency_name_try,
-                "ZAR" to R.string.currency_name_zar,
-                "THB" to R.string.currency_name_thb,
-                "MYR" to R.string.currency_name_myr,
-                "IDR" to R.string.currency_name_idr,
-                "HUF" to R.string.currency_name_huf,
-                "CZK" to R.string.currency_name_czk,
-                "ILS" to R.string.currency_name_ils,
-                "PHP" to R.string.currency_name_php,
-                "AED" to R.string.currency_name_aed,
-            )
-
-        val CURRENCY_FLAGS =
-            mapOf(
-                "EUR" to "🇪🇺",
-                "USD" to "🇺🇸",
-                "GBP" to "🇬🇧",
-                "JPY" to "🇯🇵",
-                "CHF" to "🇨🇭",
-                "AUD" to "🇦🇺",
-                "CAD" to "🇨🇦",
-                "CNY" to "🇨🇳",
-                "SEK" to "🇸🇪",
-                "NOK" to "🇳🇴",
-                "DKK" to "🇩🇰",
-                "NZD" to "🇳🇿",
-                "SGD" to "🇸🇬",
-                "HKD" to "🇭🇰",
-                "KRW" to "🇰🇷",
-                "MXN" to "🇲🇽",
-                "INR" to "🇮🇳",
-                "BRL" to "🇧🇷",
-                "PLN" to "🇵🇱",
-                "TRY" to "🇹🇷",
-                "ZAR" to "🇿🇦",
-                "THB" to "🇹🇭",
-                "MYR" to "🇲🇾",
-                "IDR" to "🇮🇩",
-                "HUF" to "🇭🇺",
-                "CZK" to "🇨🇿",
-                "ILS" to "🇮🇱",
-                "PHP" to "🇵🇭",
-                "AED" to "🇦🇪",
-            )
     }
 }

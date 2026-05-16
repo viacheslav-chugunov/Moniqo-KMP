@@ -5,22 +5,25 @@ import io.github.viacheslav.chugunov.moniqo.core.repository.CurrencyNetworkRepos
 import io.github.viacheslav.chugunov.moniqo.core.repository.CurrencyStorageRepository
 
 /**
- * Fetches the latest currency rates from the network and caches them in local storage.
+ * Returns the current currency rates from local storage.
  *
- * If the network request fails for any reason (no connectivity, server error, etc.),
- * the use case transparently falls back to the most recently cached rates. If no cache
- * exists, the built-in fallback dataset is returned instead.
+ * If storage is empty, fetches the latest rates from the network, caches them, and returns
+ * the result. If the network request also fails, the built-in fallback dataset is returned.
  *
- * **Error handling:** No wrapping required at the call site — failures are handled
- * internally via [runCatching]. The call always returns a valid [CurrencyRates] result.
+ * **Error handling:** No wrapping required at the call site. The call always returns
+ * a valid [CurrencyRates] result.
  */
 class GetCurrencyRatesUseCase(
     private val storageRepository: CurrencyStorageRepository,
     private val networkRepository: CurrencyNetworkRepository,
 ) {
     suspend operator fun invoke(): CurrencyRates =
-        runCatching {
-            networkRepository.getRates()
-                .also { rates -> storageRepository.saveRates(rates) }
-        }.getOrDefault(storageRepository.getRates())
+        if (storageRepository.isEmpty()) {
+            runCatching {
+                networkRepository.getRates()
+                    .also { storageRepository.saveRates(it) }
+            }.getOrDefault(storageRepository.getRates())
+        } else {
+            storageRepository.getRates()
+        }
 }

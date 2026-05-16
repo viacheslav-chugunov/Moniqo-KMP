@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.CurrencyInfo
 
 @Composable
 internal fun CurrencyPairSectionComponent(
@@ -59,8 +59,8 @@ internal fun CurrencyPairSectionComponent(
 private fun CurrencyPairSectionComponentPreview() {
     MoniqoTheme {
         CurrencyPairSectionComponent(
-            fromCurrency = CurrencyInfo("EUR", "Euro", "🇪🇺"),
-            toCurrency = CurrencyInfo("USD", "US Dollar", "🇺🇸"),
+            fromCurrency = CurrencyInfo("EUR", "Euro", "🇪🇺", isCrypto = false),
+            toCurrency = CurrencyInfo("USD", "US Dollar", "🇺🇸", isCrypto = false),
             onFromClick = {},
             onToClick = {},
             onSwapClick = {},

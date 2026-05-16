@@ -6,4 +6,6 @@ interface CurrencyStorageRepository {
     suspend fun saveRates(rates: CurrencyRates)
 
     suspend fun getRates(): CurrencyRates
+
+    suspend fun isEmpty(): Boolean
 }

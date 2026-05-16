@@ -17,4 +17,6 @@ class CurrencyStorageRepositoryImpl(
         val record = localDataSource.get() ?: return fallbackDataSource.get()
         return mapper.toDomain(record.entity, record.rates)
     }
+
+    override suspend fun isEmpty(): Boolean = localDataSource.get() == null
 }

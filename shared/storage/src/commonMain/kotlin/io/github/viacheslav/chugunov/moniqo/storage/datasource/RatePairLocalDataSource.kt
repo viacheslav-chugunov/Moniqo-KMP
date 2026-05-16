@@ -26,11 +26,11 @@ internal class RatePairLocalDataSourceImpl(
             ratePairEntityQueries.transaction {
                 ratePairEntityQueries.clearRatePair()
                 ratePairEntityQueries.insertRatePair(
-                    from_currency = ratePair.fromRate.currency,
+                    from_currency = ratePair.fromRate.currency.name,
                     from_rate = ratePair.fromRate.rate,
-                    to_currency = ratePair.toRate.currency,
+                    to_currency = ratePair.toRate.currency.name,
                     to_rate = ratePair.toRate.rate,
-                    base_currency = ratePair.baseCurrency,
+                    base_currency = ratePair.baseCurrency.name,
                     updated_at = ratePair.updatedAt,
                 )
             }

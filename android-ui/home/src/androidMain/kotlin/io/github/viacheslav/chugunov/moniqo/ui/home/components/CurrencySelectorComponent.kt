@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.CurrencyInfo
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 
 @Composable
 internal fun CurrencySelectorComponent(
@@ -76,7 +76,7 @@ internal fun CurrencySelectorComponent(
 private fun CurrencySelectorComponentPreview() {
     MoniqoTheme {
         CurrencySelectorComponent(
-            currency = CurrencyInfo("EUR", "Euro", "🇪🇺"),
+            currency = CurrencyInfo("EUR", "Euro", "🇪🇺", isCrypto = false),
             onClick = {},
         )
     }

@@ -1,6 +1,7 @@
 package io.github.viacheslav.chugunov.moniqo.storage.datasource
 
 import io.github.viacheslav.chugunov.moniqo.core.di.CoroutineDispatchers
+import io.github.viacheslav.chugunov.moniqo.core.model.Currency
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.storage.model.FallbackRatesEntry
@@ -21,8 +22,8 @@ internal class CurrencyFallbackDataSourceImpl(
             val entry = json.decodeFromString<FallbackRatesEntry>(FALLBACK_RATES_JSON)
             CurrencyRates(
                 updatedAt = entry.date,
-                baseCurrency = "eur",
-                rates = entry.eur.map { (currency, rate) -> Rate(currency, rate) },
+                baseCurrency = Currency.of("eur"),
+                rates = entry.eur.map { (currency, rate) -> Rate(Currency.of(currency), rate) },
             )
         }
 }

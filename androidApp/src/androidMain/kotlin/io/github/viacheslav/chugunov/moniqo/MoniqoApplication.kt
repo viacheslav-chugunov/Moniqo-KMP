@@ -6,6 +6,7 @@ import io.github.viacheslav.chugunov.moniqo.di.appModule
 import io.github.viacheslav.chugunov.moniqo.network.di.networkModule
 import io.github.viacheslav.chugunov.moniqo.storage.di.storageModule
 import io.github.viacheslav.chugunov.moniqo.ui.home.di.homeModule
+import io.github.viacheslav.chugunov.moniqo.ui.rates.di.ratesModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -20,6 +21,7 @@ class MoniqoApplication : Application() {
                 networkModule,
                 storageModule,
                 homeModule,
+                ratesModule,
             )
         }
     }

@@ -9,47 +9,39 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertNotNull
 
 class GetCurrencyRatesUseCaseTest {
     @Test
-    fun `returns network rates on success`() =
+    fun `returns rates from storage when storage is not empty`() =
         runTest {
-            val useCase =
-                GetCurrencyRatesUseCase(
-                    storageRepository = CurrencyStorageRepositoryMock(),
-                    networkRepository = CurrencyNetworkRepositoryMock(),
-                )
+            val storage = CurrencyStorageRepositoryMock(currencyRatesMock, isEmpty = false)
+            val network = CurrencyNetworkRepositoryMock()
+            val useCase = GetCurrencyRatesUseCase(storage, network)
 
             assertEquals(currencyRatesMock, useCase())
+            assertNull(storage.savedRates)
         }
 
     @Test
-    fun `saves network rates to storage on success`() =
+    fun `fetches from network and saves when storage is empty`() =
         runTest {
-            val storageRepo = CurrencyStorageRepositoryMock()
-            GetCurrencyRatesUseCase(storageRepo, CurrencyNetworkRepositoryMock())()
+            val storage = CurrencyStorageRepositoryMock(currencyRatesFallbackMock, isEmpty = true)
+            val network = CurrencyNetworkRepositoryMock(currencyRatesMock)
+            val useCase = GetCurrencyRatesUseCase(storage, network)
 
-            assertEquals(currencyRatesMock, storageRepo.savedRates)
+            assertEquals(currencyRatesMock, useCase())
+            assertEquals(currencyRatesMock, storage.savedRates)
         }
 
     @Test
-    fun `falls back to storage when network throws`() =
+    fun `falls back to storage when storage is empty and network fails`() =
         runTest {
-            val useCase =
-                GetCurrencyRatesUseCase(
-                    storageRepository = CurrencyStorageRepositoryMock(),
-                    networkRepository = CurrencyNetworkRepositoryMock(shouldThrow = true),
-                )
+            val storage = CurrencyStorageRepositoryMock(currencyRatesFallbackMock, isEmpty = true)
+            val network = CurrencyNetworkRepositoryMock(shouldThrow = true)
+            val useCase = GetCurrencyRatesUseCase(storage, network)
 
             assertEquals(currencyRatesFallbackMock, useCase())
-        }
-
-    @Test
-    fun `does not save when network throws`() =
-        runTest {
-            val storageRepo = CurrencyStorageRepositoryMock()
-            GetCurrencyRatesUseCase(storageRepo, CurrencyNetworkRepositoryMock(shouldThrow = true))()
-
-            assertNull(storageRepo.savedRates)
+            assertNull(storage.savedRates)
         }
 }

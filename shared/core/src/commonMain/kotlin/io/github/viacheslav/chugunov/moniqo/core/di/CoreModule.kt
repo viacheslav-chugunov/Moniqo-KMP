@@ -1,5 +1,6 @@
 package io.github.viacheslav.chugunov.moniqo.core.di
 
+import io.github.viacheslav.chugunov.moniqo.core.usecase.FetchCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRatePairFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveFromRateUseCase
@@ -24,6 +25,10 @@ val coreModule =
                 default = Dispatchers.Default,
                 main = Dispatchers.Main,
             )
+        }
+
+        factory {
+            FetchCurrencyRatesUseCase(get(), get())
         }
 
         factory {

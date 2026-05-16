@@ -1,5 +1,6 @@
 package io.github.viacheslav.chugunov.moniqo.network.mapper
 
+import io.github.viacheslav.chugunov.moniqo.core.model.Currency
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.network.dto.CurrencyRatesDto
@@ -18,7 +19,7 @@ internal class CurrencyRatesMapperImpl : CurrencyRatesMapper {
     ): CurrencyRates =
         CurrencyRates(
             updatedAt = dto.date,
-            baseCurrency = baseCurrency,
-            rates = dto.eur.map { Rate(it.key, it.value) },
+            baseCurrency = Currency.of(baseCurrency),
+            rates = dto.eur.map { Rate(Currency.of(it.key), it.value) },
         )
 }

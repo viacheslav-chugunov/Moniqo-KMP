@@ -31,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.CurrencyInfo
 
 @Composable
 internal fun AmountInputFieldComponent(
@@ -191,7 +191,7 @@ private object ThousandsSeparatorVisualTransformation : VisualTransformation {
 private fun AmountInputFieldActivePreview() {
     MoniqoTheme {
         AmountInputFieldComponent(
-            currency = CurrencyInfo("EUR", "Euro", "🇪🇺"),
+            currency = CurrencyInfo("EUR", "Euro", "🇪🇺", isCrypto = false),
             amount = "1000.00",
             hint = "Official: 1 EUR = 1.1732 USD",
             isActive = true,
@@ -205,7 +205,7 @@ private fun AmountInputFieldActivePreview() {
 private fun AmountInputFieldPassivePreview() {
     MoniqoTheme {
         AmountInputFieldComponent(
-            currency = CurrencyInfo("USD", "US Dollar", "🇺🇸"),
+            currency = CurrencyInfo("USD", "US Dollar", "🇺🇸", isCrypto = false),
             amount = "1170.00",
             hint = "At official rate ≈ 1,173.20 USD",
             isActive = false,

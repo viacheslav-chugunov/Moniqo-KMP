@@ -27,6 +27,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":android-ui:core"))
             implementation(project(":android-ui:home"))
+            implementation(project(":android-ui:rates"))
             implementation(project(":shared:core"))
             implementation(project(":shared:network"))
             implementation(project(":shared:storage"))

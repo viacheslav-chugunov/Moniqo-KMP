@@ -1,6 +1,6 @@
 package io.github.viacheslav.chugunov.moniqo.ui.home.screen
 
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.CurrencyInfo
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.home.model.DealQuality
 import io.github.viacheslav.chugunov.moniqo.ui.home.model.ExchangeAnalysis
 
@@ -19,8 +19,8 @@ internal sealed interface HomeState {
         companion object {
             val PREVIEW =
                 Content(
-                    fromCurrency = CurrencyInfo("EUR", "Euro", "🇪🇺"),
-                    toCurrency = CurrencyInfo("USD", "US Dollar", "🇺🇸"),
+                    fromCurrency = CurrencyInfo("EUR", "Euro", "🇪🇺", isCrypto = false),
+                    toCurrency = CurrencyInfo("USD", "US Dollar", "🇺🇸", isCrypto = false),
                     fromAmount = "1,000.00",
                     toAmount = "1,200.00",
                     fromHint = "Official: 1 EUR = 1.1700 USD",
