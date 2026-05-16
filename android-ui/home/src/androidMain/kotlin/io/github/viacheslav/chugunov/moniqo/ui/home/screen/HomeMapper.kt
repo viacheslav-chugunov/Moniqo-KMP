@@ -7,6 +7,7 @@ import io.github.viacheslav.chugunov.moniqo.ui.core.StringProvider
 import io.github.viacheslav.chugunov.moniqo.ui.core.extensions.asPrice
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyMeta
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.DealRanges
 import io.github.viacheslav.chugunov.moniqo.ui.home.model.DealQuality
 import io.github.viacheslav.chugunov.moniqo.ui.home.model.ExchangeAnalysis
 import java.util.Locale
@@ -16,6 +17,7 @@ internal interface HomeMapper {
     fun toHomeContent(
         pair: RatePair,
         fromAmount: String = "",
+        dealRanges: DealRanges = DealRanges(),
     ): HomeState.Content
 
     fun toExchangeAnalysis(
@@ -24,6 +26,7 @@ internal interface HomeMapper {
         officialRate: Double?,
         fromCurrency: CurrencyInfo,
         toCurrency: CurrencyInfo,
+        dealRanges: DealRanges = DealRanges(),
     ): ExchangeAnalysis?
 
     fun toOfficialRate(pair: RatePair): Double
@@ -37,6 +40,7 @@ internal class HomeMapperImpl(
     override fun toHomeContent(
         pair: RatePair,
         fromAmount: String,
+        dealRanges: DealRanges,
     ): HomeState.Content {
         val officialRate = toOfficialRate(pair)
         val fromCurrency = toCurrencyInfo(pair.fromRate)
@@ -55,7 +59,7 @@ internal class HomeMapperImpl(
                 fromAmount.toDoubleOrNull()?.takeIf { it > 0 }?.let {
                     stringProvider.get(R.string.home_to_hint, (it * officialRate).asPrice, toCurrency.code)
                 } ?: "",
-            analysis = toExchangeAnalysis(fromAmount, toAmount, officialRate, fromCurrency, toCurrency),
+            analysis = toExchangeAnalysis(fromAmount, toAmount, officialRate, fromCurrency, toCurrency, dealRanges),
         )
     }
 
@@ -65,6 +69,7 @@ internal class HomeMapperImpl(
         officialRate: Double?,
         fromCurrency: CurrencyInfo,
         toCurrency: CurrencyInfo,
+        dealRanges: DealRanges,
     ): ExchangeAnalysis? {
         if (officialRate == null) return null
         val from = fromAmount.toDoubleOrNull()?.takeIf { it > 0 } ?: return null
@@ -73,8 +78,8 @@ internal class HomeMapperImpl(
         val diffPercent = (officialRate - enteredRate) / enteredRate * 100.0
         val quality =
             when {
-                diffPercent < 5.0 -> DealQuality.GOOD
-                diffPercent < 10.0 -> DealQuality.MEDIUM
+                diffPercent < dealRanges.goodMax -> DealQuality.GOOD
+                diffPercent < dealRanges.averageMax -> DealQuality.MEDIUM
                 else -> DealQuality.BAD
             }
         val lossInTo = (officialRate - enteredRate) * from

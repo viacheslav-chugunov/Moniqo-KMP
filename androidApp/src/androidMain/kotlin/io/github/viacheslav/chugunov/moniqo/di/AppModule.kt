@@ -1,6 +1,7 @@
 package io.github.viacheslav.chugunov.moniqo.di
 
 import io.github.viacheslav.chugunov.moniqo.storage.platform.DatabaseDriverFactory
+import io.github.viacheslav.chugunov.moniqo.ui.core.AppSettingsHolder
 import io.github.viacheslav.chugunov.moniqo.ui.core.RatesBaseCurrencyHolder
 import io.github.viacheslav.chugunov.moniqo.ui.core.StringProvider
 import io.github.viacheslav.chugunov.moniqo.ui.core.StringProviderImpl
@@ -19,5 +20,9 @@ val appModule =
 
         single {
             RatesBaseCurrencyHolder()
+        }
+
+        single {
+            AppSettingsHolder()
         }
     }

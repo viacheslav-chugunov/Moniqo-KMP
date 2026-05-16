@@ -23,12 +23,14 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
             implementation(project(":android-ui:core"))
             implementation(project(":android-ui:home"))
             implementation(project(":android-ui:rates"))
             implementation(project(":android-ui:choose-currency"))
+            implementation(project(":android-ui:settings"))
             implementation(project(":shared:core"))
             implementation(project(":shared:network"))
             implementation(project(":shared:storage"))

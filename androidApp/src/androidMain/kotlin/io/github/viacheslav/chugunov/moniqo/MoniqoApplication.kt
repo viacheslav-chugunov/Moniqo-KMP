@@ -8,6 +8,7 @@ import io.github.viacheslav.chugunov.moniqo.storage.di.storageModule
 import io.github.viacheslav.chugunov.moniqo.ui.choosecurrency.di.chooseCurrencyModule
 import io.github.viacheslav.chugunov.moniqo.ui.home.di.homeModule
 import io.github.viacheslav.chugunov.moniqo.ui.rates.di.ratesModule
+import io.github.viacheslav.chugunov.moniqo.ui.settings.di.settingsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -24,6 +25,7 @@ class MoniqoApplication : Application() {
                 homeModule,
                 ratesModule,
                 chooseCurrencyModule,
+                settingsModule,
             )
         }
     }

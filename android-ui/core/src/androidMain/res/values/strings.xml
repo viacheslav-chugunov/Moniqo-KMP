@@ -348,6 +348,22 @@
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
     <string name="settings_coming_soon">Settings coming soon</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_deal_ranges">Deal ranges</string>
+    <string name="settings_good_deal">Good deal</string>
+    <string name="settings_medium_deal">Medium deal</string>
+    <string name="settings_bad_deal">Bad deal</string>
+    <string name="settings_reset_ranges">Reset ranges</string>
+    <string name="settings_edit_ranges">Edit</string>
+    <string name="settings_edit_deal_ranges_title">Edit deal ranges</string>
+    <string name="settings_apply">Apply</string>
+    <string name="settings_cancel">Cancel</string>
+    <string name="settings_footer">Deal categories help evaluate exchange profitability.</string>
 
     <!-- Choose Currency Screen -->
     <string name="choose_currency_title">Choose currency</string>
