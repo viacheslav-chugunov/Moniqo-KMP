@@ -36,7 +36,10 @@ internal class RatesViewModel(
         viewModelScope.launch {
             val currencyRates = fetchCurrencyRatesUseCase()
             getBaseRateCurrencyFlowUseCase().collectLatest { currency ->
-                updateState { mapper.toRatesState(currencyRates, currency, childState()) }
+                updateState {
+                    val content = childState<RatesState.Content>()?.copy(isRefreshing = false)
+                    mapper.toRatesState(currencyRates, currency, content)
+                }
             }
         }
     }

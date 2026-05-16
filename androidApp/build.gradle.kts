@@ -19,7 +19,6 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
@@ -66,6 +65,14 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+    androidResources {
+        localeFilters += listOf("en", "lv", "ru")
     }
 }
 
