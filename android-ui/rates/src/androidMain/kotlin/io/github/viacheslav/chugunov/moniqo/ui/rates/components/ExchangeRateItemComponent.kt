@@ -3,7 +3,7 @@ package io.github.viacheslav.chugunov.moniqo.ui.rates.components
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
-import io.github.viacheslav.chugunov.moniqo.ui.core.CurrencyListItemComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.CurrencyListItemComponent
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 import io.github.viacheslav.chugunov.moniqo.ui.rates.model.RateItem

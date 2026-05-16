@@ -1,23 +1,23 @@
 package io.github.viacheslav.chugunov.moniqo.ui.home.screen
 
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.model.DealRanges
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.core.model.RatePair
 import io.github.viacheslav.chugunov.moniqo.ui.core.StringProvider
 import io.github.viacheslav.chugunov.moniqo.ui.core.extensions.asPrice
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyMeta
-import io.github.viacheslav.chugunov.moniqo.ui.core.model.DealRanges
 import io.github.viacheslav.chugunov.moniqo.ui.home.model.DealQuality
 import io.github.viacheslav.chugunov.moniqo.ui.home.model.ExchangeAnalysis
 import java.util.Locale
 import kotlin.math.abs
 
 internal interface HomeMapper {
-    fun toHomeContent(
-        pair: RatePair,
-        fromAmount: String = "",
-        dealRanges: DealRanges = DealRanges(),
+    fun toHomeState(
+        ratePair: RatePair,
+        dealRanges: DealRanges,
+        currentContentState: HomeState.Content?
     ): HomeState.Content
 
     fun toExchangeAnalysis(
@@ -26,7 +26,7 @@ internal interface HomeMapper {
         officialRate: Double?,
         fromCurrency: CurrencyInfo,
         toCurrency: CurrencyInfo,
-        dealRanges: DealRanges = DealRanges(),
+        dealRanges: DealRanges,
     ): ExchangeAnalysis?
 
     fun toOfficialRate(pair: RatePair): Double
@@ -37,14 +37,15 @@ internal interface HomeMapper {
 internal class HomeMapperImpl(
     private val stringProvider: StringProvider,
 ) : HomeMapper {
-    override fun toHomeContent(
-        pair: RatePair,
-        fromAmount: String,
+    override fun toHomeState(
+        ratePair: RatePair,
         dealRanges: DealRanges,
+        currentContentState: HomeState.Content?
     ): HomeState.Content {
-        val officialRate = toOfficialRate(pair)
-        val fromCurrency = toCurrencyInfo(pair.fromRate)
-        val toCurrency = toCurrencyInfo(pair.toRate)
+        val officialRate = toOfficialRate(ratePair)
+        val fromCurrency = toCurrencyInfo(ratePair.fromRate)
+        val toCurrency = toCurrencyInfo(ratePair.toRate)
+        val fromAmount = currentContentState?.fromAmount ?: ""
         val toAmount =
             fromAmount.toDoubleOrNull()?.takeIf { it > 0 }?.let {
                 String.format(Locale.US, "%.2f", it * officialRate)
@@ -78,8 +79,8 @@ internal class HomeMapperImpl(
         val diffPercent = (officialRate - enteredRate) / enteredRate * 100.0
         val quality =
             when {
-                diffPercent < dealRanges.goodMax -> DealQuality.GOOD
-                diffPercent < dealRanges.averageMax -> DealQuality.MEDIUM
+                diffPercent < dealRanges.good -> DealQuality.GOOD
+                diffPercent < dealRanges.medium -> DealQuality.MEDIUM
                 else -> DealQuality.BAD
             }
         val lossInTo = (officialRate - enteredRate) * from

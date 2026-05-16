@@ -1,14 +1,15 @@
 package io.github.viacheslav.chugunov.moniqo.ui.choosecurrency.screen
 
 import androidx.lifecycle.viewModelScope
+import io.github.viacheslav.chugunov.moniqo.core.model.Currency
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRatePairFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveFromRateUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveToRateUseCase
+import io.github.viacheslav.chugunov.moniqo.core.usecase.SetBaseRatesCurrencyUseCase
 import io.github.viacheslav.chugunov.moniqo.ui.core.AppViewModel
-import io.github.viacheslav.chugunov.moniqo.ui.core.RatesBaseCurrencyHolder
 import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.CurrencySlot
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -18,8 +19,8 @@ internal class ChooseCurrencyViewModel(
     private val getRatePairFlowUseCase: GetRatePairFlowUseCase,
     private val saveFromRateUseCase: SaveFromRateUseCase,
     private val saveToRateUseCase: SaveToRateUseCase,
+    private val setRatesBaseCurrencyUseCase: SetBaseRatesCurrencyUseCase,
     private val mapper: ChooseCurrencyMapper,
-    private val baseCurrencyHolder: RatesBaseCurrencyHolder,
 ) : AppViewModel<ChooseCurrencyState, ChooseCurrencyIntent, ChooseCurrencyEffect>(ChooseCurrencyState.Loading) {
 
     private var currencyRates: CurrencyRates? = null
@@ -62,7 +63,9 @@ internal class ChooseCurrencyViewModel(
                     saveToRateUseCase(rate)
                 }
                 CurrencySlot.BASE -> {
-                    baseCurrencyHolder.select(currency)
+                    viewModelScope.launch {
+                        setRatesBaseCurrencyUseCase(Currency.of(currency.code))
+                    }
                 }
             }
             updateState { if (it is ChooseCurrencyState.Content) it.copy(query = "") else it }

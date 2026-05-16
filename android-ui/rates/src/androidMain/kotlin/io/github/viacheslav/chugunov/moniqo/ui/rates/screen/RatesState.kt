@@ -10,9 +10,9 @@ internal sealed interface RatesState {
         val baseCurrency: CurrencyInfo,
         val updatedAt: String,
         val rates: List<RateItem>,
-        val isRefreshing: Boolean = false,
-        val query: String = "",
-        val filter: RatesFilter = RatesFilter.All,
+        val isRefreshing: Boolean,
+        val query: String,
+        val filter: RatesFilter,
     ) : RatesState {
         val displayedRates: List<RateItem>
             get() =
@@ -47,6 +47,9 @@ internal sealed interface RatesState {
                             RateItem(CurrencyInfo("BTC", "BTC", "🏳️", isCrypto = true), "0.000015"),
                             RateItem(CurrencyInfo("ETH", "ETH", "🏳️", isCrypto = true), "0.000514"),
                         ),
+                    isRefreshing = false,
+                    query = "",
+                    filter = RatesFilter.All
                 )
         }
     }

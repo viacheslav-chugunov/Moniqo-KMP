@@ -42,7 +42,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import io.github.viacheslav.chugunov.moniqo.android.ui.choosecurrency.R
-import io.github.viacheslav.chugunov.moniqo.ui.core.CurrencyListItemComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.CurrencyListItemComponent
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyMeta

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.update
 abstract class AppViewModel<S, I, E>(
     initialState: S,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(initialState)
+    protected val _state = MutableStateFlow(initialState)
     val state: StateFlow<S> = _state.asStateFlow()
 
     private val _effects = Channel<E>(Channel.BUFFERED)
@@ -23,6 +23,18 @@ abstract class AppViewModel<S, I, E>(
     protected fun updateState(block: (S) -> S) {
         _state.update(block)
     }
+
+    protected inline fun <reified C> updateChildState(block: (C) -> S) {
+        _state.update { state ->
+            if (state is C) {
+                block(state)
+            } else {
+                state
+            }
+        }
+    }
+
+    protected inline fun <reified C> childState(): C? = _state.value as? C
 
     protected suspend fun sendEffect(effect: E) {
         _effects.send(effect)

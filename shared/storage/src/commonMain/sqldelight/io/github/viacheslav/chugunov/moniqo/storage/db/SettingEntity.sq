@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS SettingEntity (
+    name TEXT NOT NULL PRIMARY KEY,
+    value TEXT NOT NULL
+);
+
+getAllSettings:
+SELECT *
+FROM SettingEntity;
+
+getSettingByName:
+SELECT *
+FROM SettingEntity
+WHERE name = :name;
+
+insertSetting:
+INSERT OR REPLACE INTO SettingEntity(name, value)
+VALUES (:name, :value);
+
+deleteSettingByName:
+DELETE FROM SettingEntity
+WHERE name = :name;
+
+clearSettings:
+DELETE FROM SettingEntity;

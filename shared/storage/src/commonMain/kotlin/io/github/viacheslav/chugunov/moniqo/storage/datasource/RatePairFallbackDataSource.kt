@@ -9,7 +9,7 @@ import io.github.viacheslav.chugunov.moniqo.storage.util.FALLBACK_RATES_JSON
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 
-interface RatePairFallbackDataSource {
+internal interface RatePairFallbackDataSource {
     suspend fun get(): RatePair
 }
 

@@ -13,22 +13,34 @@ import java.time.format.FormatStyle
 import java.util.Locale
 
 internal interface RatesMapper {
-    fun toContent(rates: CurrencyRates, viewBase: CurrencyInfo? = null): RatesState.Content
+    fun toRatesState(
+        rates: CurrencyRates,
+        currency: Currency,
+        currentContentState: RatesState.Content?
+    ): RatesState.Content
 }
 
 internal class RatesMapperImpl(
     private val stringProvider: StringProvider,
 ) : RatesMapper {
-    override fun toContent(rates: CurrencyRates, viewBase: CurrencyInfo?): RatesState.Content {
+    override fun toRatesState(
+        rates: CurrencyRates,
+        currency: Currency,
+        currentContentState: RatesState.Content?
+    ): RatesState.Content {
         val originalBase = toCurrencyInfo(rates.baseCurrency)
+        val viewBase = toCurrencyInfo(currency)
 
-        if (viewBase == null || viewBase.code == originalBase.code) {
+        if (viewBase.code == originalBase.code) {
             return RatesState.Content(
                 baseCurrency = originalBase,
                 updatedAt = stringProvider.get(R.string.rates_updated, formatDate(rates.updatedAt)),
                 rates = rates.rates.map { rate ->
                     RateItem(currency = toCurrencyInfo(rate.currency), rate = rate.rate.asRate)
                 },
+                isRefreshing = currentContentState?.isRefreshing ?: false,
+                query = currentContentState?.query ?: "",
+                filter = currentContentState?.filter ?: RatesFilter.All
             )
         }
 
@@ -61,6 +73,9 @@ internal class RatesMapperImpl(
             baseCurrency = viewBase,
             updatedAt = stringProvider.get(R.string.rates_updated, formatDate(rates.updatedAt)),
             rates = rebasedRates,
+            isRefreshing = currentContentState?.isRefreshing ?: false,
+            query = currentContentState?.query ?: "",
+            filter = currentContentState?.filter ?: RatesFilter.All
         )
     }
 

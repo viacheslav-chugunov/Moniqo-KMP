@@ -1,12 +1,16 @@
 package io.github.viacheslav.chugunov.moniqo.ui.home.screen
 
 import androidx.lifecycle.viewModelScope
+import io.github.viacheslav.chugunov.moniqo.core.model.DealRanges
 import io.github.viacheslav.chugunov.moniqo.core.model.RatePair
+import io.github.viacheslav.chugunov.moniqo.core.usecase.GetDealRangesFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRatePairFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveFromRateUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveToRateUseCase
-import io.github.viacheslav.chugunov.moniqo.ui.core.AppSettingsHolder
 import io.github.viacheslav.chugunov.moniqo.ui.core.AppViewModel
+import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.text.iterator
 
@@ -14,33 +18,29 @@ internal class HomeViewModel(
     private val getRatePairFlowUseCase: GetRatePairFlowUseCase,
     private val saveFromRateUseCase: SaveFromRateUseCase,
     private val saveToRateUseCase: SaveToRateUseCase,
+    private val getDealRangesFlowUseCase: GetDealRangesFlowUseCase,
     private val mapper: HomeMapper,
-    private val appSettingsHolder: AppSettingsHolder,
 ) : AppViewModel<HomeState, HomeIntent, HomeEffect>(HomeState.Loading) {
-    private var ratePair: RatePair? = null
+    private var currentRatePair: RatePair? = null
+    private var currentDealRanges: DealRanges? = null
 
     init {
-        viewModelScope.launch {
-            getRatePairFlowUseCase().collect { pair ->
-                ratePair = pair
-                updateState { current ->
-                    val fromAmount = (current as? HomeState.Content)?.fromAmount ?: ""
-                    mapper.toHomeContent(pair, fromAmount, appSettingsHolder.settings.value.dealRanges)
-                }
-            }
-        }
-        viewModelScope.launch {
-            appSettingsHolder.settings.collect { settings ->
-                val pair = ratePair ?: return@collect
-                updateState { current ->
-                    if (current is HomeState.Content) {
-                        mapper.toHomeContent(pair, current.fromAmount, settings.dealRanges)
-                    } else {
-                        current
-                    }
-                }
-            }
-        }
+        combineTransform<DealRanges, RatePair, HomeState>(
+            getDealRangesFlowUseCase(),
+            getRatePairFlowUseCase()
+        ) { dealRanges, ratePair ->
+            currentRatePair = ratePair
+            currentDealRanges = dealRanges
+            emit(
+                mapper.toHomeState(
+                    ratePair = ratePair,
+                    dealRanges = dealRanges,
+                    currentContentState = childState()
+                )
+            )
+        }.onEach { state ->
+            updateState { state }
+        }.launchIn(viewModelScope)
     }
 
     override fun onIntent(intent: HomeIntent) {
@@ -53,19 +53,22 @@ internal class HomeViewModel(
 
     private fun handleChangeFromAmount(input: String) {
         val sanitized = sanitize(input)
-        val pair = ratePair
+        val pair = currentRatePair
+        val dealRanges = currentDealRanges ?: return
         updateContent { current ->
             if (pair == null) {
                 current.copy(fromAmount = sanitized)
             } else {
-                mapper.toHomeContent(pair, sanitized, appSettingsHolder.settings.value.dealRanges)
+                val content = childState<HomeState.Content>()?.copy(fromAmount = input)
+                mapper.toHomeState(pair, dealRanges, content)
             }
         }
     }
 
     private fun handleChangeToAmount(input: String) {
         val sanitized = sanitize(input)
-        val pair = ratePair
+        val pair = currentRatePair
+        val dealRanges = currentDealRanges ?: return
         updateContent { current ->
             current.copy(
                 toAmount = sanitized,
@@ -76,14 +79,14 @@ internal class HomeViewModel(
                         pair?.let { mapper.toOfficialRate(it) },
                         current.fromCurrency,
                         current.toCurrency,
-                        appSettingsHolder.settings.value.dealRanges,
+                        dealRanges,
                     ),
             )
         }
     }
 
     private fun handleSwapCurrencies() {
-        val pair = ratePair ?: return
+        val pair = currentRatePair ?: return
         viewModelScope.launch {
             saveFromRateUseCase(pair.toRate)
             saveToRateUseCase(pair.fromRate)

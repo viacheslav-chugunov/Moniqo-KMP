@@ -3,6 +3,7 @@ package io.github.viacheslav.chugunov.moniqo.storage.di
 import app.cash.sqldelight.db.SqlDriver
 import io.github.viacheslav.chugunov.moniqo.core.repository.CurrencyStorageRepository
 import io.github.viacheslav.chugunov.moniqo.core.repository.RatePairStorageRepository
+import io.github.viacheslav.chugunov.moniqo.core.repository.SettingStorageRepository
 import io.github.viacheslav.chugunov.moniqo.storage.datasource.CurrencyFallbackDataSource
 import io.github.viacheslav.chugunov.moniqo.storage.datasource.CurrencyFallbackDataSourceImpl
 import io.github.viacheslav.chugunov.moniqo.storage.datasource.CurrencyLocalDataSource
@@ -11,6 +12,8 @@ import io.github.viacheslav.chugunov.moniqo.storage.datasource.RatePairFallbackD
 import io.github.viacheslav.chugunov.moniqo.storage.datasource.RatePairFallbackDataSourceImpl
 import io.github.viacheslav.chugunov.moniqo.storage.datasource.RatePairLocalDataSource
 import io.github.viacheslav.chugunov.moniqo.storage.datasource.RatePairLocalDataSourceImpl
+import io.github.viacheslav.chugunov.moniqo.storage.datasource.SettingLocalDataSource
+import io.github.viacheslav.chugunov.moniqo.storage.datasource.SettingLocalDataSourceImpl
 import io.github.viacheslav.chugunov.moniqo.storage.db.AppDatabase
 import io.github.viacheslav.chugunov.moniqo.storage.mapper.CurrencyStorageMapper
 import io.github.viacheslav.chugunov.moniqo.storage.mapper.CurrencyStorageMapperImpl
@@ -19,6 +22,7 @@ import io.github.viacheslav.chugunov.moniqo.storage.mapper.RatePairStorageMapper
 import io.github.viacheslav.chugunov.moniqo.storage.platform.DatabaseDriverFactory
 import io.github.viacheslav.chugunov.moniqo.storage.repository.CurrencyStorageRepositoryImpl
 import io.github.viacheslav.chugunov.moniqo.storage.repository.RatePairStorageRepositoryImpl
+import io.github.viacheslav.chugunov.moniqo.storage.repository.SettingStorageRepositoryImpl
 import org.koin.dsl.module
 
 val storageModule =
@@ -51,6 +55,10 @@ val storageModule =
             RatePairLocalDataSourceImpl(get(), get())
         }
 
+        factory<SettingLocalDataSource> {
+            SettingLocalDataSourceImpl(get(), get())
+        }
+
         factory<RatePairFallbackDataSource> {
             RatePairFallbackDataSourceImpl(get(), get())
         }
@@ -61,5 +69,9 @@ val storageModule =
 
         single<RatePairStorageRepository> {
             RatePairStorageRepositoryImpl(get(), get(), get())
+        }
+
+        single<SettingStorageRepository> {
+            SettingStorageRepositoryImpl(get())
         }
     }

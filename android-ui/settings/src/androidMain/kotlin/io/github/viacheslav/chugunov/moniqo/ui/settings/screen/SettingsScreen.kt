@@ -27,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SegmentedButton
@@ -52,42 +53,63 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.model.AppLanguage
+import io.github.viacheslav.chugunov.moniqo.core.model.AppTheme
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.FullscreenLoading
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
-import io.github.viacheslav.chugunov.moniqo.ui.core.theme.ThemeMode
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.badRed
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.goodGreen
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.mediumAmber
+import io.github.viacheslav.chugunov.moniqo.ui.settings.component.AppearanceSectionComponent
+import io.github.viacheslav.chugunov.moniqo.ui.settings.component.DealRangeRowComponent
+import io.github.viacheslav.chugunov.moniqo.ui.settings.component.DealRangesSectionComponent
+import io.github.viacheslav.chugunov.moniqo.ui.settings.component.EditRangesBottomSheetComponent
+import io.github.viacheslav.chugunov.moniqo.ui.settings.component.LanguageSectionComponent
+import io.github.viacheslav.chugunov.moniqo.ui.settings.component.PickLanguageBottomSheetComponent
+import io.github.viacheslav.chugunov.moniqo.ui.settings.component.SettingsSectionComponent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(onBack: () -> Unit) {
     val viewModel = koinViewModel<SettingsViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
 
-    SettingsScreenContent(
-        state = state,
-        onBack = onBack,
-        onThemeChange = { viewModel.onIntent(SettingsIntent.ChangeTheme(it)) },
-        onApplyRanges = { good, average ->
-            viewModel.onIntent(SettingsIntent.ChangeDealRanges(good, average))
-        },
-        onResetRanges = { viewModel.onIntent(SettingsIntent.ResetRanges) },
-        onOpenRangeEditor = { viewModel.onIntent(SettingsIntent.OpenRangeEditor) },
-        onCloseRangeEditor = { viewModel.onIntent(SettingsIntent.CloseRangeEditor) },
-    )
+    when (val state = viewModel.state.collectAsStateWithLifecycle().value) {
+        is SettingsState.Content -> {
+            SettingsScreenContent(
+                state = state,
+                onBack = onBack,
+                onThemeChange = { viewModel.onIntent(SettingsIntent.ChangeTheme(it)) },
+                onApplyRanges = { good, average ->
+                    viewModel.onIntent(SettingsIntent.ChangeDealRanges(good, average))
+                },
+                onResetRanges = { viewModel.onIntent(SettingsIntent.ResetRanges) },
+                onOpenRangeEditor = { viewModel.onIntent(SettingsIntent.OpenRangeEditor) },
+                onCloseRangeEditor = { viewModel.onIntent(SettingsIntent.CloseRangeEditor) },
+                onOpenLanguagePicker = { viewModel.onIntent(SettingsIntent.OpenLanguagePicker) },
+                onCloseLanguagePicker = { viewModel.onIntent(SettingsIntent.CloseLanguagePicker) },
+                onLanguageChange = { viewModel.onIntent(SettingsIntent.ChangeLanguage(it)) },
+            )
+        }
+        SettingsState.Loading -> {
+            FullscreenLoading()
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsScreenContent(
-    state: SettingsState,
+    state: SettingsState.Content,
     onBack: () -> Unit,
-    onThemeChange: (ThemeMode) -> Unit,
+    onThemeChange: (AppTheme) -> Unit,
     onApplyRanges: (Float, Float) -> Unit,
     onResetRanges: () -> Unit,
     onOpenRangeEditor: () -> Unit,
     onCloseRangeEditor: () -> Unit,
+    onOpenLanguagePicker: () -> Unit,
+    onCloseLanguagePicker: () -> Unit,
+    onLanguageChange: (AppLanguage) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -124,11 +146,11 @@ private fun SettingsScreenContent(
                     .padding(vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            AppearanceSection(themeMode = state.themeMode, onThemeChange = onThemeChange)
-            LanguageSection()
-            DealRangesSection(
+            AppearanceSectionComponent(themeMode = state.theme, onThemeChange = onThemeChange)
+            LanguageSectionComponent(currentLanguage = state.language, onPickLanguage = onOpenLanguagePicker)
+            DealRangesSectionComponent(
                 goodMax = state.goodDealMaxPercent,
-                averageMax = state.averageDealMaxPercent,
+                mediumMax = state.mediumDealMaxPercent,
                 onEdit = onOpenRangeEditor,
                 onReset = onResetRanges,
             )
@@ -142,334 +164,38 @@ private fun SettingsScreenContent(
     }
 
     if (state.isEditingRanges) {
-        EditRangesBottomSheet(
+        EditRangesBottomSheetComponent(
             initialGoodMax = state.goodDealMaxPercent,
-            initialAverageMax = state.averageDealMaxPercent,
+            initialAverageMax = state.mediumDealMaxPercent,
             onApply = onApplyRanges,
             onDismiss = onCloseRangeEditor,
         )
     }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun AppearanceSection(
-    themeMode: ThemeMode,
-    onThemeChange: (ThemeMode) -> Unit,
-) {
-    SettingsSection(title = stringResource(R.string.settings_appearance)) {
-        val modes = ThemeMode.entries
-        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-            modes.forEachIndexed { index, mode ->
-                SegmentedButton(
-                    selected = themeMode == mode,
-                    onClick = { onThemeChange(mode) },
-                    shape = SegmentedButtonDefaults.itemShape(index = index, count = modes.size),
-                    label = { Text(mode.toLabel()) },
-                )
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun LanguageSection() {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        Text(
-            text = stringResource(R.string.settings_language).uppercase(),
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 20.dp),
-        )
-        Card(
-            onClick = {},
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        ) {
-            Row(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = stringResource(R.string.settings_language),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(2.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = stringResource(R.string.settings_language_english),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun DealRangesSection(
-    goodMax: Float,
-    averageMax: Float,
-    onEdit: () -> Unit,
-    onReset: () -> Unit,
-) {
-    SettingsSection(
-        title = stringResource(R.string.settings_deal_ranges),
-        trailingAction = {
-            TextButton(onClick = onEdit) {
-                Text(
-                    text = stringResource(R.string.settings_edit_ranges),
-                    style = MaterialTheme.typography.labelLarge,
-                )
-            }
-        },
-    ) {
-        DealRangeRow(
-            label = stringResource(R.string.settings_good_deal),
-            value = "0–${goodMax.toInt()}%",
-            color = MaterialTheme.colorScheme.goodGreen,
-        )
-
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-
-        DealRangeRow(
-            label = stringResource(R.string.settings_medium_deal),
-            value = "${goodMax.toInt()}–${averageMax.toInt()}%",
-            color = MaterialTheme.colorScheme.mediumAmber,
-        )
-
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-
-        DealRangeRow(
-            label = stringResource(R.string.settings_bad_deal),
-            value = "${averageMax.toInt()}%+",
-            color = MaterialTheme.colorScheme.badRed,
-        )
-
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-
-        TextButton(
-            onClick = onReset,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-        ) {
-            Text(
-                text = stringResource(R.string.settings_reset_ranges),
-                color = MaterialTheme.colorScheme.primary,
-            )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun EditRangesBottomSheet(
-    initialGoodMax: Float,
-    initialAverageMax: Float,
-    onApply: (Float, Float) -> Unit,
-    onDismiss: () -> Unit,
-) {
-    var goodMax by remember { mutableFloatStateOf(initialGoodMax) }
-    var averageMax by remember { mutableFloatStateOf(initialAverageMax) }
-
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        containerColor = MaterialTheme.colorScheme.surface,
-    ) {
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
-                    .padding(bottom = 32.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Text(
-                text = stringResource(R.string.settings_edit_deal_ranges_title),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-            )
-
-            RangeSlider(
-                value = goodMax..averageMax,
-                onValueChange = { range ->
-                    goodMax = range.start
-                    averageMax = range.endInclusive
-                },
-                valueRange = 0f..40f,
-                modifier = Modifier.fillMaxWidth(),
-                colors =
-                    SliderDefaults.colors(
-                        thumbColor = MaterialTheme.colorScheme.primary,
-                        activeTrackColor = MaterialTheme.colorScheme.primary,
-                        inactiveTrackColor = MaterialTheme.colorScheme.outlineVariant,
-                    ),
-            )
-
-            DealRangeRow(
-                label = stringResource(R.string.settings_good_deal),
-                value = "0–${goodMax.toInt()}%",
-                color = MaterialTheme.colorScheme.goodGreen,
-            )
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-            DealRangeRow(
-                label = stringResource(R.string.settings_medium_deal),
-                value = "${goodMax.toInt()}–${averageMax.toInt()}%",
-                color = MaterialTheme.colorScheme.mediumAmber,
-            )
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-            DealRangeRow(
-                label = stringResource(R.string.settings_bad_deal),
-                value = "${averageMax.toInt()}%+",
-                color = MaterialTheme.colorScheme.badRed,
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                OutlinedButton(
-                    onClick = onDismiss,
-                    modifier = Modifier.weight(1f),
-                ) {
-                    Text(stringResource(R.string.settings_cancel))
-                }
-                Button(
-                    onClick = { onApply(goodMax, averageMax) },
-                    modifier = Modifier.weight(1f),
-                ) {
-                    Text(stringResource(R.string.settings_apply))
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun DealRangeRow(
-    label: String,
-    value: String,
-    color: Color,
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Box(
-                modifier =
-                    Modifier
-                        .size(8.dp)
-                        .clip(CircleShape)
-                        .background(color),
-            )
-            Text(
-                text = label,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-        }
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium,
-            color = color,
+    if (state.isPickingLanguage) {
+        PickLanguageBottomSheetComponent(
+            currentLanguage = state.language,
+            onLanguageChange = onLanguageChange,
+            onDismiss = onCloseLanguagePicker,
         )
     }
 }
-
-@Composable
-private fun SettingsSection(
-    title: String,
-    trailingAction: (@Composable () -> Unit)? = null,
-    content: @Composable ColumnScope.() -> Unit,
-) {
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        Row(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, end = if (trailingAction != null) 8.dp else 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = title.uppercase(),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            trailingAction?.invoke()
-        }
-        Card(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        ) {
-            Column(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                content = content,
-            )
-        }
-    }
-}
-
-@Composable
-private fun ThemeMode.toLabel(): String =
-    when (this) {
-        ThemeMode.LIGHT -> stringResource(R.string.settings_theme_light)
-        ThemeMode.DARK -> stringResource(R.string.settings_theme_dark)
-        ThemeMode.SYSTEM -> stringResource(R.string.settings_theme_system)
-    }
 
 @ScreenPreview
 @Composable
 private fun SettingsScreenContentPreview() {
     MoniqoTheme {
         SettingsScreenContent(
-            state = SettingsState(),
+            state = SettingsState.Content.PREVIEW,
             onBack = {},
             onThemeChange = {},
             onApplyRanges = { _, _ -> },
             onResetRanges = {},
             onOpenRangeEditor = {},
             onCloseRangeEditor = {},
+            onOpenLanguagePicker = {},
+            onCloseLanguagePicker = {},
+            onLanguageChange = {},
         )
     }
 }
