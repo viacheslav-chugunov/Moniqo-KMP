@@ -5,19 +5,20 @@ import io.github.viacheslav.chugunov.moniqo.core.model.Currency
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
+import io.github.viacheslav.chugunov.moniqo.core.usecase.AddRecentCurrencyUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetCurrencyRatesUseCase
-import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRatePairFlowUseCase
+import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRecentCurrenciesFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveFromRateUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveToRateUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SetBaseRatesCurrencyUseCase
 import io.github.viacheslav.chugunov.moniqo.ui.core.AppViewModel
 import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.CurrencySlot
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 internal class ChooseCurrencyViewModel(
     private val getCurrencyRatesUseCase: GetCurrencyRatesUseCase,
-    private val getRatePairFlowUseCase: GetRatePairFlowUseCase,
+    private val getRecentCurrenciesFlowUseCase: GetRecentCurrenciesFlowUseCase,
+    private val addRecentCurrencyUseCase: AddRecentCurrencyUseCase,
     private val saveFromRateUseCase: SaveFromRateUseCase,
     private val saveToRateUseCase: SaveToRateUseCase,
     private val setRatesBaseCurrencyUseCase: SetBaseRatesCurrencyUseCase,
@@ -28,9 +29,10 @@ internal class ChooseCurrencyViewModel(
     init {
         viewModelScope.launch {
             val rates = getCurrencyRatesUseCase()
-            val pair = getRatePairFlowUseCase().first()
             currencyRates = rates
-            updateState { mapper.toContent(rates, pair) }
+            getRecentCurrenciesFlowUseCase().collect { recentCodes ->
+                updateState { mapper.toContent(rates, recentCodes) }
+            }
         }
     }
 
@@ -66,12 +68,10 @@ internal class ChooseCurrencyViewModel(
                     saveToRateUseCase(rate)
                 }
                 CurrencySlot.BASE -> {
-                    viewModelScope.launch {
-                        setRatesBaseCurrencyUseCase(Currency.of(currency.code))
-                    }
+                    setRatesBaseCurrencyUseCase(Currency.of(currency.code))
                 }
             }
-            updateState { if (it is ChooseCurrencyState.Content) it.copy(query = "") else it }
+            addRecentCurrencyUseCase(currency.code)
             sendEffect(ChooseCurrencyEffect.NavigateBack)
         }
     }

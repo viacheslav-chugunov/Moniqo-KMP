@@ -1,7 +1,9 @@
 package io.github.viacheslav.chugunov.moniqo.core.di
 
+import io.github.viacheslav.chugunov.moniqo.core.usecase.AddRecentCurrencyUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.FetchCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetAppLanguageFlowUseCase
+import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRecentCurrenciesFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetAppThemeFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetBaseRateCurrencyFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetCurrencyRatesUseCase
@@ -90,5 +92,13 @@ val coreModule =
 
         factory {
             SetBaseRatesCurrencyUseCase(get())
+        }
+
+        factory {
+            GetRecentCurrenciesFlowUseCase(get())
+        }
+
+        factory {
+            AddRecentCurrencyUseCase(get())
         }
     }

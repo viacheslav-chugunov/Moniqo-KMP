@@ -24,4 +24,8 @@ interface SettingStorageRepository {
     fun getBaseRatesCurrency(): Flow<Currency>
 
     suspend fun setBaseRatesCurrency(currency: Currency)
+
+    fun getRecentCurrencies(): Flow<List<String>>
+
+    suspend fun addRecentCurrency(code: String)
 }

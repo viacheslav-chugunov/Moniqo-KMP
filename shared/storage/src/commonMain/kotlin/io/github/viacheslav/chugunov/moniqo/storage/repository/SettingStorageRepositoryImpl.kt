@@ -8,6 +8,7 @@ import io.github.viacheslav.chugunov.moniqo.core.repository.SettingStorageReposi
 import io.github.viacheslav.chugunov.moniqo.storage.datasource.SettingLocalDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineTransform
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 internal class SettingStorageRepositoryImpl(
@@ -59,17 +60,37 @@ internal class SettingStorageRepositoryImpl(
         settingDataSource.set(SETTING_BASE_RATES_CURRENCY, currency.name)
     }
 
+    override fun getRecentCurrencies(): Flow<List<String>> =
+        settingDataSource.get(SETTING_RECENT_CURRENCIES).map { value ->
+            value?.split(",")?.filter { it.isNotBlank() }?.take(MAX_RECENT_CURRENCIES)
+                ?: DEFAULT_RECENT_CURRENCIES
+        }
+
+    override suspend fun addRecentCurrency(code: String) {
+        val current =
+            settingDataSource.get(SETTING_RECENT_CURRENCIES)
+                .first()
+                ?.split(",")
+                ?.filter { it.isNotBlank() }
+                ?: DEFAULT_RECENT_CURRENCIES
+        val updated = (listOf(code) + current.filter { it != code }).take(MAX_RECENT_CURRENCIES)
+        settingDataSource.set(SETTING_RECENT_CURRENCIES, updated.joinToString(","))
+    }
+
     companion object {
         private const val SETTING_APP_LANGUAGE = "app-language"
         private const val SETTING_APP_THEME = "app-theme"
         private const val SETTING_GOOD_DEAL = "good-deal"
         private const val SETTING_MEDIUM_DEAL = "medium-deal"
         private const val SETTING_BASE_RATES_CURRENCY = "base-rates-currency"
+        private const val SETTING_RECENT_CURRENCIES = "recent-currencies"
 
         private val DEFAULT_APP_LANGUAGE = AppLanguage.SYSTEM.ordinal
         private val DEFAULT_APP_THEME = AppTheme.SYSTEM.ordinal
         private const val DEFAULT_GOOD_DEAL = 5
         private const val DEFAULT_MEDIUM_DEAL = 10
         private const val DEFAULT_BASE_RATES_CURRENCY = "eur"
+        private val DEFAULT_RECENT_CURRENCIES = listOf("EUR", "USD")
+        private const val MAX_RECENT_CURRENCIES = 5
     }
 }
