@@ -24,6 +24,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
             implementation(libs.androidx.appcompat)
+            implementation(libs.androidx.core.splashscreen)
         }
         commonMain.dependencies {
             implementation(project(":android-ui:core"))

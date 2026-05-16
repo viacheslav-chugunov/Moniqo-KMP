@@ -7,6 +7,7 @@ import io.github.viacheslav.chugunov.moniqo.core.usecase.GetDealRangesFlowUseCas
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRatePairFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveFromRateUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveToRateUseCase
+import io.github.viacheslav.chugunov.moniqo.core.usecase.SetSplashReadyUseCase
 import io.github.viacheslav.chugunov.moniqo.ui.core.AppViewModel
 import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.launchIn
@@ -19,6 +20,7 @@ internal class HomeViewModel(
     private val saveFromRateUseCase: SaveFromRateUseCase,
     private val saveToRateUseCase: SaveToRateUseCase,
     private val getDealRangesFlowUseCase: GetDealRangesFlowUseCase,
+    private val setSplashReadyUseCase: SetSplashReadyUseCase,
     private val mapper: HomeMapper,
 ) : AppViewModel<HomeState, HomeIntent, HomeEffect>(HomeState.Loading) {
     private var currentRatePair: RatePair? = null
@@ -40,6 +42,7 @@ internal class HomeViewModel(
             )
         }.onEach { state ->
             updateState { state }
+            if (state is HomeState.Content) setSplashReadyUseCase()
         }.launchIn(viewModelScope)
     }
 

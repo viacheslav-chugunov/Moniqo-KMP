@@ -49,12 +49,13 @@ class MoniqoApplication : Application(), KoinComponent {
     private fun collectAppLanguage() {
         appScope.launch(coroutineDispatchers.main) {
             getAppLanguageFlow().collectLatest { language ->
-                val tag = when (language) {
-                    AppLanguage.SYSTEM -> ""
-                    AppLanguage.ENGLISH -> "en"
-                    AppLanguage.LATVIAN -> "lv"
-                    AppLanguage.RUSSIAN -> "ru"
-                }
+                val tag =
+                    when (language) {
+                        AppLanguage.SYSTEM -> ""
+                        AppLanguage.ENGLISH -> "en"
+                        AppLanguage.LATVIAN -> "lv"
+                        AppLanguage.RUSSIAN -> "ru"
+                    }
                 AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
             }
         }

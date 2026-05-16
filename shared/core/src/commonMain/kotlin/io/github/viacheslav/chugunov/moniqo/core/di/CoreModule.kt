@@ -1,14 +1,17 @@
 package io.github.viacheslav.chugunov.moniqo.core.di
 
+import io.github.viacheslav.chugunov.moniqo.core.repository.SplashRepository
+import io.github.viacheslav.chugunov.moniqo.core.repository.SplashRepositoryImpl
 import io.github.viacheslav.chugunov.moniqo.core.usecase.AddRecentCurrencyUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.FetchCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetAppLanguageFlowUseCase
-import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRecentCurrenciesFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetAppThemeFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetBaseRateCurrencyFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetDealRangesFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRatePairFlowUseCase
+import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRecentCurrenciesFlowUseCase
+import io.github.viacheslav.chugunov.moniqo.core.usecase.GetSplashReadyFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.ResetDealRangesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveFromRateUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveToRateUseCase
@@ -16,6 +19,7 @@ import io.github.viacheslav.chugunov.moniqo.core.usecase.SetAppLanguageUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SetAppThemeUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SetBaseRatesCurrencyUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SetDealRangesUseCase
+import io.github.viacheslav.chugunov.moniqo.core.usecase.SetSplashReadyUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.serialization.json.Json
@@ -36,6 +40,18 @@ val coreModule =
                 default = Dispatchers.Default,
                 main = Dispatchers.Main,
             )
+        }
+
+        single<SplashRepository> {
+            SplashRepositoryImpl()
+        }
+
+        factory {
+            GetSplashReadyFlowUseCase(get())
+        }
+
+        factory {
+            SetSplashReadyUseCase(get())
         }
 
         factory {
