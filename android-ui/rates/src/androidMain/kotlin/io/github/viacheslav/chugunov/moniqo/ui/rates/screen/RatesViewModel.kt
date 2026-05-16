@@ -1,19 +1,11 @@
 package io.github.viacheslav.chugunov.moniqo.ui.rates.screen
 
 import androidx.lifecycle.viewModelScope
-import io.github.viacheslav.chugunov.moniqo.core.model.Currency
-import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
 import io.github.viacheslav.chugunov.moniqo.core.usecase.FetchCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetBaseRateCurrencyFlowUseCase
-import io.github.viacheslav.chugunov.moniqo.core.usecase.GetCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.ui.core.AppViewModel
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combineTransform
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flatMapMerge
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 internal class RatesViewModel(
@@ -21,7 +13,6 @@ internal class RatesViewModel(
     private val getBaseRateCurrencyFlowUseCase: GetBaseRateCurrencyFlowUseCase,
     private val mapper: RatesMapper,
 ) : AppViewModel<RatesState, RatesIntent, RatesEffect>(RatesState.Loading) {
-
     init {
         viewModelScope.launch {
             val currencyRates = fetchCurrencyRatesUseCase()
@@ -54,7 +45,7 @@ internal class RatesViewModel(
         updateState { if (it is RatesState.Content) it.copy(query = query) else it }
     }
 
-    private fun handleFilter(filter: RatesFilter) {
+    private fun handleFilter(filter: CurrencyFilter) {
         updateState { if (it is RatesState.Content) it.copy(filter = filter) else it }
     }
 }

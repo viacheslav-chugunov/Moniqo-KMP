@@ -19,11 +19,12 @@ fun App() {
 
     when (val state = viewModel.state.collectAsStateWithLifecycle().value) {
         is AppState.Content -> {
-            val darkTheme = when (state.theme) {
-                AppTheme.LIGHT -> false
-                AppTheme.DARK -> true
-                AppTheme.SYSTEM -> isSystemInDarkTheme()
-            }
+            val darkTheme =
+                when (state.theme) {
+                    AppTheme.LIGHT -> false
+                    AppTheme.DARK -> true
+                    AppTheme.SYSTEM -> isSystemInDarkTheme()
+                }
 
             MoniqoTheme(darkTheme = darkTheme) {
                 AppNavigation(

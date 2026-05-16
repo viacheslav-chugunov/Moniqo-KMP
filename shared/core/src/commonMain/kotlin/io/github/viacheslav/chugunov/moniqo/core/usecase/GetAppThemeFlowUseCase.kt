@@ -5,8 +5,7 @@ import io.github.viacheslav.chugunov.moniqo.core.repository.SettingStorageReposi
 import kotlinx.coroutines.flow.Flow
 
 class GetAppThemeFlowUseCase(
-    private val settingRepository: SettingStorageRepository
+    private val settingRepository: SettingStorageRepository,
 ) {
-    operator fun invoke(): Flow<AppTheme> =
-        settingRepository.getAppTheme()
+    operator fun invoke(): Flow<AppTheme> = settingRepository.getAppTheme()
 }

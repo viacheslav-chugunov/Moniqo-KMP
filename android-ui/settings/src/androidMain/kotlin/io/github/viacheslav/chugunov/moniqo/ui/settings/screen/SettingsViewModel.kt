@@ -25,22 +25,21 @@ internal class SettingsViewModel(
     private val setAppLanguageUseCase: SetAppLanguageUseCase,
     private val setDealRangesUseCase: SetDealRangesUseCase,
     private val resetDealRangesUseCase: ResetDealRangesUseCase,
-    private val settingsMapper: SettingsMapper
+    private val settingsMapper: SettingsMapper,
 ) : AppViewModel<SettingsState, SettingsIntent, SettingsEffect>(SettingsState.Loading) {
-
     init {
         combineTransform<AppTheme, AppLanguage, DealRanges, SettingsState>(
             getAppThemeFlowUseCase(),
             getAppLanguageFlowUseCase(),
-            getDealRangesFlowUseCase()
+            getDealRangesFlowUseCase(),
         ) { theme, language, dealRanges ->
             emit(
                 settingsMapper.toSettingsState(
                     theme = theme,
                     language = language,
                     dealRanges = dealRanges,
-                    currentContentState = childState()
-                )
+                    currentContentState = childState(),
+                ),
             )
         }.onEach { state ->
             updateState { state }
@@ -66,13 +65,16 @@ internal class SettingsViewModel(
         }
     }
 
-    private fun changeDealRanges(goodMax: Float, mediumMax: Float) {
+    private fun changeDealRanges(
+        goodMax: Float,
+        mediumMax: Float,
+    ) {
         viewModelScope.launch {
             setDealRangesUseCase(
                 DealRanges(
                     good = goodMax.toInt(),
-                    medium = mediumMax.toInt()
-                )
+                    medium = mediumMax.toInt(),
+                ),
             )
         }
     }

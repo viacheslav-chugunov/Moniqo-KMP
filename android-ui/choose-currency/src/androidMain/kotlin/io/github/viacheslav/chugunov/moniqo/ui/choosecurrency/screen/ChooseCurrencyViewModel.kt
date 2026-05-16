@@ -2,6 +2,7 @@ package io.github.viacheslav.chugunov.moniqo.ui.choosecurrency.screen
 
 import androidx.lifecycle.viewModelScope
 import io.github.viacheslav.chugunov.moniqo.core.model.Currency
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetCurrencyRatesUseCase
@@ -22,7 +23,6 @@ internal class ChooseCurrencyViewModel(
     private val setRatesBaseCurrencyUseCase: SetBaseRatesCurrencyUseCase,
     private val mapper: ChooseCurrencyMapper,
 ) : AppViewModel<ChooseCurrencyState, ChooseCurrencyIntent, ChooseCurrencyEffect>(ChooseCurrencyState.Loading) {
-
     private var currencyRates: CurrencyRates? = null
 
     init {
@@ -46,11 +46,14 @@ internal class ChooseCurrencyViewModel(
         updateState { if (it is ChooseCurrencyState.Content) it.copy(query = query) else it }
     }
 
-    private fun handleFilter(filter: ChooseCurrencyFilter) {
+    private fun handleFilter(filter: CurrencyFilter) {
         updateState { if (it is ChooseCurrencyState.Content) it.copy(filter = filter) else it }
     }
 
-    private fun handleSelectCurrency(currency: io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo, slot: CurrencySlot) {
+    private fun handleSelectCurrency(
+        currency: io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo,
+        slot: CurrencySlot,
+    ) {
         viewModelScope.launch {
             val rates = currencyRates
             when (slot) {

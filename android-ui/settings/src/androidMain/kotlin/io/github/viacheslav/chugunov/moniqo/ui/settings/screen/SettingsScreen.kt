@@ -1,53 +1,22 @@
 package io.github.viacheslav.chugunov.moniqo.ui.settings.screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -56,18 +25,13 @@ import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
 import io.github.viacheslav.chugunov.moniqo.core.model.AppLanguage
 import io.github.viacheslav.chugunov.moniqo.core.model.AppTheme
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.AppearanceSectionComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.DealRangesSectionComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.EditRangesBottomSheetComponent
 import io.github.viacheslav.chugunov.moniqo.ui.core.component.FullscreenLoading
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.LanguageSectionComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.PickLanguageBottomSheetComponent
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
-import io.github.viacheslav.chugunov.moniqo.ui.core.theme.badRed
-import io.github.viacheslav.chugunov.moniqo.ui.core.theme.goodGreen
-import io.github.viacheslav.chugunov.moniqo.ui.core.theme.mediumAmber
-import io.github.viacheslav.chugunov.moniqo.ui.settings.component.AppearanceSectionComponent
-import io.github.viacheslav.chugunov.moniqo.ui.settings.component.DealRangeRowComponent
-import io.github.viacheslav.chugunov.moniqo.ui.settings.component.DealRangesSectionComponent
-import io.github.viacheslav.chugunov.moniqo.ui.settings.component.EditRangesBottomSheetComponent
-import io.github.viacheslav.chugunov.moniqo.ui.settings.component.LanguageSectionComponent
-import io.github.viacheslav.chugunov.moniqo.ui.settings.component.PickLanguageBottomSheetComponent
-import io.github.viacheslav.chugunov.moniqo.ui.settings.component.SettingsSectionComponent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -124,7 +88,7 @@ private fun SettingsScreenContent(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            painter = painterResource(R.drawable.ic_arrow_back),
                             contentDescription = stringResource(R.string.cd_back),
                         )
                     }

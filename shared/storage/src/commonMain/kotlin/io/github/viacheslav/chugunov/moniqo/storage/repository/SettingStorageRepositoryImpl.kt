@@ -11,35 +11,32 @@ import kotlinx.coroutines.flow.combineTransform
 import kotlinx.coroutines.flow.map
 
 internal class SettingStorageRepositoryImpl(
-    private val settingDataSource: SettingLocalDataSource
+    private val settingDataSource: SettingLocalDataSource,
 ) : SettingStorageRepository {
-
     override fun getAppLanguage(): Flow<AppLanguage> =
         settingDataSource.get(SETTING_APP_LANGUAGE).map { value ->
             AppLanguage.entries[value?.toIntOrNull() ?: DEFAULT_APP_LANGUAGE]
         }
 
-    override suspend fun setAppLanguage(language: AppLanguage) =
-        settingDataSource.set(SETTING_APP_LANGUAGE, language.ordinal.toString())
+    override suspend fun setAppLanguage(language: AppLanguage) = settingDataSource.set(SETTING_APP_LANGUAGE, language.ordinal.toString())
 
     override fun getAppTheme(): Flow<AppTheme> =
         settingDataSource.get(SETTING_APP_THEME).map { value ->
             AppTheme.entries[value?.toIntOrNull() ?: DEFAULT_APP_THEME]
         }
 
-    override suspend fun setAppTheme(theme: AppTheme) =
-        settingDataSource.set(SETTING_APP_THEME, theme.ordinal.toString())
+    override suspend fun setAppTheme(theme: AppTheme) = settingDataSource.set(SETTING_APP_THEME, theme.ordinal.toString())
 
     override fun getDealRanges(): Flow<DealRanges> =
         combineTransform(
             settingDataSource.get(SETTING_GOOD_DEAL),
-            settingDataSource.get(SETTING_MEDIUM_DEAL)
+            settingDataSource.get(SETTING_MEDIUM_DEAL),
         ) { good, medium ->
             emit(
                 DealRanges(
                     good = good?.toIntOrNull() ?: DEFAULT_GOOD_DEAL,
-                    medium = medium?.toIntOrNull() ?: DEFAULT_MEDIUM_DEAL
-                )
+                    medium = medium?.toIntOrNull() ?: DEFAULT_MEDIUM_DEAL,
+                ),
             )
         }
 

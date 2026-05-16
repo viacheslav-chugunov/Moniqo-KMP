@@ -1,8 +1,8 @@
 package io.github.viacheslav.chugunov.moniqo.ui.home.screen
 
-import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.DealQuality
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.ExchangeAnalysis
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
+import io.github.viacheslav.chugunov.moniqo.core.model.DealQuality
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.ExchangeAnalysis
 
 internal sealed interface HomeState {
     data object Loading : HomeState

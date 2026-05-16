@@ -1,7 +1,8 @@
 package io.github.viacheslav.chugunov.moniqo.ui.rates.screen
 
-import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
-import io.github.viacheslav.chugunov.moniqo.ui.rates.model.RateItem
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.RateItem
 
 internal sealed interface RatesState {
     data object Loading : RatesState
@@ -12,23 +13,26 @@ internal sealed interface RatesState {
         val rates: List<RateItem>,
         val isRefreshing: Boolean,
         val query: String,
-        val filter: RatesFilter,
+        val filter: CurrencyFilter,
     ) : RatesState {
         val displayedRates: List<RateItem>
             get() =
                 rates
                     .let { list ->
                         when (filter) {
-                            RatesFilter.All -> list
-                            RatesFilter.Fiat -> list.filter { !it.currency.isCrypto }
-                            RatesFilter.Crypto -> list.filter { it.currency.isCrypto }
+                            CurrencyFilter.All -> list
+                            CurrencyFilter.Fiat -> list.filter { !it.currency.isCrypto }
+                            CurrencyFilter.Crypto -> list.filter { it.currency.isCrypto }
                         }
                     }
                     .let { list ->
-                        if (query.isBlank()) list
-                        else list.filter { rate ->
-                            rate.currency.code.contains(query, ignoreCase = true) ||
-                                rate.currency.name.contains(query, ignoreCase = true)
+                        if (query.isBlank()) {
+                            list
+                        } else {
+                            list.filter { rate ->
+                                rate.currency.code.contains(query, ignoreCase = true) ||
+                                    rate.currency.name.contains(query, ignoreCase = true)
+                            }
                         }
                     }
 
@@ -49,7 +53,7 @@ internal sealed interface RatesState {
                         ),
                     isRefreshing = false,
                     query = "",
-                    filter = RatesFilter.All
+                    filter = CurrencyFilter.All,
                 )
         }
     }

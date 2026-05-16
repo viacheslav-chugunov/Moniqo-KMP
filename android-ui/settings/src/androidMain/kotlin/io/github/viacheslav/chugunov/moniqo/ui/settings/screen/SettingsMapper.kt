@@ -9,7 +9,7 @@ internal interface SettingsMapper {
         theme: AppTheme,
         language: AppLanguage,
         dealRanges: DealRanges,
-        currentContentState: SettingsState.Content?
+        currentContentState: SettingsState.Content?,
     ): SettingsState.Content
 }
 
@@ -18,7 +18,7 @@ internal class SettingsMapperImpl : SettingsMapper {
         theme: AppTheme,
         language: AppLanguage,
         dealRanges: DealRanges,
-        currentContentState: SettingsState.Content?
+        currentContentState: SettingsState.Content?,
     ): SettingsState.Content {
         return SettingsState.Content(
             theme = theme,
@@ -26,7 +26,7 @@ internal class SettingsMapperImpl : SettingsMapper {
             goodDealMaxPercent = dealRanges.good.toFloat(),
             mediumDealMaxPercent = dealRanges.medium.toFloat(),
             isEditingRanges = currentContentState?.isEditingRanges ?: false,
-            isPickingLanguage = currentContentState?.isPickingLanguage ?: false
+            isPickingLanguage = currentContentState?.isPickingLanguage ?: false,
         )
     }
 }

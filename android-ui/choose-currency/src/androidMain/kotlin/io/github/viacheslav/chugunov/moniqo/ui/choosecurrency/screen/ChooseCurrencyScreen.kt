@@ -11,9 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -34,17 +33,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.viacheslav.chugunov.moniqo.android.ui.choosecurrency.R
-import io.github.viacheslav.chugunov.moniqo.ui.core.component.CurrencyListItemComponent
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
-import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.CurrencyListItemComponent
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyMeta
 import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.CurrencySlot
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
@@ -52,7 +51,10 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChooseCurrencyScreen(slot: CurrencySlot, onBack: () -> Unit) {
+fun ChooseCurrencyScreen(
+    slot: CurrencySlot,
+    onBack: () -> Unit,
+) {
     val viewModel = koinViewModel<ChooseCurrencyViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -81,7 +83,7 @@ private fun ChooseCurrencyScreenContent(
     state: ChooseCurrencyState,
     onBack: () -> Unit,
     onSearch: (String) -> Unit,
-    onFilter: (ChooseCurrencyFilter) -> Unit,
+    onFilter: (CurrencyFilter) -> Unit,
     onSelectCurrency: (CurrencyInfo) -> Unit,
 ) {
     var isSearchActive by remember { mutableStateOf(false) }
@@ -117,7 +119,7 @@ private fun ChooseCurrencyScreenContent(
                         }
                     }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            painter = painterResource(io.github.viacheslav.chugunov.moniqo.android.ui.core.R.drawable.ic_arrow_back),
                             contentDescription = stringResource(io.github.viacheslav.chugunov.moniqo.android.ui.core.R.string.cd_back),
                         )
                     }
@@ -126,8 +128,11 @@ private fun ChooseCurrencyScreenContent(
                     if (!isSearchActive) {
                         IconButton(onClick = { isSearchActive = true }) {
                             Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = stringResource(io.github.viacheslav.chugunov.moniqo.android.ui.core.R.string.cd_search),
+                                painter = painterResource(io.github.viacheslav.chugunov.moniqo.android.ui.core.R.drawable.ic_search),
+                                contentDescription =
+                                    stringResource(
+                                        io.github.viacheslav.chugunov.moniqo.android.ui.core.R.string.cd_search,
+                                    ),
                             )
                         }
                     }
@@ -138,9 +143,10 @@ private fun ChooseCurrencyScreenContent(
         when (state) {
             is ChooseCurrencyState.Loading -> {
                 Box(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .fillMaxSize(),
+                    modifier =
+                        Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize(),
                     contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator()
@@ -176,13 +182,15 @@ private fun SearchField(
         BasicTextField(
             value = query,
             onValueChange = onQueryChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .focusRequester(focusRequester),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
             singleLine = true,
-            textStyle = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-            ),
+            textStyle =
+                MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface,
+                ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         )
     }
@@ -194,16 +202,17 @@ private fun SearchField(
 private fun ChooseCurrencyContent(
     state: ChooseCurrencyState.Content,
     modifier: Modifier = Modifier,
-    onFilter: (ChooseCurrencyFilter) -> Unit,
+    onFilter: (CurrencyFilter) -> Unit,
     onSelectCurrency: (CurrencyInfo) -> Unit,
 ) {
     val grouped = state.groupedCurrencies
     val recent = state.displayedRecent
 
     LazyColumn(
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
-            .fillMaxSize(),
+        modifier =
+            modifier
+                .background(MaterialTheme.colorScheme.background)
+                .fillMaxSize(),
         contentPadding = PaddingValues(bottom = 16.dp),
     ) {
         item {
@@ -272,17 +281,18 @@ private fun ChooseCurrencyContent(
 
 @Composable
 private fun FilterRow(
-    filter: ChooseCurrencyFilter,
-    onFilterChange: (ChooseCurrencyFilter) -> Unit,
+    filter: CurrencyFilter,
+    onFilterChange: (CurrencyFilter) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        ChooseCurrencyFilter.entries.forEach { option ->
-            val label = when (option) {
-                ChooseCurrencyFilter.All -> stringResource(R.string.choose_currency_filter_all)
-                ChooseCurrencyFilter.Fiat -> stringResource(R.string.choose_currency_filter_fiat)
-                ChooseCurrencyFilter.Crypto -> stringResource(R.string.choose_currency_filter_crypto)
-            }
+        CurrencyFilter.entries.forEach { option ->
+            val label =
+                when (option) {
+                    CurrencyFilter.All -> stringResource(R.string.choose_currency_filter_all)
+                    CurrencyFilter.Fiat -> stringResource(R.string.choose_currency_filter_fiat)
+                    CurrencyFilter.Crypto -> stringResource(R.string.choose_currency_filter_crypto)
+                }
             FilterChip(
                 selected = filter == option,
                 onClick = { onFilterChange(option) },
@@ -293,7 +303,10 @@ private fun FilterRow(
 }
 
 @Composable
-private fun SectionHeader(text: String, modifier: Modifier = Modifier) {
+private fun SectionHeader(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
     Text(
         text = text,
         style = MaterialTheme.typography.labelSmall,
@@ -308,20 +321,6 @@ private fun ChooseCurrencyScreenContentPreview() {
     MoniqoTheme {
         ChooseCurrencyScreenContent(
             state = ChooseCurrencyState.Content.PREVIEW,
-            onBack = {},
-            onSearch = {},
-            onFilter = {},
-            onSelectCurrency = {},
-        )
-    }
-}
-
-@ScreenPreview
-@Composable
-private fun ChooseCurrencyScreenLoadingPreview() {
-    MoniqoTheme {
-        ChooseCurrencyScreenContent(
-            state = ChooseCurrencyState.Loading,
             onBack = {},
             onSearch = {},
             onFilter = {},

@@ -17,11 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -43,23 +38,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.BaseCurrencySelectorComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.CurrencyListItemComponent
 import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.AppRoute
 import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.CurrencySlot
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
-import io.github.viacheslav.chugunov.moniqo.ui.rates.components.BaseCurrencySelectorComponent
-import io.github.viacheslav.chugunov.moniqo.ui.rates.components.ExchangeRateItemComponent
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RatesScreen(onBack: () -> Unit, onNavigate: (AppRoute) -> Unit) {
+fun RatesScreen(
+    onBack: () -> Unit,
+    onNavigate: (AppRoute) -> Unit,
+) {
     val viewModel = koinViewModel<RatesViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -80,7 +80,7 @@ private fun RatesScreenContent(
     onBack: () -> Unit,
     onRefresh: () -> Unit,
     onSearch: (String) -> Unit,
-    onFilter: (RatesFilter) -> Unit,
+    onFilter: (CurrencyFilter) -> Unit,
     onBaseCurrencyClick: () -> Unit = {},
 ) {
     var isSearchActive by remember { mutableStateOf(false) }
@@ -116,7 +116,7 @@ private fun RatesScreenContent(
                         }
                     }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            painter = painterResource(R.drawable.ic_arrow_back),
                             contentDescription = stringResource(R.string.cd_back),
                         )
                     }
@@ -125,7 +125,7 @@ private fun RatesScreenContent(
                     if (!isSearchActive) {
                         IconButton(onClick = { isSearchActive = true }) {
                             Icon(
-                                imageVector = Icons.Default.Search,
+                                painter = painterResource(R.drawable.ic_search),
                                 contentDescription = stringResource(R.string.cd_search),
                             )
                         }
@@ -177,13 +177,15 @@ private fun SearchField(
         BasicTextField(
             value = query,
             onValueChange = onQueryChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .focusRequester(focusRequester),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
             singleLine = true,
-            textStyle = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-            ),
+            textStyle =
+                MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.onSurface,
+                ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
         )
     }
@@ -196,7 +198,7 @@ private fun RatesContent(
     state: RatesState.Content,
     modifier: Modifier = Modifier,
     onRefresh: () -> Unit,
-    onFilter: (RatesFilter) -> Unit,
+    onFilter: (CurrencyFilter) -> Unit,
     onBaseCurrencyClick: () -> Unit = {},
 ) {
     val displayedRates = state.displayedRates
@@ -242,9 +244,10 @@ private fun RatesContent(
         if (displayedRates.isEmpty()) {
             item {
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 32.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 32.dp),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -257,7 +260,7 @@ private fun RatesContent(
         } else {
             itemsIndexed(displayedRates) { index, rate ->
                 Column {
-                    ExchangeRateItemComponent(rate = rate)
+                    CurrencyListItemComponent(currency = rate.currency, trailingText = rate.rate)
                     if (index < displayedRates.lastIndex) {
                         HorizontalDivider(
                             modifier = Modifier.padding(horizontal = 12.dp),
@@ -279,16 +282,17 @@ private fun RatesContent(
 
 @Composable
 private fun FilterRow(
-    filter: RatesFilter,
-    onFilterChange: (RatesFilter) -> Unit,
+    filter: CurrencyFilter,
+    onFilterChange: (CurrencyFilter) -> Unit,
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        RatesFilter.entries.forEach { option ->
-            val labelRes = when (option) {
-                RatesFilter.All -> R.string.rates_filter_all
-                RatesFilter.Fiat -> R.string.rates_filter_fiat
-                RatesFilter.Crypto -> R.string.rates_filter_crypto
-            }
+        CurrencyFilter.entries.forEach { option ->
+            val labelRes =
+                when (option) {
+                    CurrencyFilter.All -> R.string.rates_filter_all
+                    CurrencyFilter.Fiat -> R.string.rates_filter_fiat
+                    CurrencyFilter.Crypto -> R.string.rates_filter_crypto
+                }
             FilterChip(
                 selected = filter == option,
                 onClick = { onFilterChange(option) },
@@ -309,7 +313,7 @@ private fun UpdateRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
-            imageVector = Icons.Outlined.AccessTime,
+            painter = painterResource(R.drawable.ic_access_time),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(16.dp),
@@ -348,7 +352,7 @@ private fun RefreshButton(
                 )
             } else {
                 Icon(
-                    imageVector = Icons.Default.Refresh,
+                    painter = painterResource(R.drawable.ic_refresh),
                     contentDescription = stringResource(R.string.cd_refresh),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(14.dp),
@@ -398,7 +402,7 @@ private fun RatesScreenSearchPreview() {
 private fun RatesScreenCryptoFilterPreview() {
     MoniqoTheme {
         RatesScreenContent(
-            state = RatesState.Content.PREVIEW.copy(filter = RatesFilter.Crypto),
+            state = RatesState.Content.PREVIEW.copy(filter = CurrencyFilter.Crypto),
             onBack = {},
             onRefresh = {},
             onSearch = {},

@@ -8,9 +8,8 @@ import kotlinx.coroutines.flow.onEach
 
 class AppViewModel(
     getAppThemeFlowUseCase: GetAppThemeFlowUseCase,
-    mapper: AppMapper
+    mapper: AppMapper,
 ) : AppViewModel<AppState, AppIntent, AppEffect>(AppState.Loading) {
-
     init {
         getAppThemeFlowUseCase().onEach { theme ->
             updateState { mapper.toAppState(theme) }

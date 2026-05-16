@@ -1,15 +1,15 @@
 package io.github.viacheslav.chugunov.moniqo.ui.home.screen
 
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
+import io.github.viacheslav.chugunov.moniqo.core.model.DealQuality
 import io.github.viacheslav.chugunov.moniqo.core.model.DealRanges
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.core.model.RatePair
 import io.github.viacheslav.chugunov.moniqo.ui.core.StringProvider
 import io.github.viacheslav.chugunov.moniqo.ui.core.extensions.asPrice
-import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyMeta
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.DealQuality
-import io.github.viacheslav.chugunov.moniqo.ui.home.model.ExchangeAnalysis
+import io.github.viacheslav.chugunov.moniqo.ui.core.model.ExchangeAnalysis
 import java.util.Locale
 import kotlin.math.abs
 
@@ -17,7 +17,7 @@ internal interface HomeMapper {
     fun toHomeState(
         ratePair: RatePair,
         dealRanges: DealRanges,
-        currentContentState: HomeState.Content?
+        currentContentState: HomeState.Content?,
     ): HomeState.Content
 
     fun toExchangeAnalysis(
@@ -40,7 +40,7 @@ internal class HomeMapperImpl(
     override fun toHomeState(
         ratePair: RatePair,
         dealRanges: DealRanges,
-        currentContentState: HomeState.Content?
+        currentContentState: HomeState.Content?,
     ): HomeState.Content {
         val officialRate = toOfficialRate(ratePair)
         val fromCurrency = toCurrencyInfo(ratePair.fromRate)

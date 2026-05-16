@@ -5,6 +5,7 @@ import io.github.viacheslav.chugunov.moniqo.core.model.AppTheme
 
 internal sealed interface SettingsState {
     data object Loading : SettingsState
+
     data class Content(
         val theme: AppTheme,
         val goodDealMaxPercent: Float,
@@ -13,16 +14,16 @@ internal sealed interface SettingsState {
         val isEditingRanges: Boolean,
         val isPickingLanguage: Boolean,
     ) : SettingsState {
-
         companion object {
-            val PREVIEW = Content(
-                theme = AppTheme.SYSTEM,
-                goodDealMaxPercent = 5f,
-                mediumDealMaxPercent = 10f,
-                language = AppLanguage.SYSTEM,
-                isEditingRanges = false,
-                isPickingLanguage = false
-            )
+            val PREVIEW =
+                Content(
+                    theme = AppTheme.SYSTEM,
+                    goodDealMaxPercent = 5f,
+                    mediumDealMaxPercent = 10f,
+                    language = AppLanguage.SYSTEM,
+                    isEditingRanges = false,
+                    isPickingLanguage = false,
+                )
         }
     }
 }

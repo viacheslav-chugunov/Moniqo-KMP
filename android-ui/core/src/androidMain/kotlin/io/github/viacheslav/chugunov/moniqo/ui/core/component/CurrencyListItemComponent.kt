@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
-import io.github.viacheslav.chugunov.moniqo.ui.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 
 @Composable
@@ -27,9 +27,10 @@ fun CurrencyListItemComponent(
 ) {
     val clickableModifier = if (onClick != null) modifier.clickable(onClick = onClick) else modifier
     Row(
-        modifier = clickableModifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 10.dp),
+        modifier =
+            clickableModifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {

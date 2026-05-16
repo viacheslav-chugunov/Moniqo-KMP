@@ -25,9 +25,9 @@ internal class HomeViewModel(
     private var currentDealRanges: DealRanges? = null
 
     init {
-        combineTransform<DealRanges, RatePair, HomeState>(
+        combineTransform(
             getDealRangesFlowUseCase(),
-            getRatePairFlowUseCase()
+            getRatePairFlowUseCase(),
         ) { dealRanges, ratePair ->
             currentRatePair = ratePair
             currentDealRanges = dealRanges
@@ -35,8 +35,8 @@ internal class HomeViewModel(
                 mapper.toHomeState(
                     ratePair = ratePair,
                     dealRanges = dealRanges,
-                    currentContentState = childState()
-                )
+                    currentContentState = childState(),
+                ),
             )
         }.onEach { state ->
             updateState { state }
@@ -55,7 +55,7 @@ internal class HomeViewModel(
         val sanitized = sanitize(input)
         val pair = currentRatePair
         val dealRanges = currentDealRanges ?: return
-        updateContent { current ->
+        updateChildState<HomeState.Content> { current ->
             if (pair == null) {
                 current.copy(fromAmount = sanitized)
             } else {
@@ -69,7 +69,7 @@ internal class HomeViewModel(
         val sanitized = sanitize(input)
         val pair = currentRatePair
         val dealRanges = currentDealRanges ?: return
-        updateContent { current ->
+        updateChildState<HomeState.Content> { current ->
             current.copy(
                 toAmount = sanitized,
                 analysis =
@@ -91,10 +91,6 @@ internal class HomeViewModel(
             saveFromRateUseCase(pair.toRate)
             saveToRateUseCase(pair.fromRate)
         }
-    }
-
-    private fun updateContent(block: (HomeState.Content) -> HomeState.Content) {
-        updateState { if (it is HomeState.Content) block(it) else it }
     }
 
     private fun sanitize(input: String): String =

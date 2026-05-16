@@ -5,8 +5,7 @@ import io.github.viacheslav.chugunov.moniqo.core.repository.SettingStorageReposi
 import kotlinx.coroutines.flow.Flow
 
 class GetDealRangesFlowUseCase(
-    private val settingRepository: SettingStorageRepository
+    private val settingRepository: SettingStorageRepository,
 ) {
-    operator fun invoke(): Flow<DealRanges> =
-        settingRepository.getDealRanges()
+    operator fun invoke(): Flow<DealRanges> = settingRepository.getDealRanges()
 }

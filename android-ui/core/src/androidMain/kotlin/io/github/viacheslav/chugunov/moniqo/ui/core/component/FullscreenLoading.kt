@@ -13,7 +13,7 @@ import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 fun FullscreenLoading() {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }

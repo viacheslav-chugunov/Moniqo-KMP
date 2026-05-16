@@ -15,15 +15,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.AmountSectionComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.CurrencyPairSectionComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.EmptyStateHintComponent
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.ExchangeAnalysisCardComponent
 import io.github.viacheslav.chugunov.moniqo.ui.core.component.FullscreenLoading
+import io.github.viacheslav.chugunov.moniqo.ui.core.component.HomeTopBarComponent
 import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.AppRoute
 import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.CurrencySlot
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
-import io.github.viacheslav.chugunov.moniqo.ui.home.components.AmountSectionComponent
-import io.github.viacheslav.chugunov.moniqo.ui.home.components.CurrencyPairSectionComponent
-import io.github.viacheslav.chugunov.moniqo.ui.home.components.EmptyStateHintComponent
-import io.github.viacheslav.chugunov.moniqo.ui.home.components.ExchangeAnalysisCardComponent
-import io.github.viacheslav.chugunov.moniqo.ui.home.components.HomeTopBarComponent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

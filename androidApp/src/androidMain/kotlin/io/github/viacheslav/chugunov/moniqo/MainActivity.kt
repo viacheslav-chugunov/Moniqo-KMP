@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import io.github.viacheslav.chugunov.moniqo.screen.App
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -4,8 +4,7 @@ import io.github.viacheslav.chugunov.moniqo.core.model.AppLanguage
 import io.github.viacheslav.chugunov.moniqo.core.repository.SettingStorageRepository
 
 class SetAppLanguageUseCase(
-    private val settingRepository: SettingStorageRepository
+    private val settingRepository: SettingStorageRepository,
 ) {
-    suspend operator fun invoke(theme: AppLanguage) =
-        settingRepository.setAppLanguage(theme)
+    suspend operator fun invoke(theme: AppLanguage) = settingRepository.setAppLanguage(theme)
 }
