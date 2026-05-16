@@ -1,21 +1,42 @@
 package io.github.viacheslav.chugunov.moniqo.ui.rates.screen
 
 import androidx.lifecycle.viewModelScope
+import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates
 import io.github.viacheslav.chugunov.moniqo.core.usecase.FetchCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetCurrencyRatesUseCase
 import io.github.viacheslav.chugunov.moniqo.ui.core.AppViewModel
+import io.github.viacheslav.chugunov.moniqo.ui.core.RatesBaseCurrencyHolder
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
 internal class RatesViewModel(
     private val getCurrencyRatesUseCase: GetCurrencyRatesUseCase,
     private val fetchCurrencyRatesUseCase: FetchCurrencyRatesUseCase,
     private val mapper: RatesMapper,
+    private val baseCurrencyHolder: RatesBaseCurrencyHolder,
 ) : AppViewModel<RatesState, RatesIntent, RatesEffect>(RatesState.Loading) {
+
+    private var currencyRates: CurrencyRates? = null
 
     init {
         viewModelScope.launch {
             val rates = getCurrencyRatesUseCase()
-            updateState { mapper.toContent(rates) }
+            currencyRates = rates
+            // Apply any already-selected base currency (covers ViewModel re-creation after navigation)
+            val viewBase = baseCurrencyHolder.currency.value
+            updateState { mapper.toContent(rates, viewBase) }
+        }
+        viewModelScope.launch {
+            baseCurrencyHolder.currency.filterNotNull().collect { viewBase ->
+                val rates = currencyRates ?: return@collect
+                updateState { current ->
+                    val content = current as? RatesState.Content
+                    mapper.toContent(rates, viewBase).copy(
+                        query = content?.query ?: "",
+                        filter = content?.filter ?: RatesFilter.All,
+                    )
+                }
+            }
         }
     }
 
@@ -33,9 +54,11 @@ internal class RatesViewModel(
         updateState { if (it is RatesState.Content) it.copy(isRefreshing = true) else it }
         viewModelScope.launch {
             val rates = fetchCurrencyRatesUseCase()
+            currencyRates = rates
+            val viewBase = baseCurrencyHolder.currency.value
             updateState { prev ->
                 val content = prev as? RatesState.Content
-                mapper.toContent(rates).copy(
+                mapper.toContent(rates, viewBase).copy(
                     query = content?.query ?: "",
                     filter = content?.filter ?: RatesFilter.All,
                 )

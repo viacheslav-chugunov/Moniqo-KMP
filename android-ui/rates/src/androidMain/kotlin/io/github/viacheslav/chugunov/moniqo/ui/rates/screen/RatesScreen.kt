@@ -50,6 +50,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
+import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.AppRoute
+import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.CurrencySlot
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 import io.github.viacheslav.chugunov.moniqo.ui.rates.components.BaseCurrencySelectorComponent
 import io.github.viacheslav.chugunov.moniqo.ui.rates.components.ExchangeRateItemComponent
@@ -57,7 +59,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RatesScreen(onBack: () -> Unit) {
+fun RatesScreen(onBack: () -> Unit, onNavigate: (AppRoute) -> Unit) {
     val viewModel = koinViewModel<RatesViewModel>()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -67,6 +69,7 @@ fun RatesScreen(onBack: () -> Unit) {
         onRefresh = { viewModel.onIntent(RatesIntent.Refresh) },
         onSearch = { viewModel.onIntent(RatesIntent.Search(it)) },
         onFilter = { viewModel.onIntent(RatesIntent.Filter(it)) },
+        onBaseCurrencyClick = { onNavigate(AppRoute.ChooseCurrency(CurrencySlot.BASE)) },
     )
 }
 
@@ -78,6 +81,7 @@ private fun RatesScreenContent(
     onRefresh: () -> Unit,
     onSearch: (String) -> Unit,
     onFilter: (RatesFilter) -> Unit,
+    onBaseCurrencyClick: () -> Unit = {},
 ) {
     var isSearchActive by remember { mutableStateOf(false) }
 
@@ -148,6 +152,7 @@ private fun RatesScreenContent(
                     modifier = Modifier.padding(innerPadding),
                     onRefresh = onRefresh,
                     onFilter = onFilter,
+                    onBaseCurrencyClick = onBaseCurrencyClick,
                 )
             }
         }
@@ -192,6 +197,7 @@ private fun RatesContent(
     modifier: Modifier = Modifier,
     onRefresh: () -> Unit,
     onFilter: (RatesFilter) -> Unit,
+    onBaseCurrencyClick: () -> Unit = {},
 ) {
     val displayedRates = state.displayedRates
 
@@ -211,7 +217,10 @@ private fun RatesContent(
             )
         }
         item {
-            BaseCurrencySelectorComponent(currency = state.baseCurrency)
+            BaseCurrencySelectorComponent(
+                currency = state.baseCurrency,
+                onClick = onBaseCurrencyClick,
+            )
         }
         item {
             UpdateRow(
@@ -364,6 +373,7 @@ private fun RatesScreenContentPreview() {
             onRefresh = {},
             onSearch = {},
             onFilter = {},
+            onBaseCurrencyClick = {},
         )
     }
 }
@@ -378,6 +388,7 @@ private fun RatesScreenSearchPreview() {
             onRefresh = {},
             onSearch = {},
             onFilter = {},
+            onBaseCurrencyClick = {},
         )
     }
 }
@@ -392,6 +403,7 @@ private fun RatesScreenCryptoFilterPreview() {
             onRefresh = {},
             onSearch = {},
             onFilter = {},
+            onBaseCurrencyClick = {},
         )
     }
 }
@@ -406,6 +418,7 @@ private fun RatesScreenLoadingPreview() {
             onRefresh = {},
             onSearch = {},
             onFilter = {},
+            onBaseCurrencyClick = {},
         )
     }
 }

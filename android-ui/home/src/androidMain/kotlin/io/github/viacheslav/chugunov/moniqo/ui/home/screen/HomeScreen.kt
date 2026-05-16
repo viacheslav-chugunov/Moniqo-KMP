@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.AppRoute
+import io.github.viacheslav.chugunov.moniqo.ui.core.navigation.CurrencySlot
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 import io.github.viacheslav.chugunov.moniqo.ui.home.components.AmountSectionComponent
 import io.github.viacheslav.chugunov.moniqo.ui.home.components.CurrencyPairSectionComponent
@@ -37,8 +38,8 @@ fun HomeScreen(onNavigate: (AppRoute) -> Unit) {
         onFromAmountChange = { viewModel.onIntent(HomeIntent.ChangeFromAmount(it)) },
         onToAmountChange = { viewModel.onIntent(HomeIntent.ChangeToAmount(it)) },
         onSwapClick = { viewModel.onIntent(HomeIntent.SwapCurrencies) },
-        onFromCurrencyClick = {},
-        onToCurrencyClick = {},
+        onFromCurrencyClick = { onNavigate(AppRoute.ChooseCurrency(CurrencySlot.FROM)) },
+        onToCurrencyClick = { onNavigate(AppRoute.ChooseCurrency(CurrencySlot.TO)) },
         onRatesClick = { onNavigate(AppRoute.Rates) },
         onSettingsClick = { onNavigate(AppRoute.Settings) },
     )

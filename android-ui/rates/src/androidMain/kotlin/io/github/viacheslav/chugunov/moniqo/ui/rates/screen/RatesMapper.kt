@@ -13,24 +13,56 @@ import java.time.format.FormatStyle
 import java.util.Locale
 
 internal interface RatesMapper {
-    fun toContent(rates: CurrencyRates): RatesState.Content
+    fun toContent(rates: CurrencyRates, viewBase: CurrencyInfo? = null): RatesState.Content
 }
 
 internal class RatesMapperImpl(
     private val stringProvider: StringProvider,
 ) : RatesMapper {
-    override fun toContent(rates: CurrencyRates): RatesState.Content =
-        RatesState.Content(
-            baseCurrency = toCurrencyInfo(rates.baseCurrency),
-            updatedAt = stringProvider.get(R.string.rates_updated, formatDate(rates.updatedAt)),
-            rates =
-                rates.rates.map { rate ->
-                    RateItem(
-                        currency = toCurrencyInfo(rate.currency),
-                        rate = rate.rate.asRate,
-                    )
+    override fun toContent(rates: CurrencyRates, viewBase: CurrencyInfo?): RatesState.Content {
+        val originalBase = toCurrencyInfo(rates.baseCurrency)
+
+        if (viewBase == null || viewBase.code == originalBase.code) {
+            return RatesState.Content(
+                baseCurrency = originalBase,
+                updatedAt = stringProvider.get(R.string.rates_updated, formatDate(rates.updatedAt)),
+                rates = rates.rates.map { rate ->
+                    RateItem(currency = toCurrencyInfo(rate.currency), rate = rate.rate.asRate)
                 },
+            )
+        }
+
+        val rateMap = buildMap<String, Double> {
+            put(originalBase.code, 1.0)
+            rates.rates.forEach { put(it.currency.name.uppercase(), it.rate) }
+        }
+        val cryptoMap = buildMap<String, Boolean> {
+            put(originalBase.code, rates.baseCurrency.isCrypto)
+            rates.rates.forEach { put(it.currency.name.uppercase(), it.currency.isCrypto) }
+        }
+        val viewBaseRate = rateMap[viewBase.code] ?: 1.0
+        val rebasedRates = rateMap
+            .filter { it.key != viewBase.code }
+            .map { (code, rate) ->
+                val isCrypto = cryptoMap[code] ?: false
+                RateItem(
+                    currency = CurrencyInfo(
+                        code = code,
+                        name = CurrencyMeta.nameRes[code]?.let { stringProvider.get(it) } ?: code,
+                        flag = CurrencyMeta.flags[code] ?: "🏳️",
+                        isCrypto = isCrypto,
+                    ),
+                    rate = (rate / viewBaseRate).asRate,
+                )
+            }
+            .sortedBy { it.currency.code }
+
+        return RatesState.Content(
+            baseCurrency = viewBase,
+            updatedAt = stringProvider.get(R.string.rates_updated, formatDate(rates.updatedAt)),
+            rates = rebasedRates,
         )
+    }
 
     private fun toCurrencyInfo(currency: Currency): CurrencyInfo {
         val code = currency.name.uppercase()

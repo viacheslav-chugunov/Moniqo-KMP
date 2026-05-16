@@ -25,11 +25,14 @@ import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 internal fun BaseCurrencySelectorComponent(
     currency: CurrencyInfo,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.surface,
+        onClick = onClick ?: {},
+        enabled = onClick != null,
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),

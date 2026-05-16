@@ -12,4 +12,10 @@ sealed interface AppRoute : NavKey {
 
     @Serializable
     data object Settings : AppRoute
+
+    @Serializable
+    data class ChooseCurrency(val slot: CurrencySlot) : AppRoute
 }
+
+@Serializable
+enum class CurrencySlot { FROM, TO, BASE }

@@ -28,6 +28,7 @@ kotlin {
             implementation(project(":android-ui:core"))
             implementation(project(":android-ui:home"))
             implementation(project(":android-ui:rates"))
+            implementation(project(":android-ui:choose-currency"))
             implementation(project(":shared:core"))
             implementation(project(":shared:network"))
             implementation(project(":shared:storage"))

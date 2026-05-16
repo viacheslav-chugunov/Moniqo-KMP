@@ -3,6 +3,46 @@ package io.github.viacheslav.chugunov.moniqo.ui.core.model
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
 
 object CurrencyMeta {
+    val symbols =
+        mapOf(
+            "AED" to "د.إ", "AFN" to "؋", "ALL" to "L", "AMD" to "֏", "ANG" to "ƒ",
+            "AOA" to "Kz", "ARS" to "$", "AUD" to "$", "AWG" to "ƒ", "AZN" to "₼",
+            "BAM" to "KM", "BBD" to "$", "BDT" to "৳", "BGN" to "лв", "BHD" to "BD",
+            "BIF" to "Fr", "BMD" to "$", "BND" to "$", "BOB" to "Bs.", "BRL" to "R$",
+            "BSD" to "$", "BTN" to "Nu", "BWP" to "P", "BYN" to "Br", "BYR" to "Br",
+            "BZD" to "$", "CAD" to "$", "CDF" to "Fr", "CHF" to "Fr.", "CLP" to "$",
+            "CNH" to "¥", "CNY" to "¥", "COP" to "$", "CRC" to "₡", "CUC" to "$",
+            "CUP" to "$", "CVE" to "$", "CZK" to "Kč", "DJF" to "Fr", "DKK" to "kr",
+            "DOP" to "$", "DZD" to "د.ج", "EGP" to "£", "ERN" to "Nfk", "ETB" to "Br",
+            "EUR" to "€", "FJD" to "$", "FKP" to "£", "GBP" to "£", "GEL" to "₾",
+            "GHS" to "₵", "GIP" to "£", "GMD" to "D", "GNF" to "Fr", "GTQ" to "Q",
+            "GYD" to "$", "HKD" to "$", "HNL" to "L", "HRK" to "kn", "HTG" to "G",
+            "HUF" to "Ft", "IDR" to "Rp", "ILS" to "₪", "INR" to "₹", "IQD" to "ع.د",
+            "IRR" to "﷼", "ISK" to "kr", "JMD" to "$", "JOD" to "JD", "JPY" to "¥",
+            "KES" to "KSh", "KGS" to "с", "KHR" to "៛", "KMF" to "Fr", "KPW" to "₩",
+            "KRW" to "₩", "KWD" to "KD", "KYD" to "$", "KZT" to "₸", "LAK" to "₭",
+            "LBP" to "ل.ل", "LKR" to "Rs", "LRD" to "$", "LSL" to "L", "LYD" to "LD",
+            "MAD" to "MAD", "MDL" to "L", "MGA" to "Ar", "MKD" to "ден", "MMK" to "K",
+            "MNT" to "₮", "MOP" to "P", "MRU" to "UM", "MUR" to "Rs", "MVR" to "Rf",
+            "MWK" to "MK", "MXN" to "$", "MYR" to "RM", "MZN" to "MT", "NAD" to "$",
+            "NGN" to "₦", "NIO" to "C$", "NOK" to "kr", "NPR" to "Rs", "NZD" to "$",
+            "OMR" to "﷼", "PAB" to "B/.", "PEN" to "S/.", "PGK" to "K", "PHP" to "₱",
+            "PKR" to "Rs", "PLN" to "zł", "PYG" to "₲", "QAR" to "﷼", "RON" to "lei",
+            "RSD" to "din", "RUB" to "₽", "RWF" to "Fr", "SAR" to "﷼", "SBD" to "$",
+            "SCR" to "Rs", "SDG" to "ج.س", "SEK" to "kr", "SGD" to "$", "SHP" to "£",
+            "SOS" to "Sh", "SRD" to "$", "SVC" to "₡", "SYP" to "£", "SZL" to "L",
+            "THB" to "฿", "TJS" to "SM", "TMT" to "T", "TND" to "DT", "TOP" to "T$",
+            "TRY" to "₺", "TTD" to "$", "TWD" to "$", "TZS" to "Sh", "UAH" to "₴",
+            "UGX" to "Sh", "USD" to "$", "UYU" to "$", "UZS" to "so'm", "VES" to "Bs.S",
+            "VND" to "₫", "VUV" to "Vt", "WST" to "T", "XAF" to "Fr", "XCD" to "$",
+            "XOF" to "Fr", "XPF" to "Fr", "YER" to "﷼", "ZAR" to "R", "ZMW" to "ZK",
+            "ZWL" to "$",
+            "BTC" to "₿", "ETH" to "Ξ", "USDT" to "₮", "BNB" to "BNB", "SOL" to "SOL",
+            "USDC" to "$", "XRP" to "XRP", "ADA" to "₳", "DOGE" to "Ð", "TRX" to "TRX",
+            "DOT" to "DOT", "MATIC" to "MATIC", "LTC" to "Ł", "BCH" to "Ƀ", "LINK" to "LINK",
+            "AVAX" to "AVAX", "UNI" to "UNI", "ATOM" to "ATOM", "XLM" to "XLM", "NEAR" to "NEAR",
+        )
+
     val flags =
         mapOf(
             "AED" to "🇦🇪",
