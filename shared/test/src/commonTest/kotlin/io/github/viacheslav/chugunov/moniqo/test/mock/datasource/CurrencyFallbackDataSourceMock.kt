@@ -1,3 +1,5 @@
+@file:Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
+
 package io.github.viacheslav.chugunov.moniqo.test.mock.datasource
 
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyRates

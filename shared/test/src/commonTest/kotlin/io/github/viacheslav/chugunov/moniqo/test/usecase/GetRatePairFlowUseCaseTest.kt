@@ -1,5 +1,6 @@
 package io.github.viacheslav.chugunov.moniqo.test.usecase
 
+import io.github.viacheslav.chugunov.moniqo.core.model.Currency
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.core.usecase.GetRatePairFlowUseCase
 import io.github.viacheslav.chugunov.moniqo.test.mock.model.ratePairMock
@@ -22,7 +23,7 @@ class GetRatePairFlowUseCaseTest {
     fun `emits updated value when flow changes`() =
         runTest {
             val repo = RatePairStorageRepositoryMock()
-            val updated = ratePairMock.copy(fromRate = Rate("jpy", 150.0))
+            val updated = ratePairMock.copy(fromRate = Rate(Currency.of("jpy"), 150.0))
 
             val useCase = GetRatePairFlowUseCase(repo)
             assertEquals(ratePairMock, useCase().first())

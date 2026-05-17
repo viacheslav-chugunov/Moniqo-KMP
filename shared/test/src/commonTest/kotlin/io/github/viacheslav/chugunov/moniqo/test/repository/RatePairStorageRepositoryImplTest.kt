@@ -1,3 +1,5 @@
+@file:Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
+
 package io.github.viacheslav.chugunov.moniqo.test.repository
 
 import io.github.viacheslav.chugunov.moniqo.storage.repository.RatePairStorageRepositoryImpl

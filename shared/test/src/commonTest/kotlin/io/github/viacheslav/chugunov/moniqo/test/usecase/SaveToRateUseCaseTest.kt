@@ -1,5 +1,6 @@
 package io.github.viacheslav.chugunov.moniqo.test.usecase
 
+import io.github.viacheslav.chugunov.moniqo.core.model.Currency
 import io.github.viacheslav.chugunov.moniqo.core.model.Rate
 import io.github.viacheslav.chugunov.moniqo.core.usecase.SaveToRateUseCase
 import io.github.viacheslav.chugunov.moniqo.test.mock.model.ratePairMock
@@ -9,7 +10,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SaveToRateUseCaseTest {
-    private val newToRate = Rate("jpy", 150.0)
+    private val newToRate = Rate(Currency.of("jpy"), 150.0)
 
     @Test
     fun `replaces toRate with provided rate`() =
