@@ -9,16 +9,26 @@ final class RatesViewModel: ObservableObject {
     private var currentBaseCurrency: Currency?
     private var stopFetch: (() -> Void)?
     private var stopBaseCurrencyObservation: (() -> Void)?
+    private var localeObservation: NSObjectProtocol?
 
     init(mapper: RatesMapper) {
         self.mapper = mapper
         startFetching()
         startObservingBaseCurrency()
+        localeObservation = NotificationCenter.default.addObserver(
+            forName: .appLocaleDidChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self, let rates = self.currencyRates, let base = self.currentBaseCurrency else { return }
+            self.rebuildContent(baseCurrency: base)
+        }
     }
 
     deinit {
         stopFetch?()
         stopBaseCurrencyObservation?()
+        localeObservation.map { NotificationCenter.default.removeObserver($0) }
     }
 
     func onIntent(_ intent: RatesIntent) {

@@ -1,7 +1,10 @@
 import Foundation
 
 enum CurrencyMeta {
-    static func name(for code: String) -> String { names[code] ?? code }
+    static func name(for code: String) -> String {
+        let locale = Locale(identifier: AppLocaleObserver.currentLanguageCode)
+        return locale.localizedString(forCurrencyCode: code) ?? names[code] ?? code
+    }
 
     static func flag(for code: String, isCrypto: Bool) -> String {
         if isCrypto { return cryptoFlags[code] ?? "🪙" }

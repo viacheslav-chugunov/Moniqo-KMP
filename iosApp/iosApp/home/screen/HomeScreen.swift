@@ -4,6 +4,7 @@ struct HomeScreen: View {
     @StateObject private var viewModel: HomeViewModel
     @State private var choosingCurrencySlot: CurrencySlot? = nil
     @State private var showingRates = false
+    @State private var showingSettings = false
 
     init() {
         _viewModel = StateObject(wrappedValue: HomeContainer.makeViewModel())
@@ -33,6 +34,9 @@ struct HomeScreen: View {
             .navigationDestination(isPresented: $showingRates) {
                 RatesScreen()
             }
+            .navigationDestination(isPresented: $showingSettings) {
+                SettingsScreen()
+            }
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
@@ -42,6 +46,7 @@ struct HomeScreen: View {
                             .font(.subheadline.weight(.medium))
                     }
                     Button {
+                        showingSettings = true
                     } label: {
                         Image(systemName: "gearshape")
                     }

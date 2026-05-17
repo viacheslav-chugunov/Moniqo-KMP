@@ -46,7 +46,7 @@ struct ExchangeAnalysisCardView: View {
                     valueColor: accentColor
                 )
                 AnalysisColumnView(
-                    label: analysis.lossOrProfitLabel,
+                    label: LocalizedStringKey(analysis.lossOrProfitLabel),
                     value: analysis.lossOrProfitAmount,
                     valueColor: accentColor
                 )

@@ -6,15 +6,35 @@ final class HomeViewModel: ObservableObject {
 
     private let mapper: HomeMapper
     private var ratePair: RatePair?
+    private var currentGoodDealMax: Int = 5
+    private var currentMediumDealMax: Int = 10
     private var stopObservation: (() -> Void)?
+    private var stopRangesObservation: (() -> Void)?
+    private var localeObservation: NSObjectProtocol?
 
     init(mapper: HomeMapper) {
         self.mapper = mapper
         startObservingRatePair()
+        startObservingDealRanges()
+        localeObservation = NotificationCenter.default.addObserver(
+            forName: .appLocaleDidChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self, let pair = self.ratePair else { return }
+            self.state = .content(self.mapper.toHomeContent(
+                pair: pair,
+                fromAmount: self.currentFromAmount,
+                goodDealMax: self.currentGoodDealMax,
+                mediumDealMax: self.currentMediumDealMax
+            ))
+        }
     }
 
     deinit {
         stopObservation?()
+        stopRangesObservation?()
+        localeObservation.map { NotificationCenter.default.removeObserver($0) }
     }
 
     func onIntent(_ intent: HomeIntent) {
@@ -33,8 +53,27 @@ final class HomeViewModel: ObservableObject {
         stopObservation = HomeUseCaseBridgeKt.observeRatePair { [weak self] pair in
             guard let self else { return }
             self.ratePair = pair
-            let fromAmount = self.currentFromAmount
-            self.state = .content(self.mapper.toHomeContent(pair: pair, fromAmount: fromAmount))
+            self.state = .content(self.mapper.toHomeContent(
+                pair: pair,
+                fromAmount: self.currentFromAmount,
+                goodDealMax: self.currentGoodDealMax,
+                mediumDealMax: self.currentMediumDealMax
+            ))
+        }
+    }
+
+    private func startObservingDealRanges() {
+        stopRangesObservation = SettingsBridgeKt.observeDealRanges { [weak self] ranges in
+            guard let self else { return }
+            self.currentGoodDealMax = Int(ranges.good)
+            self.currentMediumDealMax = Int(ranges.medium)
+            guard let pair = self.ratePair else { return }
+            self.state = .content(self.mapper.toHomeContent(
+                pair: pair,
+                fromAmount: self.currentFromAmount,
+                goodDealMax: self.currentGoodDealMax,
+                mediumDealMax: self.currentMediumDealMax
+            ))
         }
     }
 
@@ -52,7 +91,12 @@ final class HomeViewModel: ObservableObject {
             }
             return
         }
-        state = .content(mapper.toHomeContent(pair: pair, fromAmount: sanitized))
+        state = .content(mapper.toHomeContent(
+            pair: pair,
+            fromAmount: sanitized,
+            goodDealMax: currentGoodDealMax,
+            mediumDealMax: currentMediumDealMax
+        ))
     }
 
     private func handleChangeToAmount(_ input: String) {
@@ -65,7 +109,9 @@ final class HomeViewModel: ObservableObject {
             toAmount: sanitized,
             officialRate: officialRate,
             fromCurrency: content.fromCurrency,
-            toCurrency: content.toCurrency
+            toCurrency: content.toCurrency,
+            goodDealMax: currentGoodDealMax,
+            mediumDealMax: currentMediumDealMax
         )
         state = .content(content)
     }

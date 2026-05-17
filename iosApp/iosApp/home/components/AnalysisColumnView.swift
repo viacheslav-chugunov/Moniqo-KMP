@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AnalysisColumnView: View {
-    let label: String
+    let label: LocalizedStringKey
     let value: String
     let valueColor: Color
 

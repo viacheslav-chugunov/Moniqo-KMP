@@ -66,12 +66,15 @@ final class RatesMapperImpl: RatesMapper {
         let parser = DateFormatter()
         parser.dateFormat = "yyyy-MM-dd"
         parser.locale = Locale(identifier: "en_US_POSIX")
-        guard let date = parser.date(from: dateStr) else { return "Updated: \(dateStr)" }
-        if Calendar.current.isDateInToday(date) { return "Updated: Today" }
+        guard let date = parser.date(from: dateStr) else {
+            return String(format: L("Updated: %@"), dateStr)
+        }
+        if Calendar.current.isDateInToday(date) { return L("Updated: Today") }
         let display = DateFormatter()
         display.dateStyle = .medium
         display.timeStyle = .none
-        return "Updated: \(display.string(from: date))"
+        display.locale = Locale(identifier: AppLocaleObserver.currentLanguageCode)
+        return String(format: L("Updated: %@"), display.string(from: date))
     }
 }
 

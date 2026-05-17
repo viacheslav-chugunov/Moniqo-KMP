@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 enum CurrencySlot: Identifiable {
     case from, to, base
@@ -11,7 +12,7 @@ enum CurrencySlot: Identifiable {
         }
     }
 
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .from: return "From Currency"
         case .to: return "To Currency"
@@ -23,7 +24,7 @@ enum CurrencySlot: Identifiable {
 enum CurrencyFilter: CaseIterable {
     case all, fiat, crypto
 
-    var label: String {
+    var label: LocalizedStringKey {
         switch self {
         case .all: return "All"
         case .fiat: return "Fiat"

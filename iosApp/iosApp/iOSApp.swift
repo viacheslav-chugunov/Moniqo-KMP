@@ -3,6 +3,9 @@ import Shared
 
 @main
 struct iOSApp: App {
+    @StateObject private var themeObserver = AppThemeObserver()
+    @StateObject private var localeObserver = AppLocaleObserver()
+
     init() {
         KoinHelper.shared.doInitKoin()
     }
@@ -10,6 +13,8 @@ struct iOSApp: App {
     var body: some Scene {
         WindowGroup {
             HomeScreen()
+                .preferredColorScheme(themeObserver.colorScheme)
+                .environment(\.locale, localeObserver.locale)
         }
     }
 }
