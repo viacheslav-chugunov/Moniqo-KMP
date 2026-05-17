@@ -79,7 +79,8 @@ final class HomeMapperImpl: HomeMapper {
         return CurrencyInfo(
             code: code,
             name: currencyName(code: code),
-            flag: currencyFlags[code] ?? "🏳️"
+            flag: currencyFlags[code] ?? "🏳️",
+            isCrypto: rate.currency.isCrypto
         )
     }
 

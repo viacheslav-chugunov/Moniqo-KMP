@@ -1,0 +1,143 @@
+import Foundation
+import Shared
+
+protocol ChooseCurrencyMapper {
+    func toContent(rates: CurrencyRates, recentCodes: [String]) -> ChooseCurrencyContent
+}
+
+final class ChooseCurrencyMapperImpl: ChooseCurrencyMapper {
+    func toContent(rates: CurrencyRates, recentCodes: [String]) -> ChooseCurrencyContent {
+        var allCurrencies: [CurrencyInfo] = []
+        allCurrencies.append(toCurrencyInfo(currency: rates.baseCurrency))
+        for rate in rates.rates {
+            allCurrencies.append(toCurrencyInfo(currency: rate.currency))
+        }
+
+        let byCode = Dictionary(allCurrencies.map { ($0.code, $0) }, uniquingKeysWith: { first, _ in first })
+        let unique = byCode.values.sorted { $0.code < $1.code }
+        let recent = recentCodes.compactMap { byCode[$0] }
+
+        return ChooseCurrencyContent(recentCurrencies: recent, currencies: unique)
+    }
+
+    private func toCurrencyInfo(currency: Currency) -> CurrencyInfo {
+        let code = currency.name.uppercased()
+        return CurrencyInfo(
+            code: code,
+            name: currencyName(code: code),
+            flag: currencyFlag(code: code, isCrypto: currency.isCrypto),
+            isCrypto: currency.isCrypto
+        )
+    }
+
+    private func currencyName(code: String) -> String {
+        currencyNames[code] ?? code
+    }
+
+    private func currencyFlag(code: String, isCrypto: Bool) -> String {
+        if isCrypto { return cryptoFlags[code] ?? "🪙" }
+        return fiatFlags[code] ?? "🏳️"
+    }
+
+    private let currencyNames: [String: String] = [
+        // Fiat — Major
+        "USD": "US Dollar", "EUR": "Euro", "GBP": "British Pound", "JPY": "Japanese Yen",
+        "CHF": "Swiss Franc", "AUD": "Australian Dollar", "CAD": "Canadian Dollar",
+        "CNY": "Chinese Yuan", "SEK": "Swedish Krona", "NOK": "Norwegian Krone",
+        "DKK": "Danish Krone", "NZD": "New Zealand Dollar", "SGD": "Singapore Dollar",
+        "HKD": "Hong Kong Dollar", "KRW": "South Korean Won", "MXN": "Mexican Peso",
+        "INR": "Indian Rupee", "BRL": "Brazilian Real", "PLN": "Polish Zloty",
+        "TRY": "Turkish Lira", "ZAR": "South African Rand", "THB": "Thai Baht",
+        "MYR": "Malaysian Ringgit", "IDR": "Indonesian Rupiah", "HUF": "Hungarian Forint",
+        "CZK": "Czech Koruna", "ILS": "Israeli Shekel", "PHP": "Philippine Peso",
+        "AED": "UAE Dirham", "SAR": "Saudi Riyal", "QAR": "Qatari Riyal",
+        "KWD": "Kuwaiti Dinar", "BHD": "Bahraini Dinar", "OMR": "Omani Rial",
+        "JOD": "Jordanian Dinar", "EGP": "Egyptian Pound", "LKR": "Sri Lankan Rupee",
+        "PKR": "Pakistani Rupee", "BDT": "Bangladeshi Taka", "NGN": "Nigerian Naira",
+        "KES": "Kenyan Shilling", "GHS": "Ghanaian Cedi", "UGX": "Ugandan Shilling",
+        "TZS": "Tanzanian Shilling", "RUB": "Russian Ruble", "UAH": "Ukrainian Hryvnia",
+        "RON": "Romanian Leu", "BGN": "Bulgarian Lev", "HRK": "Croatian Kuna",
+        "RSD": "Serbian Dinar", "ISK": "Icelandic Krona", "ARS": "Argentine Peso",
+        "CLP": "Chilean Peso", "COP": "Colombian Peso", "PEN": "Peruvian Sol",
+        "UYU": "Uruguayan Peso", "BOB": "Bolivian Boliviano", "PYG": "Paraguayan Guaraní",
+        "VND": "Vietnamese Dong", "TWD": "Taiwan Dollar", "MMK": "Myanmar Kyat",
+        "KHR": "Cambodian Riel", "LAK": "Lao Kip", "BND": "Brunei Dollar",
+        "MOP": "Macanese Pataca", "MNT": "Mongolian Tögrög", "NPR": "Nepalese Rupee",
+        "MAD": "Moroccan Dirham", "TND": "Tunisian Dinar", "DZD": "Algerian Dinar",
+        "LYD": "Libyan Dinar", "XOF": "West African CFA Franc",
+        "XAF": "Central African CFA Franc", "XCD": "East Caribbean Dollar",
+        "AWG": "Aruban Florin", "BBD": "Barbadian Dollar", "BMD": "Bermudian Dollar",
+        "BSD": "Bahamian Dollar", "BZD": "Belize Dollar", "GYD": "Guyanese Dollar",
+        "JMD": "Jamaican Dollar", "TTD": "Trinidad and Tobago Dollar",
+        "FJD": "Fijian Dollar", "PGK": "Papua New Guinean Kina", "SBD": "Solomon Islands Dollar",
+        "TOP": "Tongan Paʻanga", "VUV": "Vanuatu Vatu", "WST": "Samoan Tālā",
+        "GEL": "Georgian Lari", "AMD": "Armenian Dram", "AZN": "Azerbaijani Manat",
+        "KZT": "Kazakhstani Tenge", "KGS": "Kyrgystani Som", "UZS": "Uzbekistani Som",
+        "TJS": "Tajikistani Somoni", "TMT": "Turkmenistani Manat",
+        "AFN": "Afghan Afghani", "IRR": "Iranian Rial", "IQD": "Iraqi Dinar",
+        "SYP": "Syrian Pound", "LBP": "Lebanese Pound", "YER": "Yemeni Rial",
+        "MUR": "Mauritian Rupee", "MVR": "Maldivian Rufiyaa", "SCR": "Seychellois Rupee",
+        "ETB": "Ethiopian Birr", "SOS": "Somali Shilling", "SDG": "Sudanese Pound",
+        "ERN": "Eritrean Nakfa", "DJF": "Djiboutian Franc", "KMF": "Comorian Franc",
+        "MGA": "Malagasy Ariary", "MZN": "Mozambican Metical", "MWK": "Malawian Kwacha",
+        "ZMW": "Zambian Kwacha", "BWP": "Botswanan Pula", "NAD": "Namibian Dollar",
+        "SZL": "Swazi Lilangeni", "LSL": "Lesotho Loti", "RWF": "Rwandan Franc",
+        "BIF": "Burundian Franc", "GMD": "Gambian Dalasi", "SLL": "Sierra Leonean Leone",
+        "SLE": "Sierra Leonean Leone", "LRD": "Liberian Dollar", "GNF": "Guinean Franc",
+        "CDF": "Congolese Franc", "HTG": "Haitian Gourde", "NIO": "Nicaraguan Córdoba",
+        "GTQ": "Guatemalan Quetzal", "HNL": "Honduran Lempira", "CRC": "Costa Rican Colón",
+        "DOP": "Dominican Peso", "CUP": "Cuban Peso", "PAB": "Panamanian Balboa",
+        "CNH": "Chinese Yuan (Offshore)",
+        // Crypto
+        "BTC": "Bitcoin", "ETH": "Ethereum", "USDT": "Tether", "BNB": "BNB",
+        "USDC": "USD Coin", "XRP": "XRP", "ADA": "Cardano", "SOL": "Solana",
+        "DOGE": "Dogecoin", "TRX": "TRON", "TON": "Toncoin", "DAI": "Dai",
+        "AVAX": "Avalanche", "SHIB": "Shiba Inu", "DOT": "Polkadot",
+        "LTC": "Litecoin", "BCH": "Bitcoin Cash", "LINK": "Chainlink",
+        "XLM": "Stellar", "XMR": "Monero", "ETC": "Ethereum Classic",
+        "ALGO": "Algorand", "VET": "VeChain", "ICP": "Internet Computer",
+        "ATOM": "Cosmos", "FIL": "Filecoin", "APT": "Aptos", "ARB": "Arbitrum",
+        "NEAR": "NEAR Protocol", "OP": "Optimism", "MATIC": "Polygon",
+    ]
+
+    private let fiatFlags: [String: String] = [
+        "USD": "🇺🇸", "EUR": "🇪🇺", "GBP": "🇬🇧", "JPY": "🇯🇵", "CHF": "🇨🇭",
+        "AUD": "🇦🇺", "CAD": "🇨🇦", "CNY": "🇨🇳", "CNH": "🇨🇳",
+        "SEK": "🇸🇪", "NOK": "🇳🇴", "DKK": "🇩🇰", "NZD": "🇳🇿",
+        "SGD": "🇸🇬", "HKD": "🇭🇰", "KRW": "🇰🇷", "MXN": "🇲🇽",
+        "INR": "🇮🇳", "BRL": "🇧🇷", "PLN": "🇵🇱", "TRY": "🇹🇷",
+        "ZAR": "🇿🇦", "THB": "🇹🇭", "MYR": "🇲🇾", "IDR": "🇮🇩",
+        "HUF": "🇭🇺", "CZK": "🇨🇿", "ILS": "🇮🇱", "PHP": "🇵🇭",
+        "AED": "🇦🇪", "SAR": "🇸🇦", "QAR": "🇶🇦", "KWD": "🇰🇼",
+        "BHD": "🇧🇭", "OMR": "🇴🇲", "JOD": "🇯🇴", "EGP": "🇪🇬",
+        "LKR": "🇱🇰", "PKR": "🇵🇰", "BDT": "🇧🇩", "NGN": "🇳🇬",
+        "KES": "🇰🇪", "GHS": "🇬🇭", "UGX": "🇺🇬", "TZS": "🇹🇿",
+        "RUB": "🇷🇺", "UAH": "🇺🇦", "RON": "🇷🇴", "BGN": "🇧🇬",
+        "HRK": "🇭🇷", "RSD": "🇷🇸", "ISK": "🇮🇸", "ARS": "🇦🇷",
+        "CLP": "🇨🇱", "COP": "🇨🇴", "PEN": "🇵🇪", "UYU": "🇺🇾",
+        "BOB": "🇧🇴", "PYG": "🇵🇾", "VND": "🇻🇳", "TWD": "🇹🇼",
+        "MMK": "🇲🇲", "KHR": "🇰🇭", "LAK": "🇱🇦", "BND": "🇧🇳",
+        "MOP": "🇲🇴", "MNT": "🇲🇳", "NPR": "🇳🇵", "MAD": "🇲🇦",
+        "TND": "🇹🇳", "DZD": "🇩🇿", "LYD": "🇱🇾", "XOF": "🌍",
+        "XAF": "🌍", "XCD": "🌎", "AWG": "🇦🇼", "BBD": "🇧🇧",
+        "BMD": "🇧🇲", "BSD": "🇧🇸", "BZD": "🇧🇿", "GYD": "🇬🇾",
+        "JMD": "🇯🇲", "TTD": "🇹🇹", "FJD": "🇫🇯", "PGK": "🇵🇬",
+        "SBD": "🇸🇧", "TOP": "🇹🇴", "VUV": "🇻🇺", "WST": "🇼🇸",
+        "GEL": "🇬🇪", "AMD": "🇦🇲", "AZN": "🇦🇿", "KZT": "🇰🇿",
+        "KGS": "🇰🇬", "UZS": "🇺🇿", "TJS": "🇹🇯", "TMT": "🇹🇲",
+        "AFN": "🇦🇫", "IRR": "🇮🇷", "IQD": "🇮🇶", "SYP": "🇸🇾",
+        "LBP": "🇱🇧", "YER": "🇾🇪", "MUR": "🇲🇺", "MVR": "🇲🇻",
+        "SCR": "🇸🇨", "ETB": "🇪🇹", "SOS": "🇸🇴", "SDG": "🇸🇩",
+        "ERN": "🇪🇷", "DJF": "🇩🇯", "KMF": "🇰🇲", "MGA": "🇲🇬",
+        "MZN": "🇲🇿", "MWK": "🇲🇼", "ZMW": "🇿🇲", "BWP": "🇧🇼",
+        "NAD": "🇳🇦", "SZL": "🇸🇿", "LSL": "🇱🇸", "RWF": "🇷🇼",
+        "BIF": "🇧🇮", "GMD": "🇬🇲", "SLL": "🇸🇱", "SLE": "🇸🇱",
+        "LRD": "🇱🇷", "GNF": "🇬🇳", "CDF": "🇨🇩", "HTG": "🇭🇹",
+        "NIO": "🇳🇮", "GTQ": "🇬🇹", "HNL": "🇭🇳", "CRC": "🇨🇷",
+        "DOP": "🇩🇴", "CUP": "🇨🇺", "PAB": "🇵🇦",
+    ]
+
+    private let cryptoFlags: [String: String] = [
+        "BTC": "₿", "ETH": "⟠", "DOGE": "Ð",
+    ]
+}

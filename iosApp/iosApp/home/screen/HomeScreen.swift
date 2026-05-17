@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeScreen: View {
     @StateObject private var viewModel: HomeViewModel
+    @State private var choosingCurrencySlot: CurrencySlot? = nil
 
     init() {
         _viewModel = StateObject(wrappedValue: HomeContainer.makeViewModel())
@@ -20,8 +21,8 @@ struct HomeScreen: View {
                         onFromAmountChange: { viewModel.onIntent(.changeFromAmount($0)) },
                         onToAmountChange: { viewModel.onIntent(.changeToAmount($0)) },
                         onSwapClick: { viewModel.onIntent(.swapCurrencies) },
-                        onFromCurrencyClick: {},
-                        onToCurrencyClick: {}
+                        onFromCurrencyClick: { choosingCurrencySlot = .from },
+                        onToCurrencyClick: { choosingCurrencySlot = .to }
                     )
                 }
             }
@@ -41,6 +42,9 @@ struct HomeScreen: View {
                     }
                 }
             }
+        }
+        .sheet(item: $choosingCurrencySlot) { slot in
+            ChooseCurrencyScreen(slot: slot)
         }
     }
 }

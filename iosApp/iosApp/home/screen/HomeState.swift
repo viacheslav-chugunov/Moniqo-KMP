@@ -15,8 +15,8 @@ struct HomeContent: Equatable {
     var analysis: ExchangeAnalysis?
 
     static let preview = HomeContent(
-        fromCurrency: CurrencyInfo(code: "EUR", name: "Euro", flag: "🇪🇺"),
-        toCurrency: CurrencyInfo(code: "USD", name: "US Dollar", flag: "🇺🇸"),
+        fromCurrency: CurrencyInfo(code: "EUR", name: "Euro", flag: "🇪🇺", isCrypto: false),
+        toCurrency: CurrencyInfo(code: "USD", name: "US Dollar", flag: "🇺🇸", isCrypto: false),
         fromAmount: "1000",
         toAmount: "1200.00",
         fromHint: "Official: 1 EUR = 1.1700 USD",
