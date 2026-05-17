@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeScreen: View {
     @StateObject private var viewModel: HomeViewModel
     @State private var choosingCurrencySlot: CurrencySlot? = nil
+    @State private var showingRates = false
 
     init() {
         _viewModel = StateObject(wrappedValue: HomeContainer.makeViewModel())
@@ -29,9 +30,13 @@ struct HomeScreen: View {
             .background(Color.appBackground)
             .navigationTitle("Moniqo")
             .navigationBarTitleDisplayMode(.large)
+            .navigationDestination(isPresented: $showingRates) {
+                RatesScreen()
+            }
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
+                        showingRates = true
                     } label: {
                         Label("Rates", systemImage: "chart.line.uptrend.xyaxis")
                             .font(.subheadline.weight(.medium))

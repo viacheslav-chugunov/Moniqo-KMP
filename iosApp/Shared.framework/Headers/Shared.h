@@ -947,6 +947,13 @@ __attribute__((swift_name("NetworkModuleKt")))
 @end
 
 __attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("RatesBridgeKt")))
+@interface SharedRatesBridgeKt : SharedBase
++ (void (^)(void))fetchRatesOnLoaded:(void (^)(SharedCurrencyRates *))onLoaded __attribute__((swift_name("fetchRates(onLoaded:)")));
++ (void (^)(void))observeBaseCurrencyOnUpdate:(void (^)(SharedCurrency *))onUpdate __attribute__((swift_name("observeBaseCurrency(onUpdate:)")));
+@end
+
+__attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("StorageModuleKt")))
 @interface SharedStorageModuleKt : SharedBase
 @property (class, readonly) SharedKoin_coreModule *storageModule __attribute__((swift_name("storageModule")));
