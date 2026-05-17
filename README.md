@@ -28,7 +28,23 @@
 
 ## Screenshots
 
-> _Coming soon — PRs with screenshots are welcome!_
+### iOS
+
+<p>
+  <img src="./.github/ios_preview_1.png" width="22%" />
+  <img src="./.github/ios_preview_2.png" width="22%" />
+  <img src="./.github/ios_preview_3.png" width="22%" />
+  <img src="./.github/ios_preview_4.png" width="22%" />
+</p>
+
+### Android
+
+<p>
+  <img src="./.github/android_preview_1.jpg" width="22%" />
+  <img src="./.github/android_preview_2.jpg" width="22%" />
+  <img src="./.github/android_preview_3.jpg" width="22%" />
+  <img src="./.github/android_preview_4.jpg" width="22%" />
+</p>
 
 ---
 
