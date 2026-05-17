@@ -12,48 +12,63 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.get
 
 fun loadCurrencyRates(onLoaded: (CurrencyRates) -> Unit): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        val rates = IosKoin.get<GetCurrencyRatesUseCase>()()
-        onLoaded(rates)
-    }
+    val job =
+        iosCoroutineScope.launch {
+            val rates = IosKoin.get<GetCurrencyRatesUseCase>()()
+            onLoaded(rates)
+        }
     return { job.cancel() }
 }
 
 fun observeRecentCurrencies(onUpdate: (List<String>) -> Unit): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        IosKoin.get<GetRecentCurrenciesFlowUseCase>()().collect(onUpdate)
-    }
+    val job =
+        iosCoroutineScope.launch {
+            IosKoin.get<GetRecentCurrenciesFlowUseCase>()().collect(onUpdate)
+        }
     return { job.cancel() }
 }
 
-fun saveFromRateByCode(rates: CurrencyRates, code: String): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        val rate = rates.findRate(code) ?: return@launch
-        IosKoin.get<SaveFromRateUseCase>()(rate)
-    }
+fun saveFromRateByCode(
+    rates: CurrencyRates,
+    code: String,
+): () -> Unit {
+    val job =
+        iosCoroutineScope.launch {
+            val rate = rates.findRate(code) ?: return@launch
+            IosKoin.get<SaveFromRateUseCase>()(rate)
+        }
     return { job.cancel() }
 }
 
-fun saveToRateByCode(rates: CurrencyRates, code: String): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        val rate = rates.findRate(code) ?: return@launch
-        IosKoin.get<SaveToRateUseCase>()(rate)
-    }
+fun saveToRateByCode(
+    rates: CurrencyRates,
+    code: String,
+): () -> Unit {
+    val job =
+        iosCoroutineScope.launch {
+            val rate = rates.findRate(code) ?: return@launch
+            IosKoin.get<SaveToRateUseCase>()(rate)
+        }
     return { job.cancel() }
 }
 
-fun setBaseCurrencyByCode(rates: CurrencyRates, code: String): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        val currency = rates.findRate(code)?.currency ?: return@launch
-        IosKoin.get<SetBaseRatesCurrencyUseCase>()(currency)
-    }
+fun setBaseCurrencyByCode(
+    rates: CurrencyRates,
+    code: String,
+): () -> Unit {
+    val job =
+        iosCoroutineScope.launch {
+            val currency = rates.findRate(code)?.currency ?: return@launch
+            IosKoin.get<SetBaseRatesCurrencyUseCase>()(currency)
+        }
     return { job.cancel() }
 }
 
 fun addRecentCurrency(code: String): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        IosKoin.get<AddRecentCurrencyUseCase>()(code)
-    }
+    val job =
+        iosCoroutineScope.launch {
+            IosKoin.get<AddRecentCurrencyUseCase>()(code)
+        }
     return { job.cancel() }
 }
 

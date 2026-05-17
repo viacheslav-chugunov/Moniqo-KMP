@@ -9,16 +9,21 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.get
 
 fun observeRatePair(onUpdate: (RatePair) -> Unit): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        IosKoin.get<GetRatePairFlowUseCase>()().collect(onUpdate)
-    }
+    val job =
+        iosCoroutineScope.launch {
+            IosKoin.get<GetRatePairFlowUseCase>()().collect(onUpdate)
+        }
     return { job.cancel() }
 }
 
-fun swapRates(fromRate: Rate, toRate: Rate): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        IosKoin.get<SaveFromRateUseCase>()(fromRate)
-        IosKoin.get<SaveToRateUseCase>()(toRate)
-    }
+fun swapRates(
+    fromRate: Rate,
+    toRate: Rate,
+): () -> Unit {
+    val job =
+        iosCoroutineScope.launch {
+            IosKoin.get<SaveFromRateUseCase>()(fromRate)
+            IosKoin.get<SaveToRateUseCase>()(toRate)
+        }
     return { job.cancel() }
 }

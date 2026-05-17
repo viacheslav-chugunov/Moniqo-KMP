@@ -14,9 +14,10 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.get
 
 fun observeAppTheme(onUpdate: (AppTheme) -> Unit): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        IosKoin.get<GetAppThemeFlowUseCase>()().collect(onUpdate)
-    }
+    val job =
+        iosCoroutineScope.launch {
+            IosKoin.get<GetAppThemeFlowUseCase>()().collect(onUpdate)
+        }
     return { job.cancel() }
 }
 
@@ -27,9 +28,10 @@ fun setAppTheme(theme: AppTheme) {
 }
 
 fun observeAppLanguage(onUpdate: (AppLanguage) -> Unit): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        IosKoin.get<GetAppLanguageFlowUseCase>()().collect(onUpdate)
-    }
+    val job =
+        iosCoroutineScope.launch {
+            IosKoin.get<GetAppLanguageFlowUseCase>()().collect(onUpdate)
+        }
     return { job.cancel() }
 }
 
@@ -40,13 +42,17 @@ fun setAppLanguage(language: AppLanguage) {
 }
 
 fun observeDealRanges(onUpdate: (DealRanges) -> Unit): () -> Unit {
-    val job = iosCoroutineScope.launch {
-        IosKoin.get<GetDealRangesFlowUseCase>()().collect(onUpdate)
-    }
+    val job =
+        iosCoroutineScope.launch {
+            IosKoin.get<GetDealRangesFlowUseCase>()().collect(onUpdate)
+        }
     return { job.cancel() }
 }
 
-fun setDealRanges(good: Int, medium: Int) {
+fun setDealRanges(
+    good: Int,
+    medium: Int,
+) {
     iosCoroutineScope.launch {
         IosKoin.get<SetDealRangesUseCase>()(DealRanges(good = good, medium = medium))
     }
