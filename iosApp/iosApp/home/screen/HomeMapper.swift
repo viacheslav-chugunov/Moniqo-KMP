@@ -75,7 +75,7 @@ final class HomeMapperImpl: HomeMapper {
     }
 
     func toCurrencyInfo(rate: Rate) -> CurrencyInfo {
-        let code = rate.currency.uppercased()
+        let code = rate.currency.name.uppercased()
         return CurrencyInfo(
             code: code,
             name: currencyName(code: code),

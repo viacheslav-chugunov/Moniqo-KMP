@@ -24,12 +24,13 @@ final class HomeViewModel: ObservableObject {
         case .changeToAmount(let input):
             handleChangeToAmount(input)
         case .swapCurrencies:
-            HomeUseCasesKt.swapCurrencies()
+            guard let pair = ratePair else { return }
+            HomeUseCaseBridgeKt.swapRates(fromRate: pair.toRate, toRate: pair.fromRate)
         }
     }
 
     private func startObservingRatePair() {
-        stopObservation = HomeUseCasesKt.observeRatePair { [weak self] pair in
+        stopObservation = HomeUseCaseBridgeKt.observeRatePair { [weak self] pair in
             guard let self else { return }
             self.ratePair = pair
             let fromAmount = self.currentFromAmount
