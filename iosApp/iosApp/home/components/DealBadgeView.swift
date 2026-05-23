@@ -1,4 +1,5 @@
 import SwiftUI
+import Shared
 
 struct DealBadgeView: View {
     let quality: DealQuality
@@ -21,9 +22,9 @@ struct DealBadgeView: View {
 
     private var label: String {
         switch quality {
-        case .good: return "Good Deal"
-        case .medium: return "Medium Deal"
-        case .bad: return "Bad Deal"
+        case .good: return MR.strings().deal_quality_good.localized()
+        case .medium: return MR.strings().deal_quality_medium.localized()
+        case .bad: return MR.strings().deal_quality_bad.localized()
         }
     }
 

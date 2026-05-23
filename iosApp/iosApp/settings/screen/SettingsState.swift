@@ -22,9 +22,9 @@ enum AppLanguageSetting: CaseIterable, Identifiable {
     var displayName: String {
         switch self {
         case .system: return MR.strings().settings_language_system.localized()
-        case .english: return "English"
-        case .latvian: return "Latviešu"
-        case .russian: return "Русский"
+        case .english: return MR.strings().settings_language_english_native.localized()
+        case .latvian: return MR.strings().settings_language_latvian_native.localized()
+        case .russian: return MR.strings().settings_language_russian_native.localized()
         }
     }
 

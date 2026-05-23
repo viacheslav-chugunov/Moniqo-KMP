@@ -70,7 +70,7 @@ final class HomeMapperImpl: HomeMapper {
             officialRate: MR.strings().home_rate_label.localized(with: fromCurrency.code, rate.asPrice, toCurrency.code),
             enteredRate: MR.strings().home_rate_label.localized(with: fromCurrency.code, enteredRate.asPrice, toCurrency.code),
             differencePercent: "\(diffPercent.asPrice)%",
-            lossOrProfitLabel: isProfit ? "Profit" : "Loss",
+            lossOrProfitLabel: isProfit ? MR.strings().exchange_analysis_profit.localized() : MR.strings().exchange_analysis_loss.localized(),
             lossOrProfitAmount: "\(abs(lossInFrom).asPrice) \(fromCurrency.code)\n\(abs(lossInTo).asPrice) \(toCurrency.code)",
             quality: quality
         )

@@ -1,4 +1,5 @@
 import SwiftUI
+import Shared
 
 struct HomeScreen: View {
     @StateObject private var viewModel: HomeViewModel
@@ -42,7 +43,7 @@ struct HomeScreen: View {
                     Button {
                         showingRates = true
                     } label: {
-                        Label("Rates", systemImage: "chart.line.uptrend.xyaxis")
+                        Label(MR.strings().home_rates.localized(), systemImage: "chart.line.uptrend.xyaxis")
                             .font(.subheadline.weight(.medium))
                     }
                     Button {
