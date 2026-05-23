@@ -90,7 +90,10 @@ internal class HomeMapperImpl(
             officialRate = "1 ${fromCurrency.code} = ${officialRate.asPrice} ${toCurrency.code}",
             enteredRate = "1 ${fromCurrency.code} = ${enteredRate.asPrice} ${toCurrency.code}",
             differencePercent = "${diffPercent.asPrice}%",
-            lossOrProfitLabel = stringProvider.get(if (isProfit) MR.strings.exchange_analysis_profit else MR.strings.exchange_analysis_loss),
+            lossOrProfitLabel =
+                stringProvider.get(
+                    if (isProfit) MR.strings.exchange_analysis_profit else MR.strings.exchange_analysis_loss,
+                ),
             lossOrProfitAmount = "${abs(lossInFrom).asPrice} ${fromCurrency.code}\n${abs(lossInTo).asPrice} ${toCurrency.code}",
             quality = quality,
         )
