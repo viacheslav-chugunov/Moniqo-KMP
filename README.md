@@ -116,49 +116,6 @@ Moniqo follows **Clean Architecture** with a strict unidirectional data flow (MV
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-- **Android Studio** Meerkat or later (with KMP plugin)
-- **Xcode 16+**
-- **JDK 17**
-
-### Clone
-
-```bash
-git clone https://github.com/viacheslav-chugunov/Moniqo.git
-cd Moniqo
-```
-
-### Android
-
-Run directly from Android Studio, or from the terminal:
-
-```bash
-./gradlew :androidApp:assembleDebug
-```
-
-Install on a connected device or emulator:
-
-```bash
-./gradlew :androidApp:installDebug
-```
-
-### iOS
-
-Build the shared framework first:
-
-```bash
-./gradlew :shared:embedAndSignAppleFrameworkForXcode
-```
-
-Then open `iosApp/iosApp.xcodeproj` in Xcode and run on a simulator or device.
-
-> The Xcode build phase already calls the Gradle task above automatically, so for day-to-day development just press **Run** in Xcode.
-
----
-
 ## Running Tests
 
 All unit tests live in `:shared:test` and run on the JVM target:
@@ -205,45 +162,4 @@ Moniqo/
         ├── core/             # Extensions, theme, navigation
         ├── home/             # Home feature (model/screen/components/di)
         └── ...
-```
-
----
-
-## Contributing
-
-Contributions are welcome! Here's how to get started:
-
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/your-feature`
-3. **Follow** the module conventions — new features go in their own `:android-ui:<feature>` module and mirror the `model/screen/components/di` structure on iOS
-4. **Add tests** in `:shared:test` using named `XxxMock` classes
-5. **Run** `./gradlew ktlintFormat :shared:test:jvmTest` before pushing
-6. **Open** a pull request with a clear description of what changes and why
-
----
-
-## License
-
-```
-MIT License
-
-Copyright (c) 2026 Viacheslav Chugunov
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 ```
