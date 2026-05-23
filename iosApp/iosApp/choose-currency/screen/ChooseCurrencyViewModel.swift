@@ -13,6 +13,7 @@ final class ChooseCurrencyViewModel: ObservableObject {
 
     private var stopRatesLoad: (() -> Void)?
     private var stopRecentObservation: (() -> Void)?
+    private var pendingJobs: [() -> Void] = []
 
     init(slot: CurrencySlot, mapper: ChooseCurrencyMapper) {
         self.slot = slot
@@ -24,6 +25,7 @@ final class ChooseCurrencyViewModel: ObservableObject {
     deinit {
         stopRatesLoad?()
         stopRecentObservation?()
+        pendingJobs.forEach { $0() }
     }
 
     func onIntent(_ intent: ChooseCurrencyIntent) {
@@ -79,13 +81,13 @@ final class ChooseCurrencyViewModel: ObservableObject {
         guard let rates = currencyRates else { return }
         switch slot {
         case .from:
-            ChooseCurrencyBridgeKt.saveFromRateByCode(rates: rates, code: currency.code)
+            pendingJobs.append(ChooseCurrencyBridgeKt.saveFromRateByCode(rates: rates, code: currency.code))
         case .to:
-            ChooseCurrencyBridgeKt.saveToRateByCode(rates: rates, code: currency.code)
+            pendingJobs.append(ChooseCurrencyBridgeKt.saveToRateByCode(rates: rates, code: currency.code))
         case .base:
-            ChooseCurrencyBridgeKt.setBaseCurrencyByCode(rates: rates, code: currency.code)
+            pendingJobs.append(ChooseCurrencyBridgeKt.setBaseCurrencyByCode(rates: rates, code: currency.code))
         }
-        ChooseCurrencyBridgeKt.addRecentCurrency(code: currency.code)
+        pendingJobs.append(ChooseCurrencyBridgeKt.addRecentCurrency(code: currency.code))
         shouldDismiss = true
     }
 }

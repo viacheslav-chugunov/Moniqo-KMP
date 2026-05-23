@@ -12,6 +12,7 @@ final class SettingsViewModel: ObservableObject {
     private var stopThemeObservation: (() -> Void)?
     private var stopLanguageObservation: (() -> Void)?
     private var stopRangesObservation: (() -> Void)?
+    private var pendingJobs: [() -> Void] = []
 
     init() {
         startObservingTheme()
@@ -23,23 +24,24 @@ final class SettingsViewModel: ObservableObject {
         stopThemeObservation?()
         stopLanguageObservation?()
         stopRangesObservation?()
+        pendingJobs.forEach { $0() }
     }
 
     func onIntent(_ intent: SettingsIntent) {
         switch intent {
         case .changeTheme(let theme):
-            SettingsBridgeKt.setAppTheme(theme: mapToKotlinTheme(theme))
+            pendingJobs.append(SettingsBridgeKt.setAppTheme(theme: mapToKotlinTheme(theme)))
         case .changeLanguage(let language):
-            SettingsBridgeKt.setAppLanguage(language: mapToKotlinLanguage(language))
+            pendingJobs.append(SettingsBridgeKt.setAppLanguage(language: mapToKotlinLanguage(language)))
             if let code = language.localeCode {
                 UserDefaults.standard.set([code], forKey: "AppleLanguages")
             } else {
                 UserDefaults.standard.removeObject(forKey: "AppleLanguages")
             }
         case .changeDealRanges(let good, let medium):
-            SettingsBridgeKt.setDealRanges(good: Int32(good), medium: Int32(medium))
+            pendingJobs.append(SettingsBridgeKt.setDealRanges(good: Int32(good), medium: Int32(medium)))
         case .resetRanges:
-            SettingsBridgeKt.resetDealRanges()
+            pendingJobs.append(SettingsBridgeKt.resetDealRanges())
         case .openRangeEditor:
             updateContent { $0.isEditingRanges = true }
         case .closeRangeEditor:

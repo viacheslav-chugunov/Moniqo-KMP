@@ -11,6 +11,7 @@ final class HomeViewModel: ObservableObject {
     private var stopObservation: (() -> Void)?
     private var stopRangesObservation: (() -> Void)?
     private var localeObservation: NSObjectProtocol?
+    private var pendingJobs: [() -> Void] = []
 
     init(mapper: HomeMapper) {
         self.mapper = mapper
@@ -34,6 +35,7 @@ final class HomeViewModel: ObservableObject {
     deinit {
         stopObservation?()
         stopRangesObservation?()
+        pendingJobs.forEach { $0() }
         localeObservation.map { NotificationCenter.default.removeObserver($0) }
     }
 
@@ -45,7 +47,7 @@ final class HomeViewModel: ObservableObject {
             handleChangeToAmount(input)
         case .swapCurrencies:
             guard let pair = ratePair else { return }
-            HomeUseCaseBridgeKt.swapRates(fromRate: pair.toRate, toRate: pair.fromRate)
+            pendingJobs.append(HomeUseCaseBridgeKt.swapRates(fromRate: pair.toRate, toRate: pair.fromRate))
         }
     }
 
