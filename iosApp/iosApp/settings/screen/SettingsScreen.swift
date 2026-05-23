@@ -1,4 +1,5 @@
 import SwiftUI
+import Shared
 
 struct SettingsScreen: View {
     @StateObject private var viewModel = SettingsViewModel()
@@ -50,13 +51,13 @@ struct SettingsScreen: View {
             }
         }
         .background(Color.appBackground)
-        .navigationTitle("Settings")
+        .navigationTitle(MR.strings().settings_title.localized())
         .navigationBarTitleDisplayMode(.large)
-        .alert("Restart Required", isPresented: $showRestartAlert) {
-            Button("Restart Now", role: .destructive) { exit(0) }
-            Button("Later", role: .cancel) { }
+        .alert(MR.strings().restart_required.localized(), isPresented: $showRestartAlert) {
+            Button(MR.strings().restart_now.localized(), role: .destructive) { exit(0) }
+            Button(MR.strings().restart_later.localized(), role: .cancel) { }
         } message: {
-            Text("The app needs to restart to apply the language change.")
+            Text(MR.strings().restart_message.localized())
         }
     }
 }
@@ -82,7 +83,7 @@ private struct SettingsContentView: View {
 
     private var appearanceSection: some View {
         Section {
-            Picker("Theme", selection: Binding(
+            Picker(MR.strings().settings_theme_label.localized(), selection: Binding(
                 get: { content.theme },
                 set: { onThemeChange($0) }
             )) {
@@ -94,7 +95,7 @@ private struct SettingsContentView: View {
             .listRowBackground(Color.appBackground)
             .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
         } header: {
-            Text("APPEARANCE")
+            Text(MR.strings().settings_section_appearance.localized())
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Color.appOnSurfaceVariant)
         }
@@ -104,7 +105,7 @@ private struct SettingsContentView: View {
         Section {
             Button(action: onOpenLanguagePicker) {
                 HStack {
-                    Text("Language")
+                    Text(MR.strings().settings_language.localized())
                         .font(.body)
                         .foregroundStyle(Color.appOnSurface)
                     Spacer()
@@ -120,7 +121,7 @@ private struct SettingsContentView: View {
             .buttonStyle(.plain)
             .listRowBackground(Color.appSurface)
         } header: {
-            Text("LANGUAGE")
+            Text(MR.strings().settings_section_language.localized())
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Color.appOnSurfaceVariant)
         }
@@ -129,21 +130,21 @@ private struct SettingsContentView: View {
     private var dealRangesSection: some View {
         Section {
             DealRangeRowView(
-                label: "Good deal",
+                label: MR.strings().settings_good_deal.localized(),
                 value: "0–\(content.goodDealMax)%",
                 color: Color.appGoodGreen
             )
             .listRowBackground(Color.appSurface)
 
             DealRangeRowView(
-                label: "Medium deal",
+                label: MR.strings().settings_medium_deal.localized(),
                 value: "\(content.goodDealMax)–\(content.mediumDealMax)%",
                 color: Color.appMediumAmber
             )
             .listRowBackground(Color.appSurface)
 
             DealRangeRowView(
-                label: "Bad deal",
+                label: MR.strings().settings_bad_deal.localized(),
                 value: "\(content.mediumDealMax)%+",
                 color: Color.appBadRed
             )
@@ -151,7 +152,7 @@ private struct SettingsContentView: View {
 
             HStack(spacing: 12) {
                 Button(action: onResetRanges) {
-                    Text("Reset")
+                    Text(MR.strings().settings_reset_ranges.localized())
                         .font(.subheadline.weight(.medium))
                         .foregroundStyle(Color.appOnSurfaceVariant)
                         .frame(maxWidth: .infinity)
@@ -162,7 +163,7 @@ private struct SettingsContentView: View {
                 .buttonStyle(.plain)
 
                 Button(action: onOpenRangeEditor) {
-                    Text("Edit")
+                    Text(MR.strings().settings_edit_ranges.localized())
                         .font(.subheadline.weight(.medium))
                         .foregroundStyle(Color.appPrimary)
                         .frame(maxWidth: .infinity)
@@ -174,7 +175,7 @@ private struct SettingsContentView: View {
             }
             .listRowBackground(Color.appSurface)
         } header: {
-            Text("DEAL RANGES")
+            Text(MR.strings().settings_section_deal_ranges.localized())
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Color.appOnSurfaceVariant)
         }
@@ -182,7 +183,7 @@ private struct SettingsContentView: View {
 
     private var disclaimerSection: some View {
         Section {
-            Text("Deal quality is based on the spread between live and historical rates. Ranges are approximate guides, not financial advice.")
+            Text(MR.strings().settings_footer.localized())
                 .font(.caption)
                 .foregroundStyle(Color.appOnSurfaceVariant)
                 .listRowBackground(Color.appBackground)
@@ -191,7 +192,7 @@ private struct SettingsContentView: View {
 }
 
 private struct DealRangeRowView: View {
-    let label: LocalizedStringKey
+    let label: String
     let value: String
     let color: Color
 
@@ -242,11 +243,11 @@ private struct LanguagePickerSheet: View {
             .listStyle(.insetGrouped)
             .background(Color.appBackground)
             .scrollContentBackground(.hidden)
-            .navigationTitle("Language")
+            .navigationTitle(MR.strings().settings_language.localized())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button(MR.strings().settings_cancel.localized()) { dismiss() }
                 }
             }
         }
@@ -277,7 +278,7 @@ private struct EditRangesSheet: View {
                 Section {
                     VStack(spacing: 4) {
                         HStack {
-                            Text("Good deal max")
+                            Text(MR.strings().settings_good_deal_max.localized())
                                 .font(.subheadline)
                                 .foregroundStyle(Color.appOnSurfaceVariant)
                             Spacer()
@@ -298,7 +299,7 @@ private struct EditRangesSheet: View {
 
                     VStack(spacing: 4) {
                         HStack {
-                            Text("Medium deal max")
+                            Text(MR.strings().settings_medium_deal_max.localized())
                                 .font(.subheadline)
                                 .foregroundStyle(Color.appOnSurfaceVariant)
                             Spacer()
@@ -317,18 +318,18 @@ private struct EditRangesSheet: View {
                     .padding(.vertical, 4)
                     .listRowBackground(Color.appSurface)
                 } header: {
-                    Text("THRESHOLDS")
+                    Text(MR.strings().settings_section_thresholds.localized())
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(Color.appOnSurfaceVariant)
                 }
 
                 Section {
-                    DealRangeRowView(label: "Good", value: "0–\(Int(goodMax))%", color: Color.appGoodGreen)
-                    DealRangeRowView(label: "Medium", value: "\(Int(goodMax))–\(Int(mediumMax))%", color: Color.appMediumAmber)
-                    DealRangeRowView(label: "Bad", value: "\(Int(mediumMax))%+", color: Color.appBadRed)
+                    DealRangeRowView(label: MR.strings().deal_quality_good.localized(), value: "0–\(Int(goodMax))%", color: Color.appGoodGreen)
+                    DealRangeRowView(label: MR.strings().deal_quality_medium.localized(), value: "\(Int(goodMax))–\(Int(mediumMax))%", color: Color.appMediumAmber)
+                    DealRangeRowView(label: MR.strings().deal_quality_bad.localized(), value: "\(Int(mediumMax))%+", color: Color.appBadRed)
                         .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 16, trailing: 16))
                 } header: {
-                    Text("PREVIEW")
+                    Text(MR.strings().settings_section_preview.localized())
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(Color.appOnSurfaceVariant)
                 }
@@ -337,14 +338,14 @@ private struct EditRangesSheet: View {
             .listStyle(.insetGrouped)
             .background(Color.appBackground)
             .scrollContentBackground(.hidden)
-            .navigationTitle("Edit Ranges")
+            .navigationTitle(MR.strings().settings_edit_deal_ranges_title.localized())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel", action: onDismiss)
+                    Button(MR.strings().settings_cancel.localized(), action: onDismiss)
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Apply") {
+                    Button(MR.strings().settings_apply.localized()) {
                         onApply(Int(goodMax), Int(mediumMax))
                     }
                     .fontWeight(.semibold)

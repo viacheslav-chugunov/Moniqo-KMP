@@ -72,6 +72,7 @@
 			buildConfigurationList = 81328A9530C1BAEA586A15DC /* Build configuration list for PBXNativeTarget "iosApp" */;
 			buildPhases = (
 				9B4C3F4F1CA881D47167ED5F /* Compile Kotlin Framework */,
+				A1B2C3D4E5F6A1B2C3D4E5F6 /* Copy MOKO Resources */,
 				86E0E748907EAEF3B018A1A4 /* Sources */,
 				401AA2565BD7ADFAFBD9EC36 /* Frameworks */,
 				04A91CAAE01420EA2A6ED543 /* Resources */,
@@ -154,7 +155,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:core:embedAndSignAppleFrameworkForXcode\n";
+			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:storage:embedAndSignAppleFrameworkForXcode :shared:core:embedAndSignAppleFrameworkForXcode\n";
+		};
+		A1B2C3D4E5F6A1B2C3D4E5F6 /* Copy MOKO Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy MOKO Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FRAMEWORK_DIR=\"$SRCROOT/../shared/core/build/xcode-frameworks/$CONFIGURATION/$PLATFORM_NAME$SDK_VERSION\"\nBUNDLE_SRC=\"$FRAMEWORK_DIR/Core.framework/Moniqo.shared:core.bundle\"\nBUNDLE_DEST=\"$BUILT_PRODUCTS_DIR/$CONTENTS_FOLDER_PATH\"\nif [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED set — copying MOKO bundle directly.\"\n  if [ -d \"$BUNDLE_SRC\" ]; then\n    cp -R \"$BUNDLE_SRC\" \"$BUNDLE_DEST/\"\n    echo \"Copied $BUNDLE_SRC to $BUNDLE_DEST\"\n  else\n    echo \"Bundle not found at $BUNDLE_SRC — skipping.\"\n  fi\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:core:copyCoreFrameworkResourcesToApp -Pmoko.resources.BUILT_PRODUCTS_DIR=\"$BUILT_PRODUCTS_DIR\" -Pmoko.resources.CONTENTS_FOLDER_PATH=\"$CONTENTS_FOLDER_PATH\" -Pmoko.resources.CONFIGURATION=\"$CONFIGURATION\" -Pmoko.resources.PLATFORM_NAME=\"$PLATFORM_NAME\" -Pmoko.resources.ARCHS=\"$ARCHS\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -240,7 +260,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../shared/core/build/xcode-frameworks/$(CONFIGURATION)/$(PLATFORM_NAME)$(SDK_VERSION)",
+					"$(SRCROOT)/../shared/storage/build/xcode-frameworks/$(CONFIGURATION)/$(PLATFORM_NAME)$(SDK_VERSION)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -333,7 +353,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../shared/core/build/xcode-frameworks/$(CONFIGURATION)/$(PLATFORM_NAME)$(SDK_VERSION)",
+					"$(SRCROOT)/../shared/storage/build/xcode-frameworks/$(CONFIGURATION)/$(PLATFORM_NAME)$(SDK_VERSION)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;

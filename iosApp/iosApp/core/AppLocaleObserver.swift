@@ -17,16 +17,6 @@ extension Notification.Name {
     static let appLocaleDidChange = Notification.Name("io.moniqo.appLocaleDidChange")
 }
 
-/// Looks up `key` in the current app language's Localizable.strings.
-/// Falls back to the key itself (which is always the English text).
-func L(_ key: String) -> String {
-    let code = AppLocaleObserver.currentLanguageCode
-    if let path = Bundle.main.path(forResource: code, ofType: "lproj"),
-       let bundle = Bundle(path: path) {
-        return bundle.localizedString(forKey: key, value: key, table: nil)
-    }
-    return key
-}
 
 final class AppLocaleObserver: ObservableObject {
     @Published private(set) var locale: Locale = .autoupdatingCurrent

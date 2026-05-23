@@ -8,8 +8,8 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import dev.icerock.moko.resources.compose.stringResource
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.AppTheme
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.extensions.toLabel
@@ -21,7 +21,7 @@ fun AppearanceSectionComponent(
     themeMode: AppTheme,
     onThemeChange: (AppTheme) -> Unit,
 ) {
-    SettingsSectionComponent(title = stringResource(R.string.settings_appearance)) {
+    SettingsSectionComponent(title = stringResource(MR.strings.settings_appearance)) {
         val themes = AppTheme.entries
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
             themes.forEachIndexed { index, theme ->

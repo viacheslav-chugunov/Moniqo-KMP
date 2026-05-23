@@ -1,8 +1,9 @@
 import SwiftUI
+import Shared
 
 struct EmptyStateHintView: View {
     var body: some View {
-        Text("Enter amount to see conversion")
+        Text(MR.strings().home_empty_hint.localized())
             .font(.subheadline)
             .foregroundColor(.appOnSurfaceVariant)
             .multilineTextAlignment(.center)

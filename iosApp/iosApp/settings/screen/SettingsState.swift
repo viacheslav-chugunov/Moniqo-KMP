@@ -1,14 +1,15 @@
 import Foundation
 import SwiftUI
+import Shared
 
 enum AppThemeSetting: CaseIterable {
     case system, light, dark
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .system: return "System"
-        case .light: return "Light"
-        case .dark: return "Dark"
+        case .system: return MR.strings().settings_theme_system.localized()
+        case .light: return MR.strings().settings_theme_light.localized()
+        case .dark: return MR.strings().settings_theme_dark.localized()
         }
     }
 }
@@ -20,7 +21,7 @@ enum AppLanguageSetting: CaseIterable, Identifiable {
 
     var displayName: String {
         switch self {
-        case .system: return L("System")
+        case .system: return MR.strings().settings_language_system.localized()
         case .english: return "English"
         case .latvian: return "Latviešu"
         case .russian: return "Русский"

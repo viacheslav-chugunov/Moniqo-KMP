@@ -1,28 +1,23 @@
 package io.github.viacheslav.chugunov.moniqo.ui.core
 
 import android.content.Context
-import androidx.annotation.StringRes
+import dev.icerock.moko.resources.StringResource
+import dev.icerock.moko.resources.desc.Resource
+import dev.icerock.moko.resources.desc.ResourceFormatted
+import dev.icerock.moko.resources.desc.StringDesc
 
 interface StringProvider {
-    fun get(
-        @StringRes resId: Int,
-    ): String
+    fun get(resource: StringResource): String
 
-    fun get(
-        @StringRes resId: Int,
-        vararg args: Any,
-    ): String
+    fun get(resource: StringResource, vararg args: Any): String
 }
 
 class StringProviderImpl(
     private val context: Context,
 ) : StringProvider {
-    override fun get(
-        @StringRes resId: Int,
-    ): String = context.getString(resId)
+    override fun get(resource: StringResource): String =
+        StringDesc.Resource(resource).toString(context)
 
-    override fun get(
-        @StringRes resId: Int,
-        vararg args: Any,
-    ) = context.getString(resId, *args)
+    override fun get(resource: StringResource, vararg args: Any): String =
+        StringDesc.ResourceFormatted(resource, *args).toString(context)
 }

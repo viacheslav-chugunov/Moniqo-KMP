@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import Shared
 
 enum CurrencySlot: Identifiable {
     case from, to, base
@@ -12,11 +13,11 @@ enum CurrencySlot: Identifiable {
         }
     }
 
-    var title: LocalizedStringKey {
+    var title: String {
         switch self {
-        case .from: return "From Currency"
-        case .to: return "To Currency"
-        case .base: return "Base Currency"
+        case .from: return MR.strings().choose_currency_from_title.localized()
+        case .to: return MR.strings().choose_currency_to_title.localized()
+        case .base: return MR.strings().choose_currency_base_title.localized()
         }
     }
 }
@@ -24,11 +25,11 @@ enum CurrencySlot: Identifiable {
 enum CurrencyFilter: CaseIterable {
     case all, fiat, crypto
 
-    var label: LocalizedStringKey {
+    var label: String {
         switch self {
-        case .all: return "All"
-        case .fiat: return "Fiat"
-        case .crypto: return "Crypto"
+        case .all: return MR.strings().choose_currency_filter_all.localized()
+        case .fiat: return MR.strings().choose_currency_filter_fiat.localized()
+        case .crypto: return MR.strings().choose_currency_filter_crypto.localized()
         }
     }
 }

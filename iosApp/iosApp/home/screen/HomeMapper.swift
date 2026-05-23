@@ -24,14 +24,14 @@ final class HomeMapperImpl: HomeMapper {
         let fromAmountDouble = Double(fromAmount).flatMap { $0 > 0 ? $0 : nil }
         let toAmount = fromAmountDouble.map { String(format: "%.2f", $0 * officialRate) } ?? ""
         let toHint = fromAmountDouble.map {
-            String(format: L("At official rate ≈ %1$@ %2$@"), ($0 * officialRate).asPrice, toCurrency.code)
+            MR.strings().home_to_hint.localized(with: ($0 * officialRate).asPrice, toCurrency.code)
         } ?? ""
         return HomeContent(
             fromCurrency: fromCurrency,
             toCurrency: toCurrency,
             fromAmount: fromAmount,
             toAmount: toAmount,
-            fromHint: String(format: L("Official: 1 %1$@ = %2$@ %3$@"), fromCurrency.code, officialRate.asPrice, toCurrency.code),
+            fromHint: MR.strings().home_from_hint.localized(with: fromCurrency.code, officialRate.asPrice, toCurrency.code),
             toHint: toHint,
             analysis: toExchangeAnalysis(
                 fromAmount: fromAmount,
@@ -67,8 +67,8 @@ final class HomeMapperImpl: HomeMapper {
         let lossInFrom = rate > 0 ? lossInTo / rate : 0.0
         let isProfit = lossInTo < 0
         return ExchangeAnalysis(
-            officialRate: String(format: L("1 %1$@ = %2$@ %3$@"), fromCurrency.code, rate.asPrice, toCurrency.code),
-            enteredRate: String(format: L("1 %1$@ = %2$@ %3$@"), fromCurrency.code, enteredRate.asPrice, toCurrency.code),
+            officialRate: MR.strings().home_rate_label.localized(with: fromCurrency.code, rate.asPrice, toCurrency.code),
+            enteredRate: MR.strings().home_rate_label.localized(with: fromCurrency.code, enteredRate.asPrice, toCurrency.code),
             differencePercent: "\(diffPercent.asPrice)%",
             lossOrProfitLabel: isProfit ? "Profit" : "Loss",
             lossOrProfitAmount: "\(abs(lossInFrom).asPrice) \(fromCurrency.code)\n\(abs(lossInTo).asPrice) \(toCurrency.code)",

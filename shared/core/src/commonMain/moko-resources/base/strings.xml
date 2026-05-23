@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!-- Navigation -->
     <string name="cd_back">Back</string>
@@ -6,6 +7,7 @@
     <string name="home_title">Moniqo</string>
     <string name="home_from_hint">Official: 1 %1$s = %2$s %3$s</string>
     <string name="home_to_hint">At official rate ≈ %1$s %2$s</string>
+    <string name="home_rate_label">1 %1$s = %2$s %3$s</string>
     <string name="home_rates">Rates</string>
     <string name="cd_settings">Settings</string>
     <string name="home_empty_hint">Enter amount to see conversion</string>
@@ -333,47 +335,73 @@
     <string name="cd_search">Search currencies</string>
     <string name="rates_search_hint">Search currencies…</string>
     <string name="rates_title">Rates</string>
+    <string name="rates_nav_title">Exchange Rates</string>
     <string name="rates_base_currency">Base currency</string>
     <string name="rates_updated">Updated: %s</string>
     <string name="rates_date_today">Today</string>
     <string name="rates_refresh">Refresh</string>
     <string name="cd_refresh">Refresh rates</string>
-    <string name="rates_exchange_rates">Exchange rates</string>
+    <string name="rates_exchange_rates">Exchange Rates</string>
     <string name="rates_filter_all">All</string>
     <string name="rates_filter_fiat">Fiat</string>
     <string name="rates_filter_crypto">Crypto</string>
     <string name="rates_no_results">No currencies match "%s"</string>
-    <string name="rates_disclaimer">Rates are for reference only and may differ from bank rates.</string>
+    <string name="rates_disclaimer">Exchange rates are indicative and may differ from actual market rates. Not financial advice.</string>
+    <string name="rates_section_base_currency">BASE CURRENCY</string>
+    <string name="rates_section_exchange_rates">EXCHANGE RATES</string>
 
     <!-- Settings Screen -->
     <string name="settings_title">Settings</string>
     <string name="settings_coming_soon">Settings coming soon</string>
     <string name="settings_appearance">Appearance</string>
+    <string name="settings_section_appearance">APPEARANCE</string>
+    <string name="settings_theme_label">Theme</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_system">System</string>
     <string name="settings_language">Language</string>
+    <string name="settings_section_language">LANGUAGE</string>
     <string name="settings_language_system">System</string>
-    <string name="settings_language_english_native" translatable="false">English</string>
-    <string name="settings_language_latvian_native" translatable="false">Latviešu</string>
-    <string name="settings_language_russian_native" translatable="false">Русский</string>
+    <string name="settings_language_english_native">English</string>
+    <string name="settings_language_latvian_native">Latviešu</string>
+    <string name="settings_language_russian_native">Русский</string>
     <string name="settings_language_pick_title">Choose language</string>
     <string name="settings_deal_ranges">Deal ranges</string>
+    <string name="settings_section_deal_ranges">DEAL RANGES</string>
     <string name="settings_good_deal">Good deal</string>
     <string name="settings_medium_deal">Medium deal</string>
     <string name="settings_bad_deal">Bad deal</string>
-    <string name="settings_reset_ranges">Reset ranges</string>
+    <string name="settings_reset_ranges">Reset</string>
     <string name="settings_edit_ranges">Edit</string>
+    <string name="settings_section_thresholds">THRESHOLDS</string>
+    <string name="settings_good_deal_max">Good deal max</string>
+    <string name="settings_medium_deal_max">Medium deal max</string>
+    <string name="settings_section_preview">PREVIEW</string>
     <string name="settings_edit_deal_ranges_title">Edit deal ranges</string>
     <string name="settings_apply">Apply</string>
     <string name="settings_cancel">Cancel</string>
-    <string name="settings_footer">Deal categories help evaluate exchange profitability.</string>
+    <string name="settings_footer">Deal quality is based on the spread between live and historical rates. Ranges are approximate guides, not financial advice.</string>
+
+    <!-- Restart Dialog (iOS) -->
+    <string name="restart_required">Restart Required</string>
+    <string name="restart_now">Restart Now</string>
+    <string name="restart_later">Later</string>
+    <string name="restart_message">The app needs to restart to apply the language change.</string>
 
     <!-- Choose Currency Screen -->
     <string name="choose_currency_title">Choose currency</string>
+    <string name="choose_currency_from_title">From Currency</string>
+    <string name="choose_currency_to_title">To Currency</string>
+    <string name="choose_currency_base_title">Base Currency</string>
     <string name="choose_currency_search_hint">Search currency</string>
+    <string name="choose_currency_search_by_name_hint">Search by name or code</string>
     <string name="choose_currency_cancel">Cancel</string>
     <string name="choose_currency_recent">RECENT</string>
     <string name="choose_currency_all">ALL CURRENCIES</string>
     <string name="cd_choose_currency_filter">Filter currencies</string>
+    <string name="choose_currency_filter_label">Filter</string>
+    <string name="choose_currency_filter_all">All</string>
+    <string name="choose_currency_filter_fiat">Fiat</string>
+    <string name="choose_currency_filter_crypto">Crypto</string>
+    <string name="currency_crypto_badge">Crypto</string>
 </resources>

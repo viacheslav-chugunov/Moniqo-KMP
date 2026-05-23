@@ -1,6 +1,6 @@
 package io.github.viacheslav.chugunov.moniqo.ui.rates.screen
 
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.Currency
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
@@ -35,7 +35,7 @@ internal class RatesMapperImpl(
         if (viewBase.code == originalBase.code) {
             return RatesState.Content(
                 baseCurrency = originalBase,
-                updatedAt = stringProvider.get(R.string.rates_updated, formatDate(rates.updatedAt)),
+                updatedAt = stringProvider.get(MR.strings.rates_updated, formatDate(rates.updatedAt)),
                 rates =
                     rates.rates.map { rate ->
                         RateItem(currency = toCurrencyInfo(rate.currency), rate = rate.rate.asRate)
@@ -77,7 +77,7 @@ internal class RatesMapperImpl(
 
         return RatesState.Content(
             baseCurrency = viewBase,
-            updatedAt = stringProvider.get(R.string.rates_updated, formatDate(rates.updatedAt)),
+            updatedAt = stringProvider.get(MR.strings.rates_updated, formatDate(rates.updatedAt)),
             rates = rebasedRates,
             isRefreshing = currentContentState?.isRefreshing ?: false,
             query = currentContentState?.query ?: "",
@@ -99,7 +99,7 @@ internal class RatesMapperImpl(
         try {
             val date = LocalDate.parse(dateStr)
             if (date == LocalDate.now()) {
-                stringProvider.get(R.string.rates_date_today)
+                stringProvider.get(MR.strings.rates_date_today)
             } else {
                 date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
             }

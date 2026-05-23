@@ -39,12 +39,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.component.BaseCurrencySelectorComponent
@@ -101,7 +102,7 @@ private fun RatesScreenContent(
                         )
                     } else {
                         Text(
-                            text = stringResource(R.string.rates_title),
+                            text = stringResource(MR.strings.rates_title),
                             fontWeight = FontWeight.Bold,
                         )
                     }
@@ -117,7 +118,7 @@ private fun RatesScreenContent(
                     }) {
                         Icon(
                             painter = painterResource(R.drawable.ic_arrow_back),
-                            contentDescription = stringResource(R.string.cd_back),
+                            contentDescription = stringResource(MR.strings.cd_back),
                         )
                     }
                 },
@@ -126,7 +127,7 @@ private fun RatesScreenContent(
                         IconButton(onClick = { isSearchActive = true }) {
                             Icon(
                                 painter = painterResource(R.drawable.ic_search),
-                                contentDescription = stringResource(R.string.cd_search),
+                                contentDescription = stringResource(MR.strings.cd_search),
                             )
                         }
                     }
@@ -169,7 +170,7 @@ private fun SearchField(
     Box(contentAlignment = Alignment.CenterStart) {
         if (query.isEmpty()) {
             Text(
-                text = stringResource(R.string.rates_search_hint),
+                text = stringResource(MR.strings.rates_search_hint),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -213,7 +214,7 @@ private fun RatesContent(
     ) {
         item {
             Text(
-                text = stringResource(R.string.rates_base_currency),
+                text = stringResource(MR.strings.rates_base_currency),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -236,7 +237,7 @@ private fun RatesContent(
         }
         item {
             Text(
-                text = stringResource(R.string.rates_exchange_rates),
+                text = stringResource(MR.strings.rates_exchange_rates),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -251,7 +252,7 @@ private fun RatesContent(
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = stringResource(R.string.rates_no_results, state.query),
+                        text = stringResource(MR.strings.rates_no_results, state.query),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -272,7 +273,7 @@ private fun RatesContent(
         }
         item {
             Text(
-                text = stringResource(R.string.rates_disclaimer),
+                text = stringResource(MR.strings.rates_disclaimer),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -289,9 +290,9 @@ private fun FilterRow(
         CurrencyFilter.entries.forEach { option ->
             val labelRes =
                 when (option) {
-                    CurrencyFilter.All -> R.string.rates_filter_all
-                    CurrencyFilter.Fiat -> R.string.rates_filter_fiat
-                    CurrencyFilter.Crypto -> R.string.rates_filter_crypto
+                    CurrencyFilter.All -> MR.strings.rates_filter_all
+                    CurrencyFilter.Fiat -> MR.strings.rates_filter_fiat
+                    CurrencyFilter.Crypto -> MR.strings.rates_filter_crypto
                 }
             FilterChip(
                 selected = filter == option,
@@ -353,13 +354,13 @@ private fun RefreshButton(
             } else {
                 Icon(
                     painter = painterResource(R.drawable.ic_refresh),
-                    contentDescription = stringResource(R.string.cd_refresh),
+                    contentDescription = stringResource(MR.strings.cd_refresh),
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(14.dp),
                 )
             }
             Text(
-                text = stringResource(R.string.rates_refresh),
+                text = stringResource(MR.strings.rates_refresh),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.primary,
             )

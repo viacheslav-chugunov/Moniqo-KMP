@@ -16,9 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.AppLanguage
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.extensions.displayName
@@ -35,7 +36,7 @@ fun LanguageSectionComponent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Text(
-            text = stringResource(R.string.settings_language).uppercase(),
+            text = stringResource(MR.strings.settings_language).uppercase(),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 20.dp),
@@ -59,7 +60,7 @@ fun LanguageSectionComponent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(R.string.settings_language),
+                    text = stringResource(MR.strings.settings_language),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )

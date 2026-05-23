@@ -34,12 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.github.viacheslav.chugunov.moniqo.android.ui.choosecurrency.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyFilter
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
@@ -104,7 +104,7 @@ private fun ChooseCurrencyScreenContent(
                         )
                     } else {
                         Text(
-                            text = stringResource(R.string.choose_currency_title),
+                            text = stringResource(MR.strings.choose_currency_title),
                             fontWeight = FontWeight.Bold,
                         )
                     }
@@ -120,7 +120,7 @@ private fun ChooseCurrencyScreenContent(
                     }) {
                         Icon(
                             painter = painterResource(io.github.viacheslav.chugunov.moniqo.android.ui.core.R.drawable.ic_arrow_back),
-                            contentDescription = stringResource(io.github.viacheslav.chugunov.moniqo.android.ui.core.R.string.cd_back),
+                            contentDescription = stringResource(io.github.viacheslav.chugunov.moniqo.core.MR.strings.cd_back),
                         )
                     }
                 },
@@ -131,7 +131,7 @@ private fun ChooseCurrencyScreenContent(
                                 painter = painterResource(io.github.viacheslav.chugunov.moniqo.android.ui.core.R.drawable.ic_search),
                                 contentDescription =
                                     stringResource(
-                                        io.github.viacheslav.chugunov.moniqo.android.ui.core.R.string.cd_search,
+                                        io.github.viacheslav.chugunov.moniqo.core.MR.strings.cd_search,
                                     ),
                             )
                         }
@@ -174,7 +174,7 @@ private fun SearchField(
     Box(contentAlignment = Alignment.CenterStart) {
         if (query.isEmpty()) {
             Text(
-                text = stringResource(R.string.choose_currency_search_hint),
+                text = stringResource(MR.strings.choose_currency_search_hint),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -225,7 +225,7 @@ private fun ChooseCurrencyContent(
         if (recent.isNotEmpty()) {
             item {
                 SectionHeader(
-                    text = stringResource(R.string.choose_currency_recent),
+                    text = stringResource(MR.strings.choose_currency_recent),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 )
             }
@@ -245,7 +245,7 @@ private fun ChooseCurrencyContent(
         }
         item {
             SectionHeader(
-                text = stringResource(R.string.choose_currency_all),
+                text = stringResource(MR.strings.choose_currency_all),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             )
         }
@@ -289,9 +289,9 @@ private fun FilterRow(
         CurrencyFilter.entries.forEach { option ->
             val label =
                 when (option) {
-                    CurrencyFilter.All -> stringResource(R.string.choose_currency_filter_all)
-                    CurrencyFilter.Fiat -> stringResource(R.string.choose_currency_filter_fiat)
-                    CurrencyFilter.Crypto -> stringResource(R.string.choose_currency_filter_crypto)
+                    CurrencyFilter.All -> stringResource(MR.strings.choose_currency_filter_all)
+                    CurrencyFilter.Fiat -> stringResource(MR.strings.choose_currency_filter_fiat)
+                    CurrencyFilter.Crypto -> stringResource(MR.strings.choose_currency_filter_crypto)
                 }
             FilterChip(
                 selected = filter == option,

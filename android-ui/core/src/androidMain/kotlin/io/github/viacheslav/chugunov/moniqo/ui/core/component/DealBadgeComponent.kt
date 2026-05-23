@@ -12,9 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.unit.dp
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.DealQuality
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
@@ -44,9 +44,9 @@ internal fun DealBadgeComponent(
         }
     val label =
         when (quality) {
-            DealQuality.GOOD -> stringResource(R.string.deal_quality_good)
-            DealQuality.MEDIUM -> stringResource(R.string.deal_quality_medium)
-            DealQuality.BAD -> stringResource(R.string.deal_quality_bad)
+            DealQuality.GOOD -> stringResource(MR.strings.deal_quality_good)
+            DealQuality.MEDIUM -> stringResource(MR.strings.deal_quality_medium)
+            DealQuality.BAD -> stringResource(MR.strings.deal_quality_bad)
         }
     Surface(
         modifier = modifier,

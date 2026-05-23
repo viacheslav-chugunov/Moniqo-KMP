@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -29,7 +29,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
@@ -122,7 +122,7 @@ internal fun AmountInputFieldComponent(
                         ) {
                             if (amount.isEmpty()) {
                                 Text(
-                                    text = stringResource(R.string.amount_placeholder),
+                                    text = stringResource(MR.strings.amount_placeholder),
                                     style = amountStyle,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )

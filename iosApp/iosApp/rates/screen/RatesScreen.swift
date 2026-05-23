@@ -1,4 +1,5 @@
 import SwiftUI
+import Shared
 
 struct RatesScreen: View {
     @StateObject private var viewModel: RatesViewModel
@@ -26,12 +27,12 @@ struct RatesScreen: View {
             }
         }
         .background(Color.appBackground)
-        .navigationTitle("Exchange Rates")
+        .navigationTitle(MR.strings().rates_nav_title.localized())
         .navigationBarTitleDisplayMode(.large)
         .searchable(
             text: $searchText,
             placement: .navigationBarDrawer(displayMode: .always),
-            prompt: "Search by name or code"
+            prompt: MR.strings().choose_currency_search_by_name_hint.localized()
         )
         .onChange(of: searchText) { viewModel.onIntent(.search($0)) }
         .sheet(item: $choosingBaseCurrencySlot) { slot in
@@ -85,7 +86,7 @@ private struct RatesContentView: View {
             .buttonStyle(.plain)
             .listRowBackground(Color.appSurface)
         } header: {
-            Text("BASE CURRENCY")
+            Text(MR.strings().rates_section_base_currency.localized())
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Color.appOnSurfaceVariant)
         }
@@ -111,7 +112,7 @@ private struct RatesContentView: View {
                             Image(systemName: "arrow.clockwise")
                                 .font(.caption.weight(.medium))
                         }
-                        Text("Refresh")
+                        Text(MR.strings().rates_refresh.localized())
                             .font(.caption.weight(.medium))
                     }
                     .foregroundStyle(Color.appPrimary)
@@ -125,7 +126,7 @@ private struct RatesContentView: View {
             }
             .listRowBackground(Color.appSurface)
 
-            Picker("Filter", selection: Binding(
+            Picker(MR.strings().choose_currency_filter_label.localized(), selection: Binding(
                 get: { content.filter },
                 set: { onFilter($0) }
             )) {
@@ -145,7 +146,7 @@ private struct RatesContentView: View {
             if displayed.isEmpty {
                 HStack {
                     Spacer()
-                    Text("No results for \"\(content.query)\"")
+                    Text(MR.strings().rates_no_results.localized(with: content.query))
                         .font(.subheadline)
                         .foregroundStyle(Color.appOnSurfaceVariant)
                         .padding(.vertical, 24)
@@ -159,7 +160,7 @@ private struct RatesContentView: View {
                 }
             }
         } header: {
-            Text("EXCHANGE RATES")
+            Text(MR.strings().rates_section_exchange_rates.localized())
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(Color.appOnSurfaceVariant)
         }
@@ -167,7 +168,7 @@ private struct RatesContentView: View {
 
     private var disclaimerSection: some View {
         Section {
-            Text("Exchange rates are indicative and may differ from actual market rates. Not financial advice.")
+            Text(MR.strings().rates_disclaimer.localized())
                 .font(.caption)
                 .foregroundStyle(Color.appOnSurfaceVariant)
                 .listRowBackground(Color.appBackground)
@@ -194,7 +195,7 @@ private struct RateRowView: View {
             Spacer()
             HStack(spacing: 6) {
                 if item.currency.isCrypto {
-                    Text("Crypto")
+                    Text(MR.strings().currency_crypto_badge.localized())
                         .font(.caption2.weight(.medium))
                         .foregroundStyle(Color.appPrimary)
                         .padding(.horizontal, 6)

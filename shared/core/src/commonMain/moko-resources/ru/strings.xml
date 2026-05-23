@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="cd_back">Назад</string>
+
+    <!-- Home -->
+    <string name="home_from_hint">Официальный: 1 %1$s = %2$s %3$s</string>
+    <string name="home_to_hint">По официальному курсу ≈ %1$s %2$s</string>
+    <string name="home_rate_label">1 %1$s = %2$s %3$s</string>
+    <string name="home_rates">Курсы</string>
+    <string name="cd_settings">Настройки</string>
+    <string name="home_empty_hint">Введите сумму для конвертации</string>
+    <string name="cd_swap_currencies">Поменять валюты</string>
+
+    <!-- Exchange Analysis -->
+    <string name="exchange_analysis_title">Анализ обмена</string>
+    <string name="exchange_analysis_official_rate">Официальный курс</string>
+    <string name="exchange_analysis_your_rate">Ваш курс</string>
+    <string name="exchange_analysis_difference">Разница</string>
+    <string name="exchange_analysis_loss">Убыток</string>
+    <string name="exchange_analysis_profit">Прибыль</string>
+
+    <!-- Deal Quality -->
+    <string name="deal_quality_good">Выгодно</string>
+    <string name="deal_quality_medium">Средне</string>
+    <string name="deal_quality_bad">Невыгодно</string>
+
+    <!-- Rates Screen -->
+    <string name="cd_search">Поиск валют</string>
+    <string name="rates_search_hint">Поиск валют…</string>
+    <string name="rates_title">Курсы</string>
+    <string name="rates_nav_title">Курсы валют</string>
+    <string name="rates_base_currency">Базовая валюта</string>
+    <string name="rates_updated">Обновлено: %s</string>
+    <string name="rates_date_today">Сегодня</string>
+    <string name="rates_refresh">Обновить</string>
+    <string name="cd_refresh">Обновить курсы</string>
+    <string name="rates_exchange_rates">Курсы валют</string>
+    <string name="rates_filter_all">Все</string>
+    <string name="rates_filter_fiat">Фиат</string>
+    <string name="rates_filter_crypto">Крипто</string>
+    <string name="rates_no_results">Валюты по запросу «%s» не найдены</string>
+    <string name="rates_disclaimer">Курсы валют являются ориентировочными и могут отличаться от фактических рыночных курсов. Не является финансовым советом.</string>
+    <string name="rates_section_base_currency">БАЗОВАЯ ВАЛЮТА</string>
+    <string name="rates_section_exchange_rates">КУРСЫ ВАЛЮТ</string>
+
+    <!-- Settings Screen -->
+    <string name="settings_title">Настройки</string>
+    <string name="settings_appearance">Внешний вид</string>
+    <string name="settings_section_appearance">ВНЕШНИЙ ВИД</string>
+    <string name="settings_theme_label">Тема</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_theme_system">Системная</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_section_language">ЯЗЫК</string>
+    <string name="settings_language_system">Системный</string>
+    <string name="settings_language_pick_title">Выберите язык</string>
+    <string name="settings_deal_ranges">Диапазоны сделок</string>
+    <string name="settings_section_deal_ranges">ДИАПАЗОНЫ СДЕЛОК</string>
+    <string name="settings_good_deal">Выгодная сделка</string>
+    <string name="settings_medium_deal">Средняя сделка</string>
+    <string name="settings_bad_deal">Невыгодная сделка</string>
+    <string name="settings_reset_ranges">Сбросить</string>
+    <string name="settings_edit_ranges">Изменить</string>
+    <string name="settings_section_thresholds">ПОРОГИ</string>
+    <string name="settings_good_deal_max">Макс. выгодной сделки</string>
+    <string name="settings_medium_deal_max">Макс. средней сделки</string>
+    <string name="settings_section_preview">ПРЕДПРОСМОТР</string>
+    <string name="settings_edit_deal_ranges_title">Изменить диапазоны</string>
+    <string name="settings_apply">Применить</string>
+    <string name="settings_cancel">Отмена</string>
+    <string name="settings_footer">Качество сделки определяется по разнице между текущим и историческим курсом. Диапазоны являются ориентировочными и не являются финансовым советом.</string>
+
+    <!-- Restart Dialog (iOS) -->
+    <string name="restart_required">Требуется перезапуск</string>
+    <string name="restart_now">Перезапустить</string>
+    <string name="restart_later">Позже</string>
+    <string name="restart_message">Для применения смены языка необходимо перезапустить приложение.</string>
+
+    <!-- Choose Currency Screen -->
+    <string name="choose_currency_title">Выберите валюту</string>
+    <string name="choose_currency_from_title">Из валюты</string>
+    <string name="choose_currency_to_title">В валюту</string>
+    <string name="choose_currency_base_title">Базовая валюта</string>
+    <string name="choose_currency_search_hint">Поиск валюты</string>
+    <string name="choose_currency_search_by_name_hint">Поиск по названию или коду</string>
+    <string name="choose_currency_cancel">Отмена</string>
+    <string name="choose_currency_recent">НЕДАВНИЕ</string>
+    <string name="choose_currency_all">ВСЕ ВАЛЮТЫ</string>
+    <string name="cd_choose_currency_filter">Фильтр валют</string>
+    <string name="choose_currency_filter_label">Фильтр</string>
+    <string name="choose_currency_filter_all">Все</string>
+    <string name="choose_currency_filter_fiat">Фиат</string>
+    <string name="choose_currency_filter_crypto">Крипто</string>
+    <string name="currency_crypto_badge">Крипто</string>
+</resources>

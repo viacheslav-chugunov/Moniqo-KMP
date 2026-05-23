@@ -1,4 +1,5 @@
 import SwiftUI
+import Shared
 
 struct ChooseCurrencyScreen: View {
     let slot: CurrencySlot
@@ -31,7 +32,7 @@ struct ChooseCurrencyScreen: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button(MR.strings().choose_currency_cancel.localized()) { dismiss() }
                 }
             }
         }
@@ -59,13 +60,17 @@ private struct ChooseCurrencyContentView: View {
         }
         .listStyle(.plain)
         .background(Color.appBackground)
-        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search by name or code")
+        .searchable(
+            text: $searchText,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: MR.strings().choose_currency_search_by_name_hint.localized()
+        )
         .onChange(of: searchText) { onSearch($0) }
     }
 
     private var filterPicker: some View {
         Section {
-            Picker("Filter", selection: Binding(
+            Picker(MR.strings().choose_currency_filter_label.localized(), selection: Binding(
                 get: { content.filter },
                 set: { onFilter($0) }
             )) {
@@ -93,7 +98,7 @@ private struct ChooseCurrencyContentView: View {
             .listRowInsets(EdgeInsets())
             .listRowBackground(Color.appBackground)
         } header: {
-            Text("RECENT")
+            Text(MR.strings().choose_currency_recent.localized())
                 .font(.caption)
                 .foregroundStyle(Color.appOnSurfaceVariant)
         }
@@ -161,7 +166,7 @@ private struct CurrencyRowView: View {
             }
             Spacer()
             if currency.isCrypto {
-                Text("Crypto")
+                Text(MR.strings().currency_crypto_badge.localized())
                     .font(.caption2.weight(.medium))
                     .foregroundStyle(Color.appPrimary)
                     .padding(.horizontal, 6)

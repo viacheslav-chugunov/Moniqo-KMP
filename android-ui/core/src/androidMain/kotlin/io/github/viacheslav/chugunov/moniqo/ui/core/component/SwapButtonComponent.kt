@@ -9,9 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 
@@ -32,7 +33,7 @@ fun SwapButtonComponent(
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_swap_horiz),
-            contentDescription = stringResource(R.string.cd_swap_currencies),
+            contentDescription = stringResource(MR.strings.cd_swap_currencies),
         )
     }
 }

@@ -17,11 +17,12 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.AppLanguage
 import io.github.viacheslav.chugunov.moniqo.core.model.AppTheme
 import io.github.viacheslav.chugunov.moniqo.ui.core.ScreenPreview
@@ -80,7 +81,7 @@ private fun SettingsScreenContent(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.settings_title),
+                        text = stringResource(MR.strings.settings_title),
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleLarge,
                     )
@@ -89,7 +90,7 @@ private fun SettingsScreenContent(
                     IconButton(onClick = onBack) {
                         Icon(
                             painter = painterResource(R.drawable.ic_arrow_back),
-                            contentDescription = stringResource(R.string.cd_back),
+                            contentDescription = stringResource(MR.strings.cd_back),
                         )
                     }
                 },
@@ -119,7 +120,7 @@ private fun SettingsScreenContent(
                 onReset = onResetRanges,
             )
             Text(
-                text = stringResource(R.string.settings_footer),
+                text = stringResource(MR.strings.settings_footer),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 20.dp),

@@ -18,6 +18,7 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(project(":shared:core"))
+            implementation(libs.moko.resources.compose)
             implementation(compose.runtime)
             implementation(compose.ui)
             implementation(compose.foundation)

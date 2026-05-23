@@ -1,6 +1,6 @@
 package io.github.viacheslav.chugunov.moniqo.ui.home.screen
 
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.CurrencyInfo
 import io.github.viacheslav.chugunov.moniqo.core.model.DealQuality
 import io.github.viacheslav.chugunov.moniqo.core.model.DealRanges
@@ -55,10 +55,10 @@ internal class HomeMapperImpl(
             toCurrency = toCurrency,
             fromAmount = fromAmount,
             toAmount = toAmount,
-            fromHint = stringProvider.get(R.string.home_from_hint, fromCurrency.code, officialRate.asPrice, toCurrency.code),
+            fromHint = stringProvider.get(MR.strings.home_from_hint, fromCurrency.code, officialRate.asPrice, toCurrency.code),
             toHint =
                 fromAmount.toDoubleOrNull()?.takeIf { it > 0 }?.let {
-                    stringProvider.get(R.string.home_to_hint, (it * officialRate).asPrice, toCurrency.code)
+                    stringProvider.get(MR.strings.home_to_hint, (it * officialRate).asPrice, toCurrency.code)
                 } ?: "",
             analysis = toExchangeAnalysis(fromAmount, toAmount, officialRate, fromCurrency, toCurrency, dealRanges),
         )
@@ -90,7 +90,7 @@ internal class HomeMapperImpl(
             officialRate = "1 ${fromCurrency.code} = ${officialRate.asPrice} ${toCurrency.code}",
             enteredRate = "1 ${fromCurrency.code} = ${enteredRate.asPrice} ${toCurrency.code}",
             differencePercent = "${diffPercent.asPrice}%",
-            lossOrProfitLabel = stringProvider.get(if (isProfit) R.string.exchange_analysis_profit else R.string.exchange_analysis_loss),
+            lossOrProfitLabel = stringProvider.get(if (isProfit) MR.strings.exchange_analysis_profit else MR.strings.exchange_analysis_loss),
             lossOrProfitAmount = "${abs(lossInFrom).asPrice} ${fromCurrency.code}\n${abs(lossInTo).asPrice} ${toCurrency.code}",
             quality = quality,
         )

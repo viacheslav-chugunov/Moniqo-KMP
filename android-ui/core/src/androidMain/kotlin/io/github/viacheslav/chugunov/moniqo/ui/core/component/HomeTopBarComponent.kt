@@ -12,10 +12,11 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import androidx.compose.ui.unit.dp
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 
@@ -28,7 +29,7 @@ fun HomeTopBarComponent(
     TopAppBar(
         title = {
             Text(
-                text = stringResource(R.string.home_title),
+                text = stringResource(MR.strings.home_title),
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.titleLarge,
             )
@@ -40,12 +41,12 @@ fun HomeTopBarComponent(
                     contentDescription = null,
                     modifier = Modifier.padding(end = 4.dp),
                 )
-                Text(text = stringResource(R.string.home_rates), fontWeight = FontWeight.Medium)
+                Text(text = stringResource(MR.strings.home_rates), fontWeight = FontWeight.Medium)
             }
             IconButton(onClick = onSettingsClick) {
                 Icon(
                     painter = painterResource(R.drawable.ic_settings),
-                    contentDescription = stringResource(R.string.cd_settings),
+                    contentDescription = stringResource(MR.strings.cd_settings),
                 )
             }
         },

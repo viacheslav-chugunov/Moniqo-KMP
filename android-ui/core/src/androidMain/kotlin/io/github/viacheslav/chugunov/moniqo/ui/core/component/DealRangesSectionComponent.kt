@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import dev.icerock.moko.resources.compose.stringResource
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.badRed
@@ -24,18 +24,18 @@ fun DealRangesSectionComponent(
     onReset: () -> Unit,
 ) {
     SettingsSectionComponent(
-        title = stringResource(R.string.settings_deal_ranges),
+        title = stringResource(MR.strings.settings_deal_ranges),
         trailingAction = {
             TextButton(onClick = onEdit) {
                 Text(
-                    text = stringResource(R.string.settings_edit_ranges),
+                    text = stringResource(MR.strings.settings_edit_ranges),
                     style = MaterialTheme.typography.labelLarge,
                 )
             }
         },
     ) {
         DealRangeRowComponent(
-            label = stringResource(R.string.settings_good_deal),
+            label = stringResource(MR.strings.settings_good_deal),
             value =
                 remember(goodMax) {
                     "0–${goodMax.toInt()}%"
@@ -46,7 +46,7 @@ fun DealRangesSectionComponent(
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
         DealRangeRowComponent(
-            label = stringResource(R.string.settings_medium_deal),
+            label = stringResource(MR.strings.settings_medium_deal),
             value =
                 remember(goodMax, mediumMax) {
                     "${goodMax.toInt()}–${mediumMax.toInt()}%"
@@ -57,7 +57,7 @@ fun DealRangesSectionComponent(
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
         DealRangeRowComponent(
-            label = stringResource(R.string.settings_bad_deal),
+            label = stringResource(MR.strings.settings_bad_deal),
             value =
                 remember(mediumMax) {
                     "${mediumMax.toInt()}%+"
@@ -72,7 +72,7 @@ fun DealRangesSectionComponent(
             modifier = Modifier.align(Alignment.CenterHorizontally),
         ) {
             Text(
-                text = stringResource(R.string.settings_reset_ranges),
+                text = stringResource(MR.strings.settings_reset_ranges),
                 color = MaterialTheme.colorScheme.primary,
             )
         }

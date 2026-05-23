@@ -21,10 +21,10 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.MoniqoTheme
 import io.github.viacheslav.chugunov.moniqo.ui.core.theme.badRed
@@ -56,7 +56,7 @@ fun EditRangesBottomSheetComponent(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
-                text = stringResource(R.string.settings_edit_deal_ranges_title),
+                text = stringResource(MR.strings.settings_edit_deal_ranges_title),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
             )
@@ -78,7 +78,7 @@ fun EditRangesBottomSheetComponent(
             )
 
             DealRangeRowComponent(
-                label = stringResource(R.string.settings_good_deal),
+                label = stringResource(MR.strings.settings_good_deal),
                 value =
                     remember(goodMax) {
                         "0–${goodMax.toInt()}%"
@@ -87,7 +87,7 @@ fun EditRangesBottomSheetComponent(
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             DealRangeRowComponent(
-                label = stringResource(R.string.settings_medium_deal),
+                label = stringResource(MR.strings.settings_medium_deal),
                 value =
                     remember(goodMax, mediumMax) {
                         "${goodMax.toInt()}–${mediumMax.toInt()}%"
@@ -96,7 +96,7 @@ fun EditRangesBottomSheetComponent(
             )
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             DealRangeRowComponent(
-                label = stringResource(R.string.settings_bad_deal),
+                label = stringResource(MR.strings.settings_bad_deal),
                 value =
                     remember(mediumMax) {
                         "${mediumMax.toInt()}%+"
@@ -112,7 +112,7 @@ fun EditRangesBottomSheetComponent(
                     onClick = onDismiss,
                     modifier = Modifier.weight(1f),
                 ) {
-                    Text(stringResource(R.string.settings_cancel))
+                    Text(stringResource(MR.strings.settings_cancel))
                 }
                 Button(
                     onClick = {
@@ -121,7 +121,7 @@ fun EditRangesBottomSheetComponent(
                     },
                     modifier = Modifier.weight(1f),
                 ) {
-                    Text(stringResource(R.string.settings_apply))
+                    Text(stringResource(MR.strings.settings_apply))
                 }
             }
         }

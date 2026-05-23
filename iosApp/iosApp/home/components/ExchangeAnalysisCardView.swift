@@ -1,4 +1,5 @@
 import SwiftUI
+import Shared
 
 struct ExchangeAnalysisCardView: View {
     let analysis: ExchangeAnalysis
@@ -14,7 +15,7 @@ struct ExchangeAnalysisCardView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Exchange Analysis")
+                Text(MR.strings().exchange_analysis_title.localized())
                     .font(.headline)
                 Spacer()
                 DealBadgeView(quality: analysis.quality)
@@ -25,12 +26,12 @@ struct ExchangeAnalysisCardView: View {
 
             HStack(spacing: 16) {
                 AnalysisColumnView(
-                    label: "Official Rate",
+                    label: MR.strings().exchange_analysis_official_rate.localized(),
                     value: analysis.officialRate,
                     valueColor: .appOnSurface
                 )
                 AnalysisColumnView(
-                    label: "Your Rate",
+                    label: MR.strings().exchange_analysis_your_rate.localized(),
                     value: analysis.enteredRate,
                     valueColor: .appOnSurface
                 )
@@ -41,12 +42,12 @@ struct ExchangeAnalysisCardView: View {
 
             HStack(spacing: 16) {
                 AnalysisColumnView(
-                    label: "Difference",
+                    label: MR.strings().exchange_analysis_difference.localized(),
                     value: analysis.differencePercent,
                     valueColor: accentColor
                 )
                 AnalysisColumnView(
-                    label: LocalizedStringKey(analysis.lossOrProfitLabel),
+                    label: analysis.lossOrProfitLabel,
                     value: analysis.lossOrProfitAmount,
                     valueColor: accentColor
                 )

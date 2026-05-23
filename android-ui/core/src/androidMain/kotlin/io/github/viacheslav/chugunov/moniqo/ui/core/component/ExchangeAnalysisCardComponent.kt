@@ -15,10 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import dev.icerock.moko.resources.compose.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import io.github.viacheslav.chugunov.moniqo.android.ui.core.R
+import io.github.viacheslav.chugunov.moniqo.core.MR
 import io.github.viacheslav.chugunov.moniqo.core.model.DealQuality
 import io.github.viacheslav.chugunov.moniqo.ui.core.ComponentPreview
 import io.github.viacheslav.chugunov.moniqo.ui.core.model.ExchangeAnalysis
@@ -56,7 +56,7 @@ fun ExchangeAnalysisCardComponent(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = stringResource(R.string.exchange_analysis_title),
+                    text = stringResource(MR.strings.exchange_analysis_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                 )
@@ -70,13 +70,13 @@ fun ExchangeAnalysisCardComponent(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 AnalysisColumnComponent(
-                    label = stringResource(R.string.exchange_analysis_official_rate),
+                    label = stringResource(MR.strings.exchange_analysis_official_rate),
                     value = analysis.officialRate,
                     valueColor = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f),
                 )
                 AnalysisColumnComponent(
-                    label = stringResource(R.string.exchange_analysis_your_rate),
+                    label = stringResource(MR.strings.exchange_analysis_your_rate),
                     value = analysis.enteredRate,
                     valueColor = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f),
@@ -90,7 +90,7 @@ fun ExchangeAnalysisCardComponent(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 AnalysisColumnComponent(
-                    label = stringResource(R.string.exchange_analysis_difference),
+                    label = stringResource(MR.strings.exchange_analysis_difference),
                     value = analysis.differencePercent,
                     valueColor = accentColor,
                     modifier = Modifier.weight(1f),
