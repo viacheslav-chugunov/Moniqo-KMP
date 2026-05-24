@@ -50,8 +50,8 @@ android {
         applicationId = "io.github.viacheslav.chugunov.moniqo"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = libs.versions.android.versionCode.get().toInt()
+        versionName = libs.versions.android.versionName.get()
     }
     packaging {
         resources {
