@@ -110,6 +110,7 @@ Moniqo follows **Clean Architecture** with a strict unidirectional data flow (MV
 | DI | Koin 4.0.3 |
 | Async | Kotlin Coroutines + Flow 1.10.2 |
 | Serialization | kotlinx.serialization 1.8.1 |
+| Resources | MOKO Resources 0.26.4 |
 | Navigation (Android) | Navigation3 1.1.1 |
 | Linting | ktlint 12.1.1 |
 | Min SDK | Android 28 / iOS 16+ |
